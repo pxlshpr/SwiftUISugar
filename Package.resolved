@@ -1,0 +1,16 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "SwiftHaptics",
+        "repositoryURL": "https://github.com/pxlshpr/SwiftHaptics",
+        "state": {
+          "branch": null,
+          "revision": "6300a8681b551f3df1023266116ca9700dbd14f9",
+          "version": "0.1.0"
+        }
+      }
+    ]
+  },
+  "version": 1
+}
