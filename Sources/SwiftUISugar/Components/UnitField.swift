@@ -19,9 +19,9 @@ public struct UnitField: View {
         units: [String]
     ) {
         self.label = label
+        self.units = units
         self._value = value
         self._unit = unit
-        self.units = units
     }
     
     public var body: some View {

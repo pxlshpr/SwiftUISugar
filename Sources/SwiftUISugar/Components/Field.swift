@@ -22,12 +22,12 @@ public struct Field: View {
         autocapitalization: UITextAutocapitalizationType = .sentences
     ) {
         self.label = label
-        self._value = value
         self.placeholder = placeholder
         self.isDecimal = isDecimal
         self.units = units
         self.hideAutocorrectionBar = hideAutocorrectionBar
         self.autocapitalization = autocapitalization
+        self._value = value
     }
     
     public var body: some View {
