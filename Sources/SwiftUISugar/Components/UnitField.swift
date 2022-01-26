@@ -3,7 +3,7 @@ import SwiftHaptics
 
 public struct UnitField: View {
     
-    @State var label: String
+    @Binding var label: String
     @Binding var value: String
     @Binding var unit: String?
     @State var units: [String]
@@ -13,22 +13,33 @@ public struct UnitField: View {
     @State var actionSheetSelection: Binding<String?>? = nil
 
     public init(
+        label: Binding<String>,
+        value: Binding<String>,
+        unit: Binding<String?>,
+        units: [String]
+    ) {
+        self._label = label
+        self.units = units
+        self._value = value
+        self._unit = unit
+    }
+
+    public init(
         label: String,
         value: Binding<String>,
         unit: Binding<String?>,
         units: [String]
     ) {
-        self.label = label
+        self._label = .constant(label)
         self.units = units
         self._value = value
         self._unit = unit
     }
-    
+
     public var body: some View {
         Group {
             if let unwrappedUnit = $unit.wrappedValue {
                 HStack {
-//                    fieldRow(label, value: value, tag: tag, isDecimal: true)
                     Field(label: label, value: $value, isDecimal: true)
                     Text(unwrappedUnit)
                         .foregroundColor(Color.accentColor)

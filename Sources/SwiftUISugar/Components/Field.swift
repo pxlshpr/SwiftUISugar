@@ -4,7 +4,7 @@ public struct Field: View {
     
     let Padding: CGFloat = 10.0
     
-    @State var label: String
+    @Binding var label: String
     @Binding var value: String
     @State var placeholder: String? = nil
     @State var isDecimal: Bool = false
@@ -21,7 +21,7 @@ public struct Field: View {
         hideAutocorrectionBar: Bool = true,
         autocapitalization: UITextAutocapitalizationType = .sentences
     ) {
-        self.label = label
+        self._label = .constant(label)
         self.placeholder = placeholder
         self.isDecimal = isDecimal
         self.units = units
@@ -29,7 +29,25 @@ public struct Field: View {
         self.autocapitalization = autocapitalization
         self._value = value
     }
-    
+
+    public init(
+        label: Binding<String>,
+        value: Binding<String>,
+        placeholder: String? = nil,
+        isDecimal: Bool = false,
+        units: String? = nil,
+        hideAutocorrectionBar: Bool = true,
+        autocapitalization: UITextAutocapitalizationType = .sentences
+    ) {
+        self._label = label
+        self.placeholder = placeholder
+        self.isDecimal = isDecimal
+        self.units = units
+        self.hideAutocorrectionBar = hideAutocorrectionBar
+        self.autocapitalization = autocapitalization
+        self._value = value
+    }
+
     public var body: some View {
         ZStack {
             labelsLayer
