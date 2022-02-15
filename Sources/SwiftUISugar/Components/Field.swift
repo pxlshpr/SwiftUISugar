@@ -111,8 +111,7 @@ public struct Field: View {
     func fieldWithPicker(for units: Binding<[PickerOption]>) -> some View {
         HStack {
             field
-            Text(selectedUnitString)
-                .foregroundColor(units.count > 1 ? Color.accentColor : Color(.secondaryLabel))
+            unitText
                 .onTapGesture {
                     if units.count > 1 {
                         Haptics.feedback(style: .soft)
@@ -130,6 +129,42 @@ public struct Field: View {
     }
 
     //MARK: - Components
+    @ViewBuilder
+    var unitText: some View {
+        if let subtitle = subtitle {
+            VStack(alignment: .leading) {
+                Text(selectedUnitString)
+                    .foregroundColor(unitTextColor)
+                Text(subtitle)
+                    .foregroundColor(unitTextColor)
+                    .font(.caption2)
+            }
+            .foregroundColor(unitTextColor)
+        } else {
+            Text(selectedUnitString)
+                .foregroundColor(unitTextColor)
+        }
+    }
+    
+    var subtitle: String? {
+        guard let selectedUnit = selectedUnit?.wrappedValue else {
+            return nil
+        }
+        return selectedUnit.subtitle(isPlural: isPlural)
+    }
+    
+    var isPlural: Bool {
+        guard let double = Double(value) else { return false }
+        return double > 1
+    }
+    
+    var unitTextColor: Color {
+        guard let units = units?.wrappedValue else {
+            return Color(.secondaryLabel)
+        }
+        return units.count > 1 ? Color.accentColor : Color(.secondaryLabel)
+    }
+    
     @ViewBuilder
     var textField: some View {
         TextField(placeholder ?? "", text: $value)
@@ -195,11 +230,11 @@ public struct Field: View {
         guard let selectedUnit = selectedUnit?.wrappedValue else {
             return ""
         }
-//        if let customUnitString = customUnitString?.wrappedValue {
-//            return customUnitString
-//        } else {
+        if let customUnitString = customUnitString?.wrappedValue {
+            return customUnitString
+        } else {
             return unitString(for: selectedUnit)
-//        }
+        }
     }
 
     func unitString(for unit: PickerOption?) -> String {
@@ -214,16 +249,6 @@ public struct Field: View {
     }
     
     let Padding: CGFloat = 10.0
-}
-
-import UIKit
-
-public extension String {
-    var widthForLabelFont: CGFloat {
-        let font = UIFont.systemFont(ofSize: UIFont.labelFontSize)
-        let size = font.fontSize(for: self)
-        return size.width
-    }
 }
 
 public typealias UnitChangedHandler = (PickerOption) -> Void
