@@ -195,9 +195,9 @@ public struct Field: View {
         }
         let unit = unit ?? firstUnit
         guard let value = Double(value) else {
-            return unit.nameSingular
+            return unit.title(isPlural: false)
         }
-        return value > 1 ? unit.namePlural : unit.nameSingular
+        return unit.title(for: value)
     }
     
     let Padding: CGFloat = 10.0
