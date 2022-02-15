@@ -2,65 +2,94 @@ import SwiftUI
 
 public struct Field: View {
     
-    let Padding: CGFloat = 10.0
-    
     @Binding var label: String
     @Binding var value: String
     @State var placeholder: String? = nil
-    @State var isDecimal: Bool = false
-    @State var units: String? = nil
-    @State var hideAutocorrectionBar: Bool = true
-    @State var autocapitalization: UITextAutocapitalizationType = .sentences
+    @State var keyboardType: UIKeyboardType
 
-    public init(
-        label: String,
-        value: Binding<String>,
-        placeholder: String? = nil,
-        isDecimal: Bool = false,
-        units: String? = nil,
-        hideAutocorrectionBar: Bool = true,
-        autocapitalization: UITextAutocapitalizationType = .sentences
-    ) {
-        self._label = .constant(label)
-        self.placeholder = placeholder
-        self.isDecimal = isDecimal
-        self.units = units
-        self.hideAutocorrectionBar = hideAutocorrectionBar
-        self.autocapitalization = autocapitalization
-        self._value = value
-    }
+    /// Single (optional) unit
+    @State var unit: String? = nil
+    
+    /// Multiple units
+    var units: Binding<[PickerOption]>? = nil
+    var selectedUnit: Binding<EquatablePickerOption>? = nil
+    var customUnitString: Binding<String>? = nil
 
+    @State private var showingActionSheet: Bool = false
+    @FocusState private var isFocused: Bool
+
+    //MARK: - Initializers
     public init(
         label: Binding<String>,
         value: Binding<String>,
         placeholder: String? = nil,
-        isDecimal: Bool = false,
-        units: String? = nil,
-        hideAutocorrectionBar: Bool = true,
-        autocapitalization: UITextAutocapitalizationType = .sentences
+        unit: String? = nil,
+        keyboardType: UIKeyboardType = .alphabet
     ) {
         self._label = label
-        self.placeholder = placeholder
-        self.isDecimal = isDecimal
-        self.units = units
-        self.hideAutocorrectionBar = hideAutocorrectionBar
-        self.autocapitalization = autocapitalization
         self._value = value
+        self._keyboardType = State(initialValue: keyboardType)
+        self.placeholder = placeholder
+        self.unit = unit
+    }
+    
+    public init(
+        label: Binding<String>,
+        value: Binding<String>,
+        placeholder: String? = nil,
+        units: Binding<[PickerOption]>,
+        selectedUnit: Binding<EquatablePickerOption>,
+        customUnitString: Binding<String>? = nil,
+        keyboardType: UIKeyboardType = .alphabet
+    ) {
+        self._label = label
+        self._value = value
+        self._keyboardType = State(initialValue: keyboardType)
+        self.placeholder = placeholder
+        self.units = units
+        self.selectedUnit = selectedUnit
+        self.customUnitString = customUnitString
     }
 
     public var body: some View {
+        if let units = units {
+            fieldWithPicker(for: units)
+        } else {
+            field
+        }
+    }
+    
+    var field: some View {
         ZStack {
             labelsLayer
             textFieldLayer
         }
+        .onTapGesture {
+            isFocused = true
+        }
     }
-    
+
+    func fieldWithPicker(for units: Binding<[PickerOption]>) -> some View {
+        HStack {
+            field
+            Text(selectedUnitString)
+                .foregroundColor(units.count > 1 ? Color.accentColor : Color(.secondaryLabel))
+                .onTapGesture {
+                    if units.count > 1 {
+//                        Haptics.feedback(style: .soft)
+                        showingActionSheet = true
+                    }
+                }
+        }
+        .actionSheet(isPresented: $showingActionSheet) { actionSheet(for: units) }
+    }
+
+    //MARK: - Components
     @ViewBuilder
     var textField: some View {
         TextField(placeholder ?? "", text: $value)
-            .keyboardType(isDecimal ? .decimalPad : .alphabet)
-            .disableAutocorrection(hideAutocorrectionBar)
-            .autocapitalization(autocapitalization)
+            .focused($isFocused)
+            .keyboardType(keyboardType)
             .multilineTextAlignment(.trailing)
             .frame(maxHeight: .infinity)
     }
@@ -69,9 +98,9 @@ public struct Field: View {
     var textFieldLayer: some View {
         HStack {
             Spacer()
-                .frame(width: labelWidth(for: label) + Padding)
+                .frame(width: label.widthForLabelFont + Padding)
             textField
-            if let units = units {
+            if let units = unit {
                 Text(units)
                     .foregroundColor(Color(.clear))
                     .multilineTextAlignment(.trailing)
@@ -85,7 +114,7 @@ public struct Field: View {
             Text(label)
                 .foregroundColor($value.wrappedValue.count > 0 ? Color(.secondaryLabel) : Color(.tertiaryLabel))
             Spacer()
-            if let units = units {
+            if let units = unit {
                 Text(units)
                     .foregroundColor($value.wrappedValue.count > 0 ? Color(.secondaryLabel) : Color(.tertiaryLabel))
                     .multilineTextAlignment(.trailing)
@@ -93,9 +122,62 @@ public struct Field: View {
         }
     }
     
-    func labelWidth(for text: String) -> CGFloat {
+    //MARK: Action Sheet
+    
+    func actionSheet(for units: Binding<[PickerOption]>) -> ActionSheet {
+        ActionSheet(title: Text("Units"), buttons: actionSheetButtons(for: units))
+    }
+
+    func actionSheetButtons(for units: Binding<[PickerOption]>) -> [ActionSheet.Button] {
+        var buttons: [ActionSheet.Button] = []
+        for unit in units {
+            buttons.append(buttonFor(unit.wrappedValue.asEquatable()))
+        }
+        buttons.append(.cancel())
+        return buttons
+    }
+    
+    func buttonFor(_ unit: EquatablePickerOption) -> ActionSheet.Button {
+        return ActionSheet.Button.default(Text(unitString(for: unit)), action: {
+            selectedUnit?.wrappedValue = unit
+        })
+    }
+    
+    //MARK: - Helpers
+    
+    var selectedUnitString: String {
+        guard let selectedUnit = selectedUnit?.wrappedValue else {
+            return ""
+        }
+//        if let customUnitString = customUnitString?.wrappedValue {
+//            return customUnitString
+//        } else {
+            return unitString(for: selectedUnit)
+//        }
+    }
+
+    func unitString(for unit: PickerOption?) -> String {
+        guard let units = units, let firstUnit = units.first?.wrappedValue else {
+            return ""
+        }
+        let unit = unit ?? firstUnit
+        guard let value = Double(value) else {
+            return unit.nameSingular
+        }
+        return value > 1 ? unit.namePlural : unit.nameSingular
+    }
+    
+    let Padding: CGFloat = 10.0
+}
+
+import UIKit
+
+public extension String {
+    var widthForLabelFont: CGFloat {
         let font = UIFont.systemFont(ofSize: UIFont.labelFontSize)
-        let size = font.fontSize(for: text)
+        let size = font.fontSize(for: self)
         return size.width
     }
 }
+
+public typealias FieldUnitsChangedHandler = (PickerOption) -> Void
