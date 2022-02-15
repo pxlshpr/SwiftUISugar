@@ -1,4 +1,5 @@
 import SwiftUI
+import SwiftHaptics
 
 public struct Field: View {
     
