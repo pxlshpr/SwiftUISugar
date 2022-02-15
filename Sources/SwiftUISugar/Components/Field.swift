@@ -34,9 +34,9 @@ public struct Field: View {
         self._label = label
         self._value = value
         self._keyboardType = State(initialValue: keyboardType)
+        self._showActionSheetOnAppear = State(initialValue: showActionSheetOnAppear)
         self.placeholder = placeholder
         self.unit = unit
-        self.showActionSheetOnAppear = showActionSheetOnAppear
         self.onUnitChanged = onUnitChanged
     }
     
@@ -54,11 +54,11 @@ public struct Field: View {
         self._label = label
         self._value = value
         self._keyboardType = State(initialValue: keyboardType)
+        self._showActionSheetOnAppear = State(initialValue: showActionSheetOnAppear)
         self.placeholder = placeholder
         self.units = units
         self.selectedUnit = selectedUnit
         self.customUnitString = customUnitString
-        self.showActionSheetOnAppear = showActionSheetOnAppear
         self.onUnitChanged = onUnitChanged
     }
     
