@@ -1,7 +1,6 @@
 import Foundation
 
 public protocol PickerOption {
-    var id: String { get }
     func title(isPlural: Bool) -> String
 }
 
