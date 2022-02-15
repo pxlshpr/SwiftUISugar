@@ -50,6 +50,30 @@ public struct Field: View {
         self.selectedUnit = selectedUnit
         self.customUnitString = customUnitString
     }
+    
+    //MARK: Convenience Initializers
+    
+    public init(
+        label: String,
+        value: Binding<String>,
+        placeholder: String? = nil,
+        unit: String? = nil,
+        keyboardType: UIKeyboardType = .alphabet
+    ) {
+        self.init(label: .constant(label), value: value, placeholder: placeholder, unit: unit, keyboardType: keyboardType)
+    }
+    
+    public init(
+        label: String,
+        value: Binding<String>,
+        placeholder: String? = nil,
+        units: Binding<[PickerOption]>,
+        selectedUnit: Binding<EquatablePickerOption>,
+        customUnitString: Binding<String>? = nil,
+        keyboardType: UIKeyboardType = .alphabet
+    ) {
+        self.init(label: .constant(label), value: value, placeholder: placeholder, units: units, selectedUnit: selectedUnit, customUnitString: customUnitString, keyboardType: keyboardType)
+    }
 
     public var body: some View {
         if let units = units {
