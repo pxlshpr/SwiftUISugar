@@ -114,7 +114,7 @@ public struct Field: View {
                 .foregroundColor(units.count > 1 ? Color.accentColor : Color(.secondaryLabel))
                 .onTapGesture {
                     if units.count > 1 {
-//                        Haptics.feedback(style: .soft)
+                        Haptics.feedback(style: .soft)
                         showingActionSheet = true
                     }
                 }
