@@ -12,8 +12,10 @@ public struct Field: View {
     
     /// Multiple units
     var units: Binding<[PickerOption]>? = nil
-    var selectedUnit: Binding<EquatablePickerOption>? = nil
+    var selectedUnit: Binding<PickerOption>? = nil
     var customUnitString: Binding<String>? = nil
+
+    var onUnitChanged: UnitChangedHandler? = nil
 
     @State private var showingActionSheet: Bool = false
     @FocusState private var isFocused: Bool
@@ -24,13 +26,15 @@ public struct Field: View {
         value: Binding<String>,
         placeholder: String? = nil,
         unit: String? = nil,
-        keyboardType: UIKeyboardType = .alphabet
+        keyboardType: UIKeyboardType = .alphabet,
+        onUnitChanged: UnitChangedHandler? = nil
     ) {
         self._label = label
         self._value = value
         self._keyboardType = State(initialValue: keyboardType)
         self.placeholder = placeholder
         self.unit = unit
+        self.onUnitChanged = onUnitChanged
     }
     
     public init(
@@ -38,9 +42,10 @@ public struct Field: View {
         value: Binding<String>,
         placeholder: String? = nil,
         units: Binding<[PickerOption]>,
-        selectedUnit: Binding<EquatablePickerOption>,
+        selectedUnit: Binding<PickerOption>,
         customUnitString: Binding<String>? = nil,
-        keyboardType: UIKeyboardType = .alphabet
+        keyboardType: UIKeyboardType = .alphabet,
+        onUnitChanged: UnitChangedHandler? = nil
     ) {
         self._label = label
         self._value = value
@@ -49,6 +54,7 @@ public struct Field: View {
         self.units = units
         self.selectedUnit = selectedUnit
         self.customUnitString = customUnitString
+        self.onUnitChanged = onUnitChanged
     }
     
     //MARK: Convenience Initializers
@@ -58,9 +64,10 @@ public struct Field: View {
         value: Binding<String>,
         placeholder: String? = nil,
         unit: String? = nil,
-        keyboardType: UIKeyboardType = .alphabet
+        keyboardType: UIKeyboardType = .alphabet,
+        onUnitChanged: UnitChangedHandler? = nil
     ) {
-        self.init(label: .constant(label), value: value, placeholder: placeholder, unit: unit, keyboardType: keyboardType)
+        self.init(label: .constant(label), value: value, placeholder: placeholder, unit: unit, keyboardType: keyboardType, onUnitChanged: onUnitChanged)
     }
     
     public init(
@@ -68,11 +75,12 @@ public struct Field: View {
         value: Binding<String>,
         placeholder: String? = nil,
         units: Binding<[PickerOption]>,
-        selectedUnit: Binding<EquatablePickerOption>,
+        selectedUnit: Binding<PickerOption>,
         customUnitString: Binding<String>? = nil,
-        keyboardType: UIKeyboardType = .alphabet
+        keyboardType: UIKeyboardType = .alphabet,
+        onUnitChanged: UnitChangedHandler? = nil
     ) {
-        self.init(label: .constant(label), value: value, placeholder: placeholder, units: units, selectedUnit: selectedUnit, customUnitString: customUnitString, keyboardType: keyboardType)
+        self.init(label: .constant(label), value: value, placeholder: placeholder, units: units, selectedUnit: selectedUnit, customUnitString: customUnitString, keyboardType: keyboardType, onUnitChanged: onUnitChanged)
     }
 
     public var body: some View {
@@ -155,15 +163,16 @@ public struct Field: View {
     func actionSheetButtons(for units: Binding<[PickerOption]>) -> [ActionSheet.Button] {
         var buttons: [ActionSheet.Button] = []
         for unit in units {
-            buttons.append(buttonFor(unit.wrappedValue.asEquatable()))
+            buttons.append(buttonFor(unit.wrappedValue))
         }
         buttons.append(.cancel())
         return buttons
     }
     
-    func buttonFor(_ unit: EquatablePickerOption) -> ActionSheet.Button {
+    func buttonFor(_ unit: PickerOption) -> ActionSheet.Button {
         return ActionSheet.Button.default(Text(unitString(for: unit)), action: {
             selectedUnit?.wrappedValue = unit
+            onUnitChanged?(unit)
         })
     }
     
@@ -204,4 +213,4 @@ public extension String {
     }
 }
 
-public typealias FieldUnitsChangedHandler = (PickerOption) -> Void
+public typealias UnitChangedHandler = (PickerOption) -> Void
