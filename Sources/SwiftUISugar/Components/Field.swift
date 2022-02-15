@@ -122,7 +122,7 @@ public struct Field: View {
         }
         .actionSheet(isPresented: $showingActionSheet) { actionSheet(for: units) }
         .task {
-            if showActionSheetOnAppear && units.count > 1 {
+            if showActionSheetOnAppear && units.wrappedValue.count > 1 {
                 showingActionSheet = true
             }
         }
