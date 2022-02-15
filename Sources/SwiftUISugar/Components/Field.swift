@@ -14,7 +14,7 @@ public struct Field: View {
     var units: Binding<[PickerOption]>? = nil
     var selectedUnit: Binding<PickerOption>? = nil
     var customUnitString: Binding<String>? = nil
-
+    @State var showActionSheetOnAppear: Bool = false
     var onUnitChanged: UnitChangedHandler? = nil
 
     @State private var showingActionSheet: Bool = false
@@ -27,6 +27,7 @@ public struct Field: View {
         placeholder: String? = nil,
         unit: String? = nil,
         keyboardType: UIKeyboardType = .alphabet,
+        showActionSheetOnAppear: Bool = false,
         onUnitChanged: UnitChangedHandler? = nil
     ) {
         self._label = label
@@ -34,6 +35,7 @@ public struct Field: View {
         self._keyboardType = State(initialValue: keyboardType)
         self.placeholder = placeholder
         self.unit = unit
+        self.showActionSheetOnAppear = showActionSheetOnAppear
         self.onUnitChanged = onUnitChanged
     }
     
@@ -45,6 +47,7 @@ public struct Field: View {
         selectedUnit: Binding<PickerOption>,
         customUnitString: Binding<String>? = nil,
         keyboardType: UIKeyboardType = .alphabet,
+        showActionSheetOnAppear: Bool = false,
         onUnitChanged: UnitChangedHandler? = nil
     ) {
         self._label = label
@@ -54,6 +57,7 @@ public struct Field: View {
         self.units = units
         self.selectedUnit = selectedUnit
         self.customUnitString = customUnitString
+        self.showActionSheetOnAppear = showActionSheetOnAppear
         self.onUnitChanged = onUnitChanged
     }
     
@@ -65,9 +69,10 @@ public struct Field: View {
         placeholder: String? = nil,
         unit: String? = nil,
         keyboardType: UIKeyboardType = .alphabet,
+        showActionSheetOnAppear: Bool = false,
         onUnitChanged: UnitChangedHandler? = nil
     ) {
-        self.init(label: .constant(label), value: value, placeholder: placeholder, unit: unit, keyboardType: keyboardType, onUnitChanged: onUnitChanged)
+        self.init(label: .constant(label), value: value, placeholder: placeholder, unit: unit, keyboardType: keyboardType, showActionSheetOnAppear: showActionSheetOnAppear, onUnitChanged: onUnitChanged)
     }
     
     public init(
@@ -78,9 +83,10 @@ public struct Field: View {
         selectedUnit: Binding<PickerOption>,
         customUnitString: Binding<String>? = nil,
         keyboardType: UIKeyboardType = .alphabet,
+        showActionSheetOnAppear: Bool = false,
         onUnitChanged: UnitChangedHandler? = nil
     ) {
-        self.init(label: .constant(label), value: value, placeholder: placeholder, units: units, selectedUnit: selectedUnit, customUnitString: customUnitString, keyboardType: keyboardType, onUnitChanged: onUnitChanged)
+        self.init(label: .constant(label), value: value, placeholder: placeholder, units: units, selectedUnit: selectedUnit, customUnitString: customUnitString, keyboardType: keyboardType, showActionSheetOnAppear: showActionSheetOnAppear, onUnitChanged: onUnitChanged)
     }
 
     public var body: some View {
@@ -114,6 +120,11 @@ public struct Field: View {
                 }
         }
         .actionSheet(isPresented: $showingActionSheet) { actionSheet(for: units) }
+        .task {
+            if showActionSheetOnAppear && units.count > 1 {
+                showingActionSheet = true
+            }
+        }
     }
 
     //MARK: - Components
