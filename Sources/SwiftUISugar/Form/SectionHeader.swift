@@ -6,7 +6,7 @@ public struct SectionHeader: View {
     @State var imageName: String?
     @State var title: String
     
-    init(_ title: String, imageName: String? = nil, isEditing: Binding<Bool>? = nil) {
+    public init(_ title: String, imageName: String? = nil, isEditing: Binding<Bool>? = nil) {
         self._title = State(initialValue: title)
         self._imageName = State(initialValue: imageName)
         self.isEditing = isEditing
