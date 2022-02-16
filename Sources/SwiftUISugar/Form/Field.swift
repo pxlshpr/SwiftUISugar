@@ -1,6 +1,8 @@
 import SwiftUI
 import SwiftHaptics
 
+public typealias UnitChangedHandler = (PickerOption) -> Void
+
 public struct Field: View {
     
     @Binding var label: String
@@ -15,7 +17,8 @@ public struct Field: View {
     var units: Binding<[PickerOption]>? = nil
     var selectedUnit: Binding<PickerOption>? = nil
     var customUnitString: Binding<String>? = nil
-    @State var showActionSheetOnAppear: Bool = false
+    @State var showPickerOnAppear: Bool = false
+    var customIsShowingPicker: Binding<Bool>? = nil
     var onUnitChanged: UnitChangedHandler? = nil
 
     @State private var showingActionSheet: Bool = false
@@ -28,13 +31,15 @@ public struct Field: View {
         placeholder: String? = nil,
         unit: String? = nil,
         keyboardType: UIKeyboardType = .alphabet,
-        showActionSheetOnAppear: Bool = false,
+        showPickerOnAppear: Bool = false,
+        isShowingPicker: Binding<Bool>? = nil,
         onUnitChanged: UnitChangedHandler? = nil
     ) {
         self._label = label
         self._value = value
         self._keyboardType = State(initialValue: keyboardType)
-        self._showActionSheetOnAppear = State(initialValue: showActionSheetOnAppear)
+        self._showPickerOnAppear = State(initialValue: showPickerOnAppear)
+        self.customIsShowingPicker = isShowingPicker
         self.placeholder = placeholder
         self.unit = unit
         self.onUnitChanged = onUnitChanged
@@ -48,13 +53,15 @@ public struct Field: View {
         selectedUnit: Binding<PickerOption>,
         customUnitString: Binding<String>? = nil,
         keyboardType: UIKeyboardType = .alphabet,
-        showActionSheetOnAppear: Bool = false,
+        showPickerOnAppear: Bool = false,
+        isShowingPicker: Binding<Bool>? = nil,
         onUnitChanged: UnitChangedHandler? = nil
     ) {
         self._label = label
         self._value = value
         self._keyboardType = State(initialValue: keyboardType)
-        self._showActionSheetOnAppear = State(initialValue: showActionSheetOnAppear)
+        self._showPickerOnAppear = State(initialValue: showPickerOnAppear)
+        self.customIsShowingPicker = isShowingPicker
         self.placeholder = placeholder
         self.units = units
         self.selectedUnit = selectedUnit
@@ -70,10 +77,11 @@ public struct Field: View {
         placeholder: String? = nil,
         unit: String? = nil,
         keyboardType: UIKeyboardType = .alphabet,
-        showActionSheetOnAppear: Bool = false,
+        showPickerOnAppear: Bool = false,
+        isShowingPicker: Binding<Bool>? = nil,
         onUnitChanged: UnitChangedHandler? = nil
     ) {
-        self.init(label: .constant(label), value: value, placeholder: placeholder, unit: unit, keyboardType: keyboardType, showActionSheetOnAppear: showActionSheetOnAppear, onUnitChanged: onUnitChanged)
+        self.init(label: .constant(label), value: value, placeholder: placeholder, unit: unit, keyboardType: keyboardType, showPickerOnAppear: showPickerOnAppear, isShowingPicker: isShowingPicker, onUnitChanged: onUnitChanged)
     }
     
     public init(
@@ -84,10 +92,11 @@ public struct Field: View {
         selectedUnit: Binding<PickerOption>,
         customUnitString: Binding<String>? = nil,
         keyboardType: UIKeyboardType = .alphabet,
-        showActionSheetOnAppear: Bool = false,
+        showPickerOnAppear: Bool = false,
+        isShowingPicker: Binding<Bool>? = nil,
         onUnitChanged: UnitChangedHandler? = nil
     ) {
-        self.init(label: .constant(label), value: value, placeholder: placeholder, units: units, selectedUnit: selectedUnit, customUnitString: customUnitString, keyboardType: keyboardType, showActionSheetOnAppear: showActionSheetOnAppear, onUnitChanged: onUnitChanged)
+        self.init(label: .constant(label), value: value, placeholder: placeholder, units: units, selectedUnit: selectedUnit, customUnitString: customUnitString, keyboardType: keyboardType, showPickerOnAppear: showPickerOnAppear, isShowingPicker: isShowingPicker, onUnitChanged: onUnitChanged)
     }
 
     public var body: some View {
@@ -119,11 +128,18 @@ public struct Field: View {
                     }
                 }
         }
-        .actionSheet(isPresented: $showingActionSheet) { actionSheet(for: units) }
+        .if(customIsShowingPicker != nil) { view in
+            view
+                .actionSheet(isPresented: customIsShowingPicker!) { actionSheet(for: units) }
+        }
+        .if(customIsShowingPicker == nil) { view in
+            view
+                .actionSheet(isPresented: $showingActionSheet) { actionSheet(for: units) }
+        }
         .onChange(of: units.count) { newValue in
-            if showActionSheetOnAppear && units.wrappedValue.count > 1 {
+            if showPickerOnAppear && units.wrappedValue.count > 1 {
                 showingActionSheet = true
-                showActionSheetOnAppear = false
+                showPickerOnAppear = false
             }
         }
     }
@@ -250,5 +266,3 @@ public struct Field: View {
     
     let Padding: CGFloat = 10.0
 }
-
-public typealias UnitChangedHandler = (PickerOption) -> Void
