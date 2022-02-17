@@ -7,13 +7,15 @@ public struct SectionHeader: View {
     @Binding var title: String
 
     public init(_ title: String, imageName: String? = nil, isEditing: Binding<Bool>? = nil) {
-        self._title = .constant(title)
-        if let imageName = imageName {
-            self.imageName = .constant(imageName)
-        } else {
-            self.imageName = nil
-        }
-        self.isEditing = isEditing
+        self.init(.constant(title),
+                  imageName: imageName != nil ? .constant(imageName!) : nil,
+                  isEditing: isEditing)
+    }
+
+    public init(_ title: Binding<String>, imageName: String? = nil, isEditing: Binding<Bool>? = nil) {
+        self.init(title,
+                  imageName: imageName != nil ? .constant(imageName!) : nil,
+                  isEditing: isEditing)
     }
 
     public init(_ title: Binding<String>, imageName: Binding<String>? = nil, isEditing: Binding<Bool>? = nil) {
