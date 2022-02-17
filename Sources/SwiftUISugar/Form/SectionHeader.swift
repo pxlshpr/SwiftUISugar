@@ -5,7 +5,17 @@ public struct SectionHeader: View {
     var isEditing: Binding<Bool>?
     var imageName: Binding<String>?
     @Binding var title: String
-    
+
+    public init(_ title: String, imageName: String? = nil, isEditing: Binding<Bool>? = nil) {
+        self._title = .constant(title)
+        if let imageName = imageName {
+            self.imageName = .constant(imageName)
+        } else {
+            self.imageName = nil
+        }
+        self.isEditing = isEditing
+    }
+
     public init(_ title: Binding<String>, imageName: Binding<String>? = nil, isEditing: Binding<Bool>? = nil) {
         self._title = title
         self.imageName = imageName
