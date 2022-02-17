@@ -152,14 +152,17 @@ public struct Field: View {
             VStack(alignment: .leading) {
                 Text(selectedUnitString)
                     .foregroundColor(unitTextColor)
+                    .animation(.interactiveSpring(), value: selectedUnitString)
                 Text(subtitle)
                     .foregroundColor(unitTextColor)
                     .font(.caption2)
+                    .animation(.interactiveSpring(), value: subtitle)
             }
             .foregroundColor(unitTextColor)
         } else {
             Text(selectedUnitString)
                 .foregroundColor(unitTextColor)
+                .animation(.interactiveSpring(), value: selectedUnitString)
         }
     }
     
