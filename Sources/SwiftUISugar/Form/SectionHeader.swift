@@ -3,12 +3,12 @@ import SwiftUI
 public struct SectionHeader: View {
     
     var isEditing: Binding<Bool>?
-    @State var imageName: String?
-    @State var title: String
+    var imageName: Binding<String>?
+    @Binding var title: String
     
-    public init(_ title: String, imageName: String? = nil, isEditing: Binding<Bool>? = nil) {
-        self._title = State(initialValue: title)
-        self._imageName = State(initialValue: imageName)
+    public init(_ title: Binding<String>, imageName: Binding<String>? = nil, isEditing: Binding<Bool>? = nil) {
+        self._title = title
+        self.imageName = imageName
         self.isEditing = isEditing
     }
     
@@ -26,7 +26,7 @@ public struct SectionHeader: View {
     @ViewBuilder
     var titleView: some View {
         HStack {
-            if let imageName = imageName {
+            if let imageName = imageName?.wrappedValue {
                 Image(systemName: imageName)
                     .foregroundColor(Color.gray)
             }

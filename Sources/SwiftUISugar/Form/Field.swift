@@ -125,6 +125,7 @@ public struct Field: View {
                     if units.count > 1 {
                         Haptics.feedback(style: .soft)
                         showingActionSheet = true
+                        customIsShowingPicker?.wrappedValue = true
                     }
                 }
         }
