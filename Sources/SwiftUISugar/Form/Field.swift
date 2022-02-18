@@ -40,8 +40,8 @@ public struct Field: View {
         self._keyboardType = State(initialValue: keyboardType)
         self._showPickerOnAppear = State(initialValue: showPickerOnAppear)
         self.customIsShowingPicker = isShowingPicker
-        self.placeholder = placeholder
-        self.unit = unit
+        self._placeholder = State(initialValue: placeholder)
+        self._unit = State(initialValue: unit)
         self.onUnitChanged = onUnitChanged
     }
     
@@ -62,7 +62,7 @@ public struct Field: View {
         self._keyboardType = State(initialValue: keyboardType)
         self._showPickerOnAppear = State(initialValue: showPickerOnAppear)
         self.customIsShowingPicker = isShowingPicker
-        self.placeholder = placeholder
+        self._placeholder = State(initialValue: placeholder)
         self.units = units
         self.selectedUnit = selectedUnit
         self.customUnitString = customUnitString
