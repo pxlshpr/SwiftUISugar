@@ -195,7 +195,8 @@ public struct Field: View {
     }
     
     var subtitle: String? {
-        stringsProvider?.subtitle(isPlural: isPlural)
+        guard let unit = selectedUnit?.wrappedValue else { return nil }
+        return stringsProvider?.subtitle(for: unit, isPlural: isPlural)
     }
     
     var isPlural: Bool {
@@ -283,16 +284,13 @@ public struct Field: View {
     }
 
     func unitString(for unit: PickerOption?) -> String {
-        guard let units = units, let firstUnit = units.first?.wrappedValue, let stringsProvider = stringsProvider else {
+        guard let unit = unit, let stringsProvider = stringsProvider else {
             return ""
         }
-//        let unit = unit ?? firstUnit
         guard let value = Double(value) else {
-            return stringsProvider.title(isPlural: false)
-//            return unit.title(isPlural: false)
+            return stringsProvider.title(for: unit, isPlural: false)
         }
-        return stringsProvider.title(isPlural: value > 1)
-//        return unit.title(for: value)
+        return stringsProvider.title(for: unit, isPlural: value > 1)
     }
     
     let Padding: CGFloat = 10.0

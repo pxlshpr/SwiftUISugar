@@ -1,8 +1,8 @@
 import Foundation
 
 public protocol StringsProvider {
-    func title(isPlural: Bool) -> String
-    func subtitle(isPlural: Bool) -> String?
+    func title(for unit: PickerOption, isPlural: Bool) -> String
+    func subtitle(for unit: PickerOption, isPlural: Bool) -> String?
 }
 
 public protocol PickerOption {
