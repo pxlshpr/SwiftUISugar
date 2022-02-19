@@ -24,6 +24,8 @@ public struct Field: View {
     @State private var showingActionSheet: Bool = false
     @FocusState private var isFocused: Bool
 
+    var stringsProvider: StringsProvider?
+    
     //MARK: - Initializers
     public init(
         label: Binding<String>,
@@ -33,6 +35,7 @@ public struct Field: View {
         keyboardType: UIKeyboardType = .alphabet,
         showPickerOnAppear: Bool = false,
         isShowingPicker: Binding<Bool>? = nil,
+        stringsProvider: StringsProvider? = nil,
         onUnitChanged: UnitChangedHandler? = nil
     ) {
         self._label = label
@@ -43,6 +46,7 @@ public struct Field: View {
         self._placeholder = State(initialValue: placeholder)
         self._unit = State(initialValue: unit)
         self.onUnitChanged = onUnitChanged
+        self.stringsProvider = stringsProvider
     }
     
     public init(
@@ -55,6 +59,7 @@ public struct Field: View {
         keyboardType: UIKeyboardType = .alphabet,
         showPickerOnAppear: Bool = false,
         isShowingPicker: Binding<Bool>? = nil,
+        stringsProvider: StringsProvider? = nil,
         onUnitChanged: UnitChangedHandler? = nil
     ) {
         self._label = label
@@ -67,6 +72,7 @@ public struct Field: View {
         self.selectedUnit = selectedUnit
         self.customUnitString = customUnitString
         self.onUnitChanged = onUnitChanged
+        self.stringsProvider = stringsProvider
     }
     
     //MARK: Convenience Initializers
@@ -79,9 +85,19 @@ public struct Field: View {
         keyboardType: UIKeyboardType = .alphabet,
         showPickerOnAppear: Bool = false,
         isShowingPicker: Binding<Bool>? = nil,
+        stringsProvider: StringsProvider? = nil,
         onUnitChanged: UnitChangedHandler? = nil
     ) {
-        self.init(label: .constant(label), value: value, placeholder: placeholder, unit: unit, keyboardType: keyboardType, showPickerOnAppear: showPickerOnAppear, isShowingPicker: isShowingPicker, onUnitChanged: onUnitChanged)
+        self.init(
+            label: .constant(label),
+            value: value,
+            placeholder: placeholder,
+            unit: unit,
+            keyboardType: keyboardType,
+            showPickerOnAppear: showPickerOnAppear,
+            isShowingPicker: isShowingPicker,
+            stringsProvider: stringsProvider,
+            onUnitChanged: onUnitChanged)
     }
     
     public init(
@@ -94,9 +110,21 @@ public struct Field: View {
         keyboardType: UIKeyboardType = .alphabet,
         showPickerOnAppear: Bool = false,
         isShowingPicker: Binding<Bool>? = nil,
+        stringsProvider: StringsProvider? = nil,
         onUnitChanged: UnitChangedHandler? = nil
     ) {
-        self.init(label: .constant(label), value: value, placeholder: placeholder, units: units, selectedUnit: selectedUnit, customUnitString: customUnitString, keyboardType: keyboardType, showPickerOnAppear: showPickerOnAppear, isShowingPicker: isShowingPicker, onUnitChanged: onUnitChanged)
+        self.init(
+            label: .constant(label),
+            value: value,
+            placeholder: placeholder,
+            units: units,
+            selectedUnit: selectedUnit,
+            customUnitString: customUnitString,
+            keyboardType: keyboardType,
+            showPickerOnAppear: showPickerOnAppear,
+            isShowingPicker: isShowingPicker,
+            stringsProvider: stringsProvider,
+            onUnitChanged: onUnitChanged)
     }
 
     public var body: some View {
@@ -167,10 +195,7 @@ public struct Field: View {
     }
     
     var subtitle: String? {
-        guard let selectedUnit = selectedUnit?.wrappedValue else {
-            return nil
-        }
-        return selectedUnit.subtitle(isPlural: isPlural)
+        stringsProvider?.subtitle(isPlural: isPlural)
     }
     
     var isPlural: Bool {
@@ -258,14 +283,16 @@ public struct Field: View {
     }
 
     func unitString(for unit: PickerOption?) -> String {
-        guard let units = units, let firstUnit = units.first?.wrappedValue else {
+        guard let units = units, let firstUnit = units.first?.wrappedValue, let stringsProvider = stringsProvider else {
             return ""
         }
-        let unit = unit ?? firstUnit
+//        let unit = unit ?? firstUnit
         guard let value = Double(value) else {
-            return unit.title(isPlural: false)
+            return stringsProvider.title(isPlural: false)
+//            return unit.title(isPlural: false)
         }
-        return unit.title(for: value)
+        return stringsProvider.title(isPlural: value > 1)
+//        return unit.title(for: value)
     }
     
     let Padding: CGFloat = 10.0
