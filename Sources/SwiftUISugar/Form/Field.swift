@@ -1,7 +1,7 @@
 import SwiftUI
 import SwiftHaptics
 
-public typealias UnitChangedHandler = (PickerOption) -> Void
+public typealias UnitChangedHandler = (SelectionOption) -> Void
 
 public enum SelectorStyle {
     case actionSheet
@@ -19,8 +19,8 @@ public struct Field: View {
     @State var unit: String? = nil
     
     /// Multiple units
-    var units: Binding<[PickerOption]>? = nil
-    var selectedUnit: Binding<PickerOption>? = nil
+    var units: Binding<[SelectionOption]>? = nil
+    var selectedUnit: Binding<SelectionOption>? = nil
     var customUnitString: Binding<String>? = nil
     @State var showPickerOnAppear: Bool = false
     var customIsShowingPicker: Binding<Bool>? = nil
@@ -62,8 +62,8 @@ public struct Field: View {
         label: Binding<String>,
         value: Binding<String>,
         placeholder: String? = nil,
-        units: Binding<[PickerOption]>,
-        selectedUnit: Binding<PickerOption>,
+        units: Binding<[SelectionOption]>,
+        selectedUnit: Binding<SelectionOption>,
         customUnitString: Binding<String>? = nil,
         keyboardType: UIKeyboardType = .alphabet,
         showPickerOnAppear: Bool = false,
@@ -117,8 +117,8 @@ public struct Field: View {
         label: String,
         value: Binding<String>,
         placeholder: String? = nil,
-        units: Binding<[PickerOption]>,
-        selectedUnit: Binding<PickerOption>,
+        units: Binding<[SelectionOption]>,
+        selectedUnit: Binding<SelectionOption>,
         customUnitString: Binding<String>? = nil,
         keyboardType: UIKeyboardType = .alphabet,
         showPickerOnAppear: Bool = false,
@@ -165,7 +165,7 @@ public struct Field: View {
         }
     }
 
-    func fieldWithPicker(for units: Binding<[PickerOption]>) -> some View {
+    func fieldWithPicker(for units: Binding<[SelectionOption]>) -> some View {
         HStack {
             field
             unitText
@@ -193,7 +193,7 @@ public struct Field: View {
         }
     }
     
-    func fieldWithMenu(for units: Binding<[PickerOption]>) -> some View {
+    func fieldWithMenu(for units: Binding<[SelectionOption]>) -> some View {
         HStack {
             field
             if units.count > 1 {
@@ -204,7 +204,7 @@ public struct Field: View {
         }
     }
     
-    func menu(for units: Binding<[PickerOption]>) -> some View {
+    func menu(for units: Binding<[SelectionOption]>) -> some View {
         Menu {
             ForEach(units.indices, id: \.self) { index in
                 if let provider = stylingProvider, provider.shouldPlaceDividerBefore(units.wrappedValue[index], within: units.wrappedValue) {
@@ -220,7 +220,7 @@ public struct Field: View {
         }
     }
     
-    func menuButton(for option: PickerOption) -> some View {
+    func menuButton(for option: SelectionOption) -> some View {
         Button(action: {
             selectedUnit?.wrappedValue = option
             onUnitChanged?(option)
@@ -278,11 +278,13 @@ public struct Field: View {
     }
 
     var foregroundColor: Color {
-        colorScheme == .light ? .accentColor : .white
+        .white
+//        colorScheme == .light ? .accentColor : .white
     }
 
     var pillBackgroundColor: Color {
-        colorScheme == .light ? Color(hex: "E7E1FF") : .accentColor
+        .accentColor
+//        colorScheme == .light ? Color(hex: "E7E1FF") : .accentColor
     }
 
     //MARK: - Components
@@ -362,11 +364,11 @@ public struct Field: View {
     
     //MARK: Action Sheet
     
-    func actionSheet(for units: Binding<[PickerOption]>) -> ActionSheet {
+    func actionSheet(for units: Binding<[SelectionOption]>) -> ActionSheet {
         ActionSheet(title: Text("Units"), buttons: actionSheetButtons(for: units))
     }
 
-    func actionSheetButtons(for units: Binding<[PickerOption]>) -> [ActionSheet.Button] {
+    func actionSheetButtons(for units: Binding<[SelectionOption]>) -> [ActionSheet.Button] {
         var buttons: [ActionSheet.Button] = []
         for unit in units {
             buttons.append(buttonFor(unit.wrappedValue))
@@ -375,7 +377,7 @@ public struct Field: View {
         return buttons
     }
     
-    func buttonFor(_ unit: PickerOption) -> ActionSheet.Button {
+    func buttonFor(_ unit: SelectionOption) -> ActionSheet.Button {
         return ActionSheet.Button.default(Text(unitString(for: unit)), action: {
             selectedUnit?.wrappedValue = unit
             onUnitChanged?(unit)
@@ -395,7 +397,7 @@ public struct Field: View {
         }
     }
 
-    func unitString(for unit: PickerOption?) -> String {
+    func unitString(for unit: SelectionOption?) -> String {
         guard let unit = unit, let stylingProvider = stylingProvider else {
             return ""
         }
