@@ -9,10 +9,10 @@ public protocol StringsProvider {
 
 /// Default implementations
 extension StringsProvider {
-    func shouldPlaceDividerBefore(_ option: PickerOption, within options: [PickerOption]) -> Bool {
+    public func shouldPlaceDividerBefore(_ option: PickerOption, within options: [PickerOption]) -> Bool {
         return false
     }
-    func systemImageName(for option: PickerOption) -> String? {
+    public func systemImageName(for option: PickerOption) -> String? {
         return nil
     }
 }
