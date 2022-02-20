@@ -251,7 +251,6 @@ public struct Field: View {
                 if let subtitle = subtitle {
                     Text(subtitle)
                         .font(.subheadline)
-                        .transition(.scale)
                 }
             }
             if !forSingleUnit {
@@ -260,6 +259,8 @@ public struct Field: View {
                     .font(.system(size: 12, weight: .semibold))
             }
         }
+        .transition(.scale)
+        .animation(.interactiveSpring(), value: selectedUnitString)
         .foregroundColor(foregroundColor)
         .padding(.leading, 10)
         .padding(.trailing, 10)
