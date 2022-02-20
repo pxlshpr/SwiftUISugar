@@ -225,7 +225,7 @@ public struct Field: View {
             selectedUnit?.wrappedValue = option
             onUnitChanged?(option)
         }) {
-            if let systemImage = stylingProvider?.systemImageName(for: option) {
+            if let systemImage = stylingProvider?.systemImage(for: option) {
                 Label(unitString(for: option), systemImage: systemImage)
             } else {
                 Text(unitString(for: option))
