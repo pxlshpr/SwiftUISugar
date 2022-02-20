@@ -1,6 +1,6 @@
 import Foundation
 
-public protocol StringsProvider {
+public protocol StylingProvider {
     func title(for option: PickerOption, isPlural: Bool) -> String
     func subtitle(for option: PickerOption, isPlural: Bool) -> String?
     func systemImageName(for option: PickerOption) -> String?
@@ -8,7 +8,7 @@ public protocol StringsProvider {
 }
 
 /// Default implementations
-extension StringsProvider {
+extension StylingProvider {
     public func shouldPlaceDividerBefore(_ option: PickerOption, within options: [PickerOption]) -> Bool {
         return false
     }

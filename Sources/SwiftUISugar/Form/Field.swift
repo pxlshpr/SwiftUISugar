@@ -31,7 +31,7 @@ public struct Field: View {
 
     @State var selectorStyle: SelectorStyle
 
-    var stringsProvider: StringsProvider?
+    var stylingProvider: StylingProvider?
     
     //MARK: - Initializers
     public init(
@@ -43,7 +43,7 @@ public struct Field: View {
         showPickerOnAppear: Bool = false,
         isShowingPicker: Binding<Bool>? = nil,
         selectorStyle: SelectorStyle = .menu,
-        stringsProvider: StringsProvider? = nil,
+        stylingProvider: StylingProvider? = nil,
         onUnitChanged: UnitChangedHandler? = nil
     ) {
         self._label = label
@@ -55,7 +55,7 @@ public struct Field: View {
         self._unit = State(initialValue: unit)
         self.onUnitChanged = onUnitChanged
         self._selectorStyle = State(initialValue: selectorStyle)
-        self.stringsProvider = stringsProvider
+        self.stylingProvider = stylingProvider
     }
     
     public init(
@@ -69,7 +69,7 @@ public struct Field: View {
         showPickerOnAppear: Bool = false,
         isShowingPicker: Binding<Bool>? = nil,
         selectorStyle: SelectorStyle = .menu,
-        stringsProvider: StringsProvider? = nil,
+        stylingProvider: StylingProvider? = nil,
         onUnitChanged: UnitChangedHandler? = nil
     ) {
         self._label = label
@@ -83,7 +83,7 @@ public struct Field: View {
         self.customUnitString = customUnitString
         self.onUnitChanged = onUnitChanged
         self._selectorStyle = State(initialValue: selectorStyle)
-        self.stringsProvider = stringsProvider
+        self.stylingProvider = stylingProvider
     }
     
     //MARK: Convenience Initializers
@@ -97,7 +97,7 @@ public struct Field: View {
         showPickerOnAppear: Bool = false,
         isShowingPicker: Binding<Bool>? = nil,
         selectorStyle: SelectorStyle = .menu,
-        stringsProvider: StringsProvider? = nil,
+        stylingProvider: StylingProvider? = nil,
         onUnitChanged: UnitChangedHandler? = nil
     ) {
         self.init(
@@ -109,7 +109,7 @@ public struct Field: View {
             showPickerOnAppear: showPickerOnAppear,
             isShowingPicker: isShowingPicker,
             selectorStyle: selectorStyle,
-            stringsProvider: stringsProvider,
+            stylingProvider: stylingProvider,
             onUnitChanged: onUnitChanged)
     }
     
@@ -124,7 +124,7 @@ public struct Field: View {
         showPickerOnAppear: Bool = false,
         isShowingPicker: Binding<Bool>? = nil,
         selectorStyle: SelectorStyle = .menu,
-        stringsProvider: StringsProvider? = nil,
+        stylingProvider: StylingProvider? = nil,
         onUnitChanged: UnitChangedHandler? = nil
     ) {
         self.init(
@@ -138,7 +138,7 @@ public struct Field: View {
             showPickerOnAppear: showPickerOnAppear,
             isShowingPicker: isShowingPicker,
             selectorStyle: selectorStyle,
-            stringsProvider: stringsProvider,
+            stylingProvider: stylingProvider,
             onUnitChanged: onUnitChanged)
     }
 
@@ -207,7 +207,7 @@ public struct Field: View {
     func menu(for units: Binding<[PickerOption]>) -> some View {
         Menu {
             ForEach(units.indices, id: \.self) { index in
-                if let provider = stringsProvider, provider.shouldPlaceDividerBefore(units.wrappedValue[index], within: units.wrappedValue) {
+                if let provider = stylingProvider, provider.shouldPlaceDividerBefore(units.wrappedValue[index], within: units.wrappedValue) {
                     Divider()
                 }
                 menuButton(for: units.wrappedValue[index])
@@ -225,7 +225,7 @@ public struct Field: View {
             selectedUnit?.wrappedValue = option
             onUnitChanged?(option)
         }) {
-            if let systemImage = stringsProvider?.systemImageName(for: option) {
+            if let systemImage = stylingProvider?.systemImageName(for: option) {
                 Label(unitString(for: option), systemImage: systemImage)
             } else {
                 Text(unitString(for: option))
@@ -308,7 +308,7 @@ public struct Field: View {
     
     var subtitle: String? {
         guard let unit = selectedUnit?.wrappedValue else { return nil }
-        return stringsProvider?.subtitle(for: unit, isPlural: isPlural)
+        return stylingProvider?.subtitle(for: unit, isPlural: isPlural)
     }
     
     var isPlural: Bool {
@@ -396,13 +396,13 @@ public struct Field: View {
     }
 
     func unitString(for unit: PickerOption?) -> String {
-        guard let unit = unit, let stringsProvider = stringsProvider else {
+        guard let unit = unit, let stylingProvider = stylingProvider else {
             return ""
         }
         guard let value = Double(value) else {
-            return stringsProvider.title(for: unit, isPlural: false)
+            return stylingProvider.title(for: unit, isPlural: false)
         }
-        return stringsProvider.title(for: unit, isPlural: value > 1)
+        return stylingProvider.title(for: unit, isPlural: value > 1)
     }
     
     let Padding: CGFloat = 10.0
