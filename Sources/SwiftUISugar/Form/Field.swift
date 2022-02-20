@@ -278,13 +278,11 @@ public struct Field: View {
     }
 
     var foregroundColor: Color {
-        .white
-//        colorScheme == .light ? .accentColor : .white
+        colorScheme == .light ? .accentColor : .white
     }
 
     var pillBackgroundColor: Color {
-        .accentColor
-//        colorScheme == .light ? Color(hex: "E7E1FF") : .accentColor
+        colorScheme == .light ? Color(hex: "E7E1FF") : .accentColor
     }
 
     //MARK: - Components
