@@ -199,7 +199,7 @@ public struct Field: View {
             if units.count > 1 {
                 menu(for: units)
             } else {
-                unitText
+                unitButtonText(forSingleUnit: true)
             }
         }
     }
@@ -213,7 +213,7 @@ public struct Field: View {
                 menuButton(for: units.wrappedValue[index])
             }
         } label: {
-            unitButtonText
+            unitButtonText()
         }
         .onTapGesture {
             Haptics.feedback(style: .soft)
@@ -243,31 +243,32 @@ public struct Field: View {
     @Environment(\.colorScheme) var colorScheme
 
     @ViewBuilder
-    var unitButtonText: some View {
+    func unitButtonText(forSingleUnit: Bool = false) -> some View {
         HStack(spacing: 0) {
             VStack (alignment: .leading) {
                 Text(selectedUnitString)
                     .font(.headline)
-//                    .font(.system(size: FontSize, weight: FontWeight, design: .default))
-//                .frame(width: width(for: string))
                 if let subtitle = subtitle {
                     Text(subtitle)
                         .font(.subheadline)
                         .transition(.scale)
                 }
             }
-            Spacer().frame(width: 5)
-            Image(systemName: "chevron.down")
-                .font(.system(size: 12, weight: .semibold))
+            if !forSingleUnit {
+                Spacer().frame(width: 5)
+                Image(systemName: "chevron.down")
+                    .font(.system(size: 12, weight: .semibold))
+            }
         }
         .foregroundColor(foregroundColor)
         .padding(.leading, 10)
         .padding(.trailing, 10)
         .padding(.vertical, 3)
-//        .frame(height: 28) /// previously 30
         .background(backgroundView)
         .padding(.vertical, Self.PaddingTapTargetVertical)
         .contentShape(Rectangle())
+        .grayscale(forSingleUnit ? 1.0 : 0.0)
+        .disabled(forSingleUnit)
     }
     
     @ViewBuilder
