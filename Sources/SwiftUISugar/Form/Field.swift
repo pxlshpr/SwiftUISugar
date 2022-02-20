@@ -3,6 +3,11 @@ import SwiftHaptics
 
 public typealias UnitChangedHandler = (PickerOption) -> Void
 
+public enum SelectorStyle {
+    case actionSheet
+    case menu
+}
+
 public struct Field: View {
     
     @Binding var label: String
@@ -24,6 +29,8 @@ public struct Field: View {
     @State private var showingActionSheet: Bool = false
     @FocusState private var isFocused: Bool
 
+    @State var selectorStyle: SelectorStyle
+
     var stringsProvider: StringsProvider?
     
     //MARK: - Initializers
@@ -35,6 +42,7 @@ public struct Field: View {
         keyboardType: UIKeyboardType = .alphabet,
         showPickerOnAppear: Bool = false,
         isShowingPicker: Binding<Bool>? = nil,
+        selectorStyle: SelectorStyle = .menu,
         stringsProvider: StringsProvider? = nil,
         onUnitChanged: UnitChangedHandler? = nil
     ) {
@@ -46,6 +54,7 @@ public struct Field: View {
         self._placeholder = State(initialValue: placeholder)
         self._unit = State(initialValue: unit)
         self.onUnitChanged = onUnitChanged
+        self._selectorStyle = State(initialValue: selectorStyle)
         self.stringsProvider = stringsProvider
     }
     
@@ -59,6 +68,7 @@ public struct Field: View {
         keyboardType: UIKeyboardType = .alphabet,
         showPickerOnAppear: Bool = false,
         isShowingPicker: Binding<Bool>? = nil,
+        selectorStyle: SelectorStyle = .menu,
         stringsProvider: StringsProvider? = nil,
         onUnitChanged: UnitChangedHandler? = nil
     ) {
@@ -72,6 +82,7 @@ public struct Field: View {
         self.selectedUnit = selectedUnit
         self.customUnitString = customUnitString
         self.onUnitChanged = onUnitChanged
+        self._selectorStyle = State(initialValue: selectorStyle)
         self.stringsProvider = stringsProvider
     }
     
@@ -85,6 +96,7 @@ public struct Field: View {
         keyboardType: UIKeyboardType = .alphabet,
         showPickerOnAppear: Bool = false,
         isShowingPicker: Binding<Bool>? = nil,
+        selectorStyle: SelectorStyle = .menu,
         stringsProvider: StringsProvider? = nil,
         onUnitChanged: UnitChangedHandler? = nil
     ) {
@@ -96,6 +108,7 @@ public struct Field: View {
             keyboardType: keyboardType,
             showPickerOnAppear: showPickerOnAppear,
             isShowingPicker: isShowingPicker,
+            selectorStyle: selectorStyle,
             stringsProvider: stringsProvider,
             onUnitChanged: onUnitChanged)
     }
@@ -110,6 +123,7 @@ public struct Field: View {
         keyboardType: UIKeyboardType = .alphabet,
         showPickerOnAppear: Bool = false,
         isShowingPicker: Binding<Bool>? = nil,
+        selectorStyle: SelectorStyle = .menu,
         stringsProvider: StringsProvider? = nil,
         onUnitChanged: UnitChangedHandler? = nil
     ) {
@@ -123,13 +137,19 @@ public struct Field: View {
             keyboardType: keyboardType,
             showPickerOnAppear: showPickerOnAppear,
             isShowingPicker: isShowingPicker,
+            selectorStyle: selectorStyle,
             stringsProvider: stringsProvider,
             onUnitChanged: onUnitChanged)
     }
 
     public var body: some View {
         if let units = units {
-            fieldWithPicker(for: units)
+            switch selectorStyle {
+            case .actionSheet:
+                fieldWithPicker(for: units)
+            case .menu:
+                fieldWithMenu(for: units)
+            }
         } else {
             field
         }
@@ -171,6 +191,98 @@ public struct Field: View {
                 showPickerOnAppear = false
             }
         }
+    }
+    
+    func fieldWithMenu(for units: Binding<[PickerOption]>) -> some View {
+        HStack {
+            field
+            if units.count > 1 {
+                menu(for: units)
+            } else {
+                unitText
+            }
+        }
+    }
+    
+    func menu(for units: Binding<[PickerOption]>) -> some View {
+        Menu {
+            ForEach(units.indices, id: \.self) { index in
+                if let provider = stringsProvider, provider.shouldPlaceDividerBefore(units.wrappedValue[index], within: units.wrappedValue) {
+                    Divider()
+                }
+                menuButton(for: units.wrappedValue[index])
+            }
+        } label: {
+            unitButtonText
+        }
+        .onTapGesture {
+            Haptics.feedback(style: .soft)
+        }
+    }
+    
+    func menuButton(for option: PickerOption) -> some View {
+        Button(action: {
+            selectedUnit?.wrappedValue = option
+            onUnitChanged?(option)
+        }) {
+            if let systemImage = stringsProvider?.systemImageName(for: option) {
+                Label(unitString(for: option), systemImage: systemImage)
+            } else {
+                Text(unitString(for: option))
+            }
+        }
+    }
+    
+    //MARK: - Option Button
+    let FontSize = 13.0
+    let FontWeight: Font.Weight = .semibold
+    let UIFontWeight: UIFont.Weight = .semibold
+    static var PaddingTapTargetHorizontal: CGFloat = 10.0
+    static var PaddingTapTargetVertical: CGFloat = 7.0
+    
+    @Environment(\.colorScheme) var colorScheme
+
+    @ViewBuilder
+    var unitButtonText: some View {
+        HStack(spacing: 0) {
+            VStack (alignment: .leading) {
+                Text(selectedUnitString)
+                    .font(.headline)
+//                    .font(.system(size: FontSize, weight: FontWeight, design: .default))
+//                .frame(width: width(for: string))
+                if let subtitle = subtitle {
+                    Text(subtitle)
+                        .font(.subheadline)
+                        .transition(.scale)
+                }
+            }
+            Spacer().frame(width: 5)
+            Image(systemName: "chevron.down")
+                .font(.system(size: 12, weight: .semibold))
+        }
+        .foregroundColor(foregroundColor)
+        .padding(.leading, 10)
+        .padding(.trailing, 10)
+        .padding(.vertical, 3)
+//        .frame(height: 28) /// previously 30
+        .background(backgroundView)
+        .padding(.vertical, Self.PaddingTapTargetVertical)
+        .contentShape(Rectangle())
+    }
+    
+    @ViewBuilder
+    var backgroundView: some View {
+        RoundedRectangle(cornerRadius: 6)
+            .fill(pillBackgroundColor)
+//            .overlay(RoundedRectangle(cornerRadius: 6))
+    }
+
+    var foregroundColor: Color {
+        colorScheme == .light ? .accentColor : .white
+    }
+
+    var pillBackgroundColor: Color {
+        colorScheme == .light ? Color(hex: "E7E1FF") : .accentColor
     }
 
     //MARK: - Components
