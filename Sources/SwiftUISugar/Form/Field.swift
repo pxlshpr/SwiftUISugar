@@ -248,9 +248,11 @@ public struct Field: View {
             VStack (alignment: .leading) {
                 Text(selectedUnitString)
                     .font(.headline)
+                    .multilineTextAlignment(.leading)
                 if let subtitle = subtitle {
                     Text(subtitle)
                         .font(.subheadline)
+                        .multilineTextAlignment(.leading)
                 }
             }
             if !forSingleUnit {
