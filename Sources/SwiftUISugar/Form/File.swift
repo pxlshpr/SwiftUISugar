@@ -1,14 +1,7 @@
 import SwiftUI
 import SwiftHaptics
 
-public typealias UnitChangedHandler = (SelectionOption) -> Void
-
-public enum SelectorStyle {
-    case actionSheet
-    case menu
-}
-
-public struct Field: View {
+public struct Field_DynamicWidth: View {
     
     @Binding var label: String
     @Binding var value: String
@@ -33,6 +26,9 @@ public struct Field: View {
 
     var stylingProvider: StylingProvider?
     
+    @State var titleWidth: CGFloat = 0
+    @State var subtitleWidth: CGFloat = 0
+
     //MARK: - Initializers
     public init(
         label: Binding<String>,
@@ -56,6 +52,7 @@ public struct Field: View {
         self.onUnitChanged = onUnitChanged
         self._selectorStyle = State(initialValue: selectorStyle)
         self.stylingProvider = stylingProvider
+//        calculateWidth()
     }
     
     public init(
@@ -84,6 +81,9 @@ public struct Field: View {
         self.onUnitChanged = onUnitChanged
         self._selectorStyle = State(initialValue: selectorStyle)
         self.stylingProvider = stylingProvider
+//        calculateWidth()
+        self._titleWidth = State(initialValue: width(for: selectedUnitString, font: UIFont.preferredFont(forTextStyle: .headline)))
+        self._subtitleWidth = State(initialValue: width(for: subtitle ?? "", font: UIFont.preferredFont(forTextStyle: .subheadline)))
     }
     
     //MARK: Convenience Initializers
@@ -249,10 +249,12 @@ public struct Field: View {
                 Text(selectedUnitString)
                     .font(.headline)
                     .multilineTextAlignment(.leading)
+                    .frame(width: titleWidth)
                 if let subtitle = subtitle {
                     Text(subtitle)
                         .font(.subheadline)
                         .multilineTextAlignment(.leading)
+                        .frame(width: subtitleWidth)
                 }
             }
             if !forSingleUnit {
@@ -261,6 +263,9 @@ public struct Field: View {
                     .font(.system(size: 12, weight: .semibold))
             }
         }
+        .onChange(of: selectedUnitString, perform: { newValue in
+            calculateWidths()
+        })
         .transition(.scale)
         .animation(.interactiveSpring(), value: selectedUnitString)
         .foregroundColor(foregroundColor)
@@ -272,6 +277,16 @@ public struct Field: View {
         .contentShape(Rectangle())
         .grayscale(forSingleUnit ? 1.0 : 0.0)
         .disabled(forSingleUnit)
+    }
+    
+    func width(for string: String, font: UIFont) -> CGFloat {
+        string.size(withAttributes:[.font: font]).width
+    }
+
+    func calculateWidths() {
+        guard !selectedUnitString.isEmpty else { return }
+        titleWidth = width(for: selectedUnitString, font: UIFont.preferredFont(forTextStyle: .headline))
+        subtitleWidth = width(for: subtitle ?? "", font: UIFont.preferredFont(forTextStyle: .subheadline))
     }
     
     @ViewBuilder
