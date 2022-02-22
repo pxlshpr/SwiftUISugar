@@ -10,8 +10,8 @@ public class UIEmojiTextField: UITextField {
 }
 
 public struct EmojiTextField: UIViewRepresentable {
-    @Binding var text: String
-    var placeholder: String = ""
+    @Binding public var text: String
+    public var placeholder: String = ""
     
     public func makeUIView(context: Context) -> UIEmojiTextField {
         let emojiTextField = UIEmojiTextField()
