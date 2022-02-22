@@ -1,19 +1,19 @@
 import SwiftUI
 
 /// Based off answer in: https://stackoverflow.com/a/66397959
-class UIEmojiTextField: UITextField {
+public class UIEmojiTextField: UITextField {
     
     /// Amended using: https://stackoverflow.com/a/69760106
-    override var textInputMode: UITextInputMode? {
+    public override var textInputMode: UITextInputMode? {
         .activeInputModes.first(where: { $0.primaryLanguage == "emoji" })
     }
 }
 
-struct EmojiTextField: UIViewRepresentable {
+public struct EmojiTextField: UIViewRepresentable {
     @Binding var text: String
     var placeholder: String = ""
     
-    func makeUIView(context: Context) -> UIEmojiTextField {
+    public func makeUIView(context: Context) -> UIEmojiTextField {
         let emojiTextField = UIEmojiTextField()
         emojiTextField.placeholder = placeholder
         emojiTextField.text = text
@@ -21,22 +21,22 @@ struct EmojiTextField: UIViewRepresentable {
         return emojiTextField
     }
     
-    func updateUIView(_ uiView: UIEmojiTextField, context: Context) {
+    public func updateUIView(_ uiView: UIEmojiTextField, context: Context) {
         uiView.text = text
     }
     
-    func makeCoordinator() -> Coordinator {
+    public func makeCoordinator() -> Coordinator {
         Coordinator(parent: self)
     }
     
-    class Coordinator: NSObject, UITextFieldDelegate {
+    public class Coordinator: NSObject, UITextFieldDelegate {
         var parent: EmojiTextField
         
         init(parent: EmojiTextField) {
             self.parent = parent
         }
         
-        func textFieldDidChangeSelection(_ textField: UITextField) {
+        public func textFieldDidChangeSelection(_ textField: UITextField) {
             DispatchQueue.main.async { [weak self] in
                 self?.parent.text = textField.text ?? ""
             }
