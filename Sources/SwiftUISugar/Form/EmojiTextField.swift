@@ -13,6 +13,11 @@ public struct EmojiTextField: UIViewRepresentable {
     @Binding public var text: String
     public var placeholder: String = ""
     
+    public init(text: Binding<String>, placeholder: String = "") {
+        self._text = text
+        self.placeholder = placeholder
+    }
+    
     public func makeUIView(context: Context) -> UIEmojiTextField {
         let emojiTextField = UIEmojiTextField()
         emojiTextField.placeholder = placeholder
