@@ -204,13 +204,19 @@ public struct Field: View {
         }
     }
     
-    func menu(for units: Binding<[SelectionOption]>) -> some View {
+    func menu(for options: Binding<[SelectionOption]>) -> some View {
         Menu {
-            ForEach(units.indices, id: \.self) { index in
-                if let provider = stylingProvider, provider.shouldPlaceDividerBefore(units.wrappedValue[index], within: units.wrappedValue) {
+            ForEach(options.indices, id: \.self) { index in
+                let option = options.wrappedValue[index]
+                if let provider = stylingProvider, provider.shouldPlaceDividerBefore(option, within: options.wrappedValue)
+                {
                     Divider()
                 }
-                menuButton(for: units.wrappedValue[index])
+                if option.isGroup, let subOptions = option.subOptions {
+                    secondaryMenu(for: subOptions, option: option)
+                } else {
+                    menuButton(for: option)
+                }
             }
         } label: {
             unitButtonText()
@@ -219,6 +225,61 @@ public struct Field: View {
             Haptics.feedback(style: .soft)
         }
     }
+    
+    @ViewBuilder
+    func secondaryMenu(for options: [SelectionOption], option: SelectionOption) -> some View {
+        Menu {
+            ForEach(options.indices, id: \.self) { index in
+                let option = options[index]
+                if let provider = stylingProvider, provider.shouldPlaceDividerBefore(option, within: options)
+                {
+                    Divider()
+                }
+                if option.isGroup, let subOptions = option.subOptions {
+                    tertiaryMenu(for: subOptions, option: option)
+                } else {
+                    menuButton(for: option)
+                }
+            }
+        } label: {
+            if let systemImage = stylingProvider?.systemImage(for: option) {
+                Label(title(for: option), systemImage: systemImage)
+            } else {
+                Text(title(for: option))
+            }
+        }
+        .onTapGesture {
+            Haptics.feedback(style: .soft)
+        }
+    }
+    
+    func title(for option: SelectionOption) -> String {
+        stylingProvider?.title(for: option, isPlural: false) ?? "Unsupported Option"
+    }
+    
+    @ViewBuilder
+    func tertiaryMenu(for options: [SelectionOption], option: SelectionOption) -> some View {
+        Menu {
+            ForEach(options.indices, id: \.self) { index in
+                let option = options[index]
+                if let provider = stylingProvider, provider.shouldPlaceDividerBefore(option, within: options)
+                {
+                    Divider()
+                }
+                menuButton(for: option)
+            }
+        } label: {
+            if let systemImage = stylingProvider?.systemImage(for: option) {
+                Label(title(for: option), systemImage: systemImage)
+            } else {
+                Text(title(for: option))
+            }
+        }
+        .onTapGesture {
+            Haptics.feedback(style: .soft)
+        }
+    }
+    
     
     func menuButton(for option: SelectionOption) -> some View {
         Button(action: {
