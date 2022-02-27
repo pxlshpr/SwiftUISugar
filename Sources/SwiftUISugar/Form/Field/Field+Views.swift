@@ -46,7 +46,7 @@ extension Field {
                 Text(selectedUnitString)
                     .font(.callout)
                     .multilineTextAlignment(.leading)
-                    .foregroundColor(Color(.label))
+                    .foregroundColor(Color.accentColor)
                 if let subtitle = subtitle {
                     Text(subtitle)
 //                        .font(.subheadline)
@@ -162,7 +162,7 @@ extension Field {
             }
         } else {
             Text(label)
-                .foregroundColor(Color(.secondaryLabel))
+                .foregroundColor(Color(.label))
         }
     }
     
