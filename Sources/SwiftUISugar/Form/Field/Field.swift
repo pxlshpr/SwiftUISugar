@@ -56,7 +56,7 @@ public struct Field: View {
     //MARK: Convenience Initializers
     public init(
         label: String,
-        value: Binding<String>,
+        value: Binding<String>? = nil,
         placeholder: String? = nil,
         unit: String? = nil,
         units: Binding<[SelectionOption]>? = nil,
