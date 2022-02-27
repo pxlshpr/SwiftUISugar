@@ -44,7 +44,7 @@ extension Field {
         HStack(spacing: 0) {
             VStack(alignment: value == nil ? .trailing : .leading, spacing: 0) {
                 Text(selectedUnitString)
-                    .font(.callout)
+                    .font(.headline)
                     .multilineTextAlignment(.leading)
                     .foregroundColor(Color.accentColor)
                 if let subtitle = subtitle {
