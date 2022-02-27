@@ -8,7 +8,7 @@ public struct Field: View {
     @Binding var label: String
     var value: Binding<String>?
     @State var keyboardType: UIKeyboardType = .default
-    var stylingProvider: StylingProvider?
+    var contentProvider: FieldContentProvider?
 
     @State var placeholder: String? = nil
     @State var unit: String? = nil /// Single (optional) unit
@@ -39,7 +39,7 @@ public struct Field: View {
         units: Binding<[SelectionOption]>? = nil,
         selectedUnit: Binding<SelectionOption>? = nil,
         keyboardType: UIKeyboardType = .alphabet,
-        stylingProvider: StylingProvider? = nil,
+        contentProvider: FieldContentProvider? = nil,
         onUnitChanged: UnitChangedHandler? = nil
     ) {
         self._label = label
@@ -50,7 +50,7 @@ public struct Field: View {
         self.selectedUnit = selectedUnit
         self._keyboardType = State(initialValue: keyboardType)
         self.onUnitChanged = onUnitChanged
-        self.stylingProvider = stylingProvider
+        self.contentProvider = contentProvider
     }
 
     //MARK: Convenience Initializers
@@ -62,7 +62,7 @@ public struct Field: View {
         units: Binding<[SelectionOption]>? = nil,
         selectedUnit: Binding<SelectionOption>? = nil,
         keyboardType: UIKeyboardType = .alphabet,
-        stylingProvider: StylingProvider? = nil,
+        contentProvider: FieldContentProvider? = nil,
         onUnitChanged: UnitChangedHandler? = nil
     ) {
         self.init(
@@ -72,7 +72,7 @@ public struct Field: View {
             units: units,
             selectedUnit: selectedUnit,
             keyboardType: keyboardType,
-            stylingProvider: stylingProvider,
+            contentProvider: contentProvider,
             onUnitChanged: onUnitChanged)
     }
     
@@ -84,7 +84,7 @@ public struct Field: View {
 //        units: Binding<[SelectionOption]>,
 //        selectedUnit: Binding<SelectionOption>,
 //        keyboardType: UIKeyboardType = .alphabet,
-//        stylingProvider: StylingProvider? = nil,
+//        contentProvider: FieldContentProvider? = nil,
 //        onUnitChanged: UnitChangedHandler? = nil
 //    ) {
 //        self._label = label
@@ -94,6 +94,6 @@ public struct Field: View {
 //        self.units = units
 //        self.selectedUnit = selectedUnit
 //        self.onUnitChanged = onUnitChanged
-//        self.stylingProvider = stylingProvider
+//        self.contentProvider = contentProvider
 //    }
 }

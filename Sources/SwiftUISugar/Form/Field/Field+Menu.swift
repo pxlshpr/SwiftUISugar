@@ -8,7 +8,7 @@ extension Field {
         Menu {
             ForEach(options.indices, id: \.self) { index in
                 let option = options.wrappedValue[index]
-                if let provider = stylingProvider, provider.shouldPlaceDividerBefore(option, within: options.wrappedValue)
+                if let provider = contentProvider, provider.shouldPlaceDividerBefore(option, within: options.wrappedValue)
                 {
                     Divider()
                 }
@@ -31,7 +31,7 @@ extension Field {
         Menu {
             ForEach(options.indices, id: \.self) { index in
                 let option = options[index]
-                if let provider = stylingProvider, provider.shouldPlaceDividerBefore(option, within: options)
+                if let provider = contentProvider, provider.shouldPlaceDividerBefore(option, within: options)
                 {
                     Divider()
                 }
@@ -42,7 +42,7 @@ extension Field {
                 }
             }
         } label: {
-            if let systemImage = stylingProvider?.systemImage(for: option) {
+            if let systemImage = contentProvider?.systemImage(for: option) {
                 Label(title(for: option), systemImage: systemImage)
             } else {
                 Text(title(for: option))
@@ -58,14 +58,14 @@ extension Field {
         Menu {
             ForEach(options.indices, id: \.self) { index in
                 let option = options[index]
-                if let provider = stylingProvider, provider.shouldPlaceDividerBefore(option, within: options)
+                if let provider = contentProvider, provider.shouldPlaceDividerBefore(option, within: options)
                 {
                     Divider()
                 }
                 menuButton(for: option)
             }
         } label: {
-            if let systemImage = stylingProvider?.systemImage(for: option) {
+            if let systemImage = contentProvider?.systemImage(for: option) {
                 Label(title(for: option), systemImage: systemImage)
             } else {
                 Text(title(for: option))
@@ -82,7 +82,7 @@ extension Field {
             selectedUnit?.wrappedValue = option
             onUnitChanged?(option)
         }) {
-            if let systemImage = stylingProvider?.systemImage(for: option) {
+            if let systemImage = contentProvider?.systemImage(for: option) {
                 Label(unitString(for: option), systemImage: systemImage)
             } else {
                 Text(unitString(for: option))

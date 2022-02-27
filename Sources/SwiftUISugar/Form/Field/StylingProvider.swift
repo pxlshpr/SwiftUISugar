@@ -1,6 +1,6 @@
 import Foundation
 
-public protocol StylingProvider {
+public protocol FieldContentProvider {
     func title(for option: SelectionOption, isPlural: Bool) -> String
     func subtitle(for option: SelectionOption, isPlural: Bool) -> String?
     func systemImage(for option: SelectionOption) -> String?
@@ -8,7 +8,7 @@ public protocol StylingProvider {
 }
 
 /// Default implementations
-extension StylingProvider {
+extension FieldContentProvider {
     public func shouldPlaceDividerBefore(_ option: SelectionOption, within options: [SelectionOption]) -> Bool {
         return false
     }
