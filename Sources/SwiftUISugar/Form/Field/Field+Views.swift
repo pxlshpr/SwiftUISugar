@@ -74,7 +74,7 @@ extension Field {
         .transition(.scale)
         .animation(.interactiveSpring(), value: selectedUnitString)
         .padding(.leading, 10)
-        .padding(.trailing, 10)
+//        .padding(.trailing, 10)
         .padding(.vertical, 3)
 //        .background(backgroundView)
         .padding(.vertical, Self.PaddingTapTargetVertical)
