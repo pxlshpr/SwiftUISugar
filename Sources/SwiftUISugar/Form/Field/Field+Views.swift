@@ -46,12 +46,12 @@ extension Field {
                 Text(selectedUnitString)
                     .font(.callout)
                     .multilineTextAlignment(.leading)
-                    .foregroundColor(Color(.label))
+                    .foregroundColor(Color(.secondaryLabel))
                 if let subtitle = subtitle {
                     Text(subtitle)
                         .font(.subheadline)
                         .multilineTextAlignment(.leading)
-                        .foregroundColor(Color(.secondaryLabel))
+                        .foregroundColor(Color(.tertiaryLabel))
                 }
             }
             if !singleOption {
@@ -72,37 +72,37 @@ extension Field {
         .disabled(singleOption)
     }
     
-    @ViewBuilder
-    func selectedOptionText_legacy(singleOption: Bool = false) -> some View {
-        HStack(spacing: 0) {
-            VStack (alignment: value == nil ? .trailing : .leading) {
-                Text(selectedUnitString)
-                    .font(.headline)
-                    .multilineTextAlignment(.leading)
-                if let subtitle = subtitle {
-                    Text(subtitle)
-                        .font(.subheadline)
-                        .multilineTextAlignment(.leading)
-                }
-            }
-            if !singleOption {
-                Spacer().frame(width: 5)
-                Image(systemName: "chevron.down")
-                    .font(.system(size: 12, weight: .semibold))
-            }
-        }
-        .transition(.scale)
-        .animation(.interactiveSpring(), value: selectedUnitString)
-        .foregroundColor(foregroundColor)
-        .padding(.leading, 10)
-        .padding(.trailing, 10)
-        .padding(.vertical, 3)
-        .background(backgroundView)
-        .padding(.vertical, Self.PaddingTapTargetVertical)
-        .contentShape(Rectangle())
-        .grayscale(singleOption ? 1.0 : 0.0)
-        .disabled(singleOption)
-    }
+//    @ViewBuilder
+//    func selectedOptionText_legacy(singleOption: Bool = false) -> some View {
+//        HStack(spacing: 0) {
+//            VStack (alignment: value == nil ? .trailing : .leading) {
+//                Text(selectedUnitString)
+//                    .font(.headline)
+//                    .multilineTextAlignment(.leading)
+//                if let subtitle = subtitle {
+//                    Text(subtitle)
+//                        .font(.subheadline)
+//                        .multilineTextAlignment(.leading)
+//                }
+//            }
+//            if !singleOption {
+//                Spacer().frame(width: 5)
+//                Image(systemName: "chevron.down")
+//                    .font(.system(size: 12, weight: .semibold))
+//            }
+//        }
+//        .transition(.scale)
+//        .animation(.interactiveSpring(), value: selectedUnitString)
+//        .foregroundColor(foregroundColor)
+//        .padding(.leading, 10)
+//        .padding(.trailing, 10)
+//        .padding(.vertical, 3)
+//        .background(backgroundView)
+//        .padding(.vertical, Self.PaddingTapTargetVertical)
+//        .contentShape(Rectangle())
+//        .grayscale(singleOption ? 1.0 : 0.0)
+//        .disabled(singleOption)
+//    }
 
     @ViewBuilder
     var backgroundView: some View {
