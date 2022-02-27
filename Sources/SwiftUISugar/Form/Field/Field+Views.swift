@@ -42,7 +42,7 @@ extension Field {
     @ViewBuilder
     func selectedOptionText(singleOption: Bool = false) -> some View {
         HStack(spacing: 0) {
-            VStack (alignment: value == nil ? .trailing : .leading) {
+            VStack(alignment: value == nil ? .trailing : .leading, spacing: 0) {
                 Text(selectedUnitString)
                     .font(.callout)
                     .multilineTextAlignment(.leading)
@@ -64,12 +64,12 @@ extension Field {
 
                 }
             }
-//            if !singleOption {
-//                Spacer().frame(width: 5)
-//                Image(systemName: "chevron.down")
-//                    .font(.system(size: 12, weight: .semibold))
-//                    .foregroundColor(Color(.tertiaryLabel))
-//            }
+            if !singleOption {
+                Spacer().frame(width: 5)
+                Image(systemName: "chevron.down")
+                    .font(.system(size: 12, weight: .semibold))
+                    .foregroundColor(Color(.tertiaryLabel))
+            }
         }
         .transition(.scale)
         .animation(.interactiveSpring(), value: selectedUnitString)
