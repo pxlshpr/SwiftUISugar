@@ -49,17 +49,27 @@ extension Field {
                     .foregroundColor(Color(.label))
                 if let subtitle = subtitle {
                     Text(subtitle)
+//                        .font(.subheadline)
+//                        .multilineTextAlignment(.leading)
+//                        .foregroundColor(Color(.secondaryLabel))
                         .font(.subheadline)
-                        .multilineTextAlignment(.leading)
                         .foregroundColor(Color(.secondaryLabel))
+                        .padding(.vertical, 3)
+                        .padding(.horizontal, 7)
+                        .fixedSize(horizontal: false, vertical: true)
+                        .background(
+                            RoundedRectangle(cornerRadius: 7.0)
+                                .fill(Color(.secondarySystemFill))
+                        )
+
                 }
             }
-            if !singleOption {
-                Spacer().frame(width: 5)
-                Image(systemName: "chevron.down")
-                    .font(.system(size: 12, weight: .semibold))
-                    .foregroundColor(Color(.tertiaryLabel))
-            }
+//            if !singleOption {
+//                Spacer().frame(width: 5)
+//                Image(systemName: "chevron.down")
+//                    .font(.system(size: 12, weight: .semibold))
+//                    .foregroundColor(Color(.tertiaryLabel))
+//            }
         }
         .transition(.scale)
         .animation(.interactiveSpring(), value: selectedUnitString)
