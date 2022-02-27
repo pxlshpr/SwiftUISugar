@@ -34,13 +34,46 @@ extension Field {
             if units.count > 1 {
                 menu(for: units)
             } else {
-                unitButtonText(forSingleUnit: true)
+                selectedOptionText(singleOption: true)
             }
         }
     }
 
     @ViewBuilder
-    func unitButtonText(forSingleUnit: Bool = false) -> some View {
+    func selectedOptionText(singleOption: Bool = false) -> some View {
+        HStack(spacing: 0) {
+            VStack (alignment: value == nil ? .trailing : .leading) {
+                Text(selectedUnitString)
+                    .font(.headline)
+                    .multilineTextAlignment(.leading)
+                    .foregroundColor(Color(.label))
+                if let subtitle = subtitle {
+                    Text(subtitle)
+                        .font(.subheadline)
+                        .multilineTextAlignment(.leading)
+                        .foregroundColor(Color(.secondaryLabel))
+                }
+            }
+            if !singleOption {
+                Spacer().frame(width: 5)
+                Image(systemName: "chevron.down")
+                    .font(.system(size: 12, weight: .semibold))
+            }
+        }
+        .transition(.scale)
+        .animation(.interactiveSpring(), value: selectedUnitString)
+        .padding(.leading, 10)
+        .padding(.trailing, 10)
+        .padding(.vertical, 3)
+//        .background(backgroundView)
+        .padding(.vertical, Self.PaddingTapTargetVertical)
+        .contentShape(Rectangle())
+        .grayscale(singleOption ? 1.0 : 0.0)
+        .disabled(singleOption)
+    }
+    
+    @ViewBuilder
+    func selectedOptionText_legacy(singleOption: Bool = false) -> some View {
         HStack(spacing: 0) {
             VStack (alignment: value == nil ? .trailing : .leading) {
                 Text(selectedUnitString)
@@ -52,7 +85,7 @@ extension Field {
                         .multilineTextAlignment(.leading)
                 }
             }
-            if !forSingleUnit {
+            if !singleOption {
                 Spacer().frame(width: 5)
                 Image(systemName: "chevron.down")
                     .font(.system(size: 12, weight: .semibold))
@@ -67,8 +100,8 @@ extension Field {
         .background(backgroundView)
         .padding(.vertical, Self.PaddingTapTargetVertical)
         .contentShape(Rectangle())
-        .grayscale(forSingleUnit ? 1.0 : 0.0)
-        .disabled(forSingleUnit)
+        .grayscale(singleOption ? 1.0 : 0.0)
+        .disabled(singleOption)
     }
 
     @ViewBuilder
