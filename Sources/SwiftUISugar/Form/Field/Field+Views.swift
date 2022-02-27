@@ -44,7 +44,7 @@ extension Field {
         HStack(spacing: 0) {
             VStack (alignment: value == nil ? .trailing : .leading) {
                 Text(selectedUnitString)
-                    .font(.headline)
+                    .font(.callout)
                     .multilineTextAlignment(.leading)
                     .foregroundColor(Color(.label))
                 if let subtitle = subtitle {
@@ -65,7 +65,7 @@ extension Field {
         .padding(.leading, 10)
         .padding(.trailing, 10)
         .padding(.vertical, 3)
-//        .background(backgroundView)
+        .background(backgroundView)
         .padding(.vertical, Self.PaddingTapTargetVertical)
         .contentShape(Rectangle())
         .grayscale(singleOption ? 1.0 : 0.0)
@@ -77,7 +77,7 @@ extension Field {
         HStack(spacing: 0) {
             VStack (alignment: value == nil ? .trailing : .leading) {
                 Text(selectedUnitString)
-                    .font(.callout)
+                    .font(.headline)
                     .multilineTextAlignment(.leading)
                 if let subtitle = subtitle {
                     Text(subtitle)
@@ -89,7 +89,6 @@ extension Field {
                 Spacer().frame(width: 5)
                 Image(systemName: "chevron.down")
                     .font(.system(size: 12, weight: .semibold))
-                    .foregroundColor(Color(.secondaryLabel))
             }
         }
         .transition(.scale)
