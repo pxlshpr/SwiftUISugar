@@ -42,7 +42,7 @@ extension Field {
     @ViewBuilder
     func selectedOptionText(singleOption: Bool = false) -> some View {
         HStack(spacing: 0) {
-            VStack(alignment: value == nil ? .trailing : .leading, spacing: 0) {
+            VStack(alignment: value == nil ? .trailing : .leading, spacing: 3) {
                 Text(selectedUnitString)
                     .font(.headline)
                     .multilineTextAlignment(.leading)
