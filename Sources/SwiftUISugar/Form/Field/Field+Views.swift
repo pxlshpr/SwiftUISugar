@@ -46,12 +46,12 @@ extension Field {
                 Text(selectedUnitString)
                     .font(.callout)
                     .multilineTextAlignment(.leading)
-                    .foregroundColor(Color(.secondaryLabel))
+                    .foregroundColor(Color(.label))
                 if let subtitle = subtitle {
                     Text(subtitle)
                         .font(.subheadline)
                         .multilineTextAlignment(.leading)
-                        .foregroundColor(Color(.tertiaryLabel))
+                        .foregroundColor(Color(.secondaryLabel))
                 }
             }
             if !singleOption {
@@ -65,7 +65,7 @@ extension Field {
         .padding(.leading, 10)
         .padding(.trailing, 10)
         .padding(.vertical, 3)
-        .background(backgroundView)
+//        .background(backgroundView)
         .padding(.vertical, Self.PaddingTapTargetVertical)
         .contentShape(Rectangle())
         .grayscale(singleOption ? 1.0 : 0.0)
