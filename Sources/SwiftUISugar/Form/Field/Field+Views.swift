@@ -77,7 +77,7 @@ extension Field {
         HStack(spacing: 0) {
             VStack (alignment: value == nil ? .trailing : .leading) {
                 Text(selectedUnitString)
-                    .font(.headline)
+                    .font(.callout)
                     .multilineTextAlignment(.leading)
                 if let subtitle = subtitle {
                     Text(subtitle)
@@ -89,6 +89,7 @@ extension Field {
                 Spacer().frame(width: 5)
                 Image(systemName: "chevron.down")
                     .font(.system(size: 12, weight: .semibold))
+                    .foregroundColor(Color(.secondaryLabel))
             }
         }
         .transition(.scale)
