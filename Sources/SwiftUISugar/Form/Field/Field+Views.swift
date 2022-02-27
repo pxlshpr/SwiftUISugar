@@ -58,6 +58,7 @@ extension Field {
                 Spacer().frame(width: 5)
                 Image(systemName: "chevron.down")
                     .font(.system(size: 12, weight: .semibold))
+                    .foregroundColor(Color(.tertiaryLabel))
             }
         }
         .transition(.scale)
@@ -151,7 +152,7 @@ extension Field {
             }
         } else {
             Text(label)
-                .foregroundColor(Color(.label))
+                .foregroundColor(Color(.secondaryLabel))
         }
     }
     
