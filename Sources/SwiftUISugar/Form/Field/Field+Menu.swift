@@ -33,14 +33,11 @@ extension Field {
                 }
             }
         } label: {
-            if value != nil {
-                selectedOptionText()
-            } else {
-                HStack {
-                    labelsLayer
+            HStack {
+                if value == nil {
                     Spacer()
-                    selectedOptionText()
                 }
+                selectedOptionText()
             }
         }
         .onTapGesture {

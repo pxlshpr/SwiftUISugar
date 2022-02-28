@@ -34,7 +34,13 @@ extension Field {
                 }
             }
         } else {
-            menu(for: units)
+            ZStack {
+                HStack {
+                    labelsLayer
+                    Spacer()
+                }
+                menu(for: units)
+            }
         }
     }
 
