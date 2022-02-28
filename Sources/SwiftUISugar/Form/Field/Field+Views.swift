@@ -64,7 +64,7 @@ extension Field {
     var secondaryText: some View {
         if let subtitle = subtitle {
             Text(subtitle)
-                .fontWeight(selectorStyle == .prominent ? .regular : .bold)
+                .fontWeight(selectorStyle == .prominent ? .regular : .light)
                 .multilineTextAlignment(.leading)
                 .if(selectorStyle == .prominent) { view in
                     view.font(.subheadline)
