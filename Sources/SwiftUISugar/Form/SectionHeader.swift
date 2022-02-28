@@ -5,21 +5,25 @@ public struct SectionHeader: View {
     var isEditing: Binding<Bool>?
     var imageName: Binding<String>?
     @Binding var title: String
+    var titlePrefix: Binding<String>?
 
-    public init(_ title: String, imageName: String? = nil, isEditing: Binding<Bool>? = nil) {
+    public init(_ title: String, prefix: String? = nil, imageName: String? = nil, isEditing: Binding<Bool>? = nil) {
         self.init(.constant(title),
+                  prefix: prefix != nil ? .constant(prefix!) : nil,
                   imageName: imageName != nil ? .constant(imageName!) : nil,
                   isEditing: isEditing)
     }
 
-    public init(_ title: Binding<String>, imageName: String? = nil, isEditing: Binding<Bool>? = nil) {
+    public init(_ title: Binding<String>, prefix: Binding<String>? = nil, imageName: String? = nil, isEditing: Binding<Bool>? = nil) {
         self.init(title,
+                  prefix: prefix,
                   imageName: imageName != nil ? .constant(imageName!) : nil,
                   isEditing: isEditing)
     }
 
-    public init(_ title: Binding<String>, imageName: Binding<String>? = nil, isEditing: Binding<Bool>? = nil) {
+    public init(_ title: Binding<String>, prefix: Binding<String>? = nil, imageName: Binding<String>? = nil, isEditing: Binding<Bool>? = nil) {
         self._title = title
+        self.titlePrefix = prefix
         self.imageName = imageName
         self.isEditing = isEditing
     }
@@ -40,12 +44,20 @@ public struct SectionHeader: View {
         HStack {
             if let imageName = imageName?.wrappedValue {
                 Image(systemName: imageName)
-                    .foregroundColor(Color.gray)
+                    .foregroundColor(Color(.tertiaryLabel))
+            }
+            if let titlePrefix = titlePrefix {
+                Text(titlePrefix.wrappedValue)
+                    .foregroundColor(Color(.tertiaryLabel))
             }
             Text(title)
-                .textCase(.none)
-                .foregroundColor(Color.gray)
+                .foregroundColor(Color(.secondaryLabel))
         }
+        .textCase(.none)
+        .font(.subheadline)
+        .lineLimit(1)
+        .minimumScaleFactor(0.2)
+//        .multilineTextAlignment(.leading)
     }
     
     struct EditButton: View {
