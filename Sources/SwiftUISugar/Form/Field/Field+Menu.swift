@@ -4,7 +4,8 @@ import SwiftHaptics
 extension Field {
 
     @ViewBuilder
-    func menuButtonLabel(for option: SelectionOption, withTitle title: String) -> some View {
+    func menuButtonLabel(for option: SelectionOption) -> some View {
+        let title = title(for: option)
         if let systemImage = contentProvider?.systemImage(for: option) {
             Label(title, systemImage: systemImage)
         } else if let systemImage = option.systemImage {
@@ -20,7 +21,7 @@ extension Field {
             selectedUnit?.wrappedValue = option
             onUnitChanged?(option)
         }) {
-            menuButtonLabel(for: option, withTitle: unitString(for: option))
+            menuButtonLabel(for: option)
         }
     }
 
@@ -61,7 +62,7 @@ extension Field {
                 }
             }
         } label: {
-            menuButtonLabel(for: option, withTitle: title(for: option))
+            menuButtonLabel(for: option)
         }
         .onTapGesture {
             Haptics.feedback(style: .soft)
@@ -80,7 +81,7 @@ extension Field {
                 }
             }
         } label: {
-            menuButtonLabel(for: option, withTitle: title(for: option))
+            menuButtonLabel(for: option)
         }
         .onTapGesture {
             Haptics.feedback(style: .soft)

@@ -49,7 +49,7 @@ extension Field {
     
     @ViewBuilder
     var primaryText: some View {
-        Text(selectedUnitString)
+        Text(title)
             .multilineTextAlignment(.leading)
             .if(selectorStyle == .prominent) { view in
                 view.font(.headline)
@@ -109,7 +109,7 @@ extension Field {
             chevron
         }
         .transition(.scale)
-        .animation(.interactiveSpring(), value: selectedUnitString)
+        .animation(.interactiveSpring(), value: title)
         .padding(.leading, 10)
         .if(selectorStyle == .prominent, transform: { view in
             view
@@ -214,9 +214,9 @@ extension Field {
     var unitText: some View {
         if let subtitle = subtitle {
             VStack(alignment: .leading) {
-                Text(selectedUnitString)
+                Text(title)
                     .foregroundColor(unitTextColor)
-                    .animation(.interactiveSpring(), value: selectedUnitString)
+                    .animation(.interactiveSpring(), value: title)
                 Text(subtitle)
                     .foregroundColor(unitTextColor)
                     .font(.caption2)
@@ -224,9 +224,9 @@ extension Field {
             }
             .foregroundColor(unitTextColor)
         } else {
-            Text(selectedUnitString)
+            Text(title)
                 .foregroundColor(unitTextColor)
-                .animation(.interactiveSpring(), value: selectedUnitString)
+                .animation(.interactiveSpring(), value: title)
         }
     }
 }
