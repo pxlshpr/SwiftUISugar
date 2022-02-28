@@ -24,22 +24,17 @@ extension Field {
 
     @ViewBuilder
     func menuField(for units: Binding<[SelectionOption]>) -> some View {
-        if value != nil {
-            HStack {
+        HStack {
+            if value != nil {
                 field
-                if units.count > 1 {
-                    menu(for: units)
-                } else {
-                    selectedOptionText(singleOption: true)
-                }
+            } else {
+                labelsLayer
+                Spacer()
             }
-        } else {
-            ZStack {
-                HStack {
-                    labelsLayer
-                    Spacer()
-                }
+            if units.count > 1 {
                 menu(for: units)
+            } else {
+                selectedOptionText(singleOption: true)
             }
         }
     }

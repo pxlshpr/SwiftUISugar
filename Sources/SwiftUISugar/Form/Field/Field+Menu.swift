@@ -33,12 +33,7 @@ extension Field {
                 }
             }
         } label: {
-            HStack {
-                if value == nil {
-                    Spacer()
-                }
-                selectedOptionText()
-            }
+            selectedOptionText()
         }
         .onTapGesture {
             Haptics.feedback(style: .soft)
