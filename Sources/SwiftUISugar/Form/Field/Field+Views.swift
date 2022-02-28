@@ -105,12 +105,14 @@ extension Field {
         HStack(spacing: 0) {
             VStack(alignment: textAlignment, spacing: textVerticalSpacing) {
                 primaryText
+                    .transition(.scale)
+                    .animation(.interactiveSpring(), value: title)
                 secondaryText
+                    .transition(.scale)
+                    .animation(.interactiveSpring(), value: title)
             }
             chevron
         }
-        .transition(.scale)
-        .animation(.easeInOut, value: title)
         .foregroundColor(foregroundColor)
         .padding(.leading, 10)
         .if(selectorStyle == .prominent, transform: { view in
