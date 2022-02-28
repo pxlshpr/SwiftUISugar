@@ -33,7 +33,10 @@ extension Field {
             isPlural = doubleValue > 1
         }
         if forMenu {
-            return contentProvider?.menuTitle(for: option, isPlural: isPlural) ?? option.menuTitle(isPlural: isPlural) ?? "Unsupported"
+            return contentProvider?.menuTitle(for: option, isPlural: isPlural)
+            ?? option.menuTitle(isPlural: isPlural)
+            ?? contentProvider?.title(for: option, isPlural: isPlural)
+            ?? option.title(isPlural: isPlural) ?? "Unsupported"
         } else {
             return contentProvider?.title(for: option, isPlural: isPlural) ?? option.title(isPlural: isPlural) ?? "Unsupported"
         }
