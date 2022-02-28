@@ -57,6 +57,7 @@ extension Field {
             .if(selectorStyle == .plain) { view in
                 view.font(.subheadline)
             }
+            .minimumScaleFactor(0.1)
     }
     
     @ViewBuilder
@@ -79,6 +80,7 @@ extension Field {
                                 .fill(Color(.secondarySystemFill))
                         )
                 }
+                .minimumScaleFactor(0.1)
         }
     }
     
