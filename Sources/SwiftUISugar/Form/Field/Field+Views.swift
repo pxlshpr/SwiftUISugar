@@ -5,7 +5,7 @@ extension Field {
     @ViewBuilder
     public var body: some View {
         if let units = units {
-            fieldWithMenu(for: units)
+            menuField(for: units)
         } else {
             field
         }
@@ -23,19 +23,18 @@ extension Field {
     }
 
     @ViewBuilder
-    func fieldWithMenu(for units: Binding<[SelectionOption]>) -> some View {
-        HStack {
-            if value != nil {
+    func menuField(for units: Binding<[SelectionOption]>) -> some View {
+        if value != nil {
+            HStack {
                 field
-            } else {
-                labelsLayer
-                Spacer()
+                if units.count > 1 {
+                    menu(for: units)
+                } else {
+                    selectedOptionText(singleOption: true)
+                }
             }
-            if units.count > 1 {
-                menu(for: units)
-            } else {
-                selectedOptionText(singleOption: true)
-            }
+        } else {
+            menu(for: units)
         }
     }
 
