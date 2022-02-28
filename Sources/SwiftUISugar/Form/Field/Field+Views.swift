@@ -64,12 +64,13 @@ extension Field {
     var secondaryText: some View {
         if let subtitle = subtitle {
             Text(subtitle)
+                .fontWeight(selectorStyle == .prominent ? .bold : .regular)
                 .multilineTextAlignment(.leading)
                 .if(selectorStyle == .prominent) { view in
                     view.font(.subheadline)
                 }
                 .if(selectorStyle == .plain) { view in
-                    view.font(.caption2)
+                    view.font(.footnote)
                         .foregroundColor(Color(.secondaryLabel))
                         .padding(.vertical, 3)
                         .padding(.horizontal, 7)
