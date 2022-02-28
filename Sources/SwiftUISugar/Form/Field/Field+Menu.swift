@@ -22,11 +22,10 @@ extension Field {
         Menu {
             ForEach(options.indices, id: \.self) { index in
                 let option = options.wrappedValue[index]
-                if let provider = contentProvider, provider.shouldPlaceDividerBefore(option, within: options.wrappedValue)
-                {
+                if let _ = option as? SelectionDivider {
+//                if let provider = contentProvider, provider.shouldPlaceDividerBefore(option, within: options.wrappedValue)
                     Divider()
-                }
-                if option.isGroup, let subOptions = option.subOptions {
+                } else if option.isGroup, let subOptions = option.subOptions {
                     secondaryMenu(for: subOptions, option: option)
                 } else {
                     menuButton(for: option)
@@ -45,11 +44,11 @@ extension Field {
         Menu {
             ForEach(options.indices, id: \.self) { index in
                 let option = options[index]
-                if let provider = contentProvider, provider.shouldPlaceDividerBefore(option, within: options)
-                {
+                if let _ = option as? SelectionDivider {
+//                if let provider = contentProvider, provider.shouldPlaceDividerBefore(option, within: options)
+//                {
                     Divider()
-                }
-                if option.isGroup, let subOptions = option.subOptions {
+                } else if option.isGroup, let subOptions = option.subOptions {
                     tertiaryMenu(for: subOptions, option: option)
                 } else {
                     menuButton(for: option)
@@ -72,11 +71,13 @@ extension Field {
         Menu {
             ForEach(options.indices, id: \.self) { index in
                 let option = options[index]
-                if let provider = contentProvider, provider.shouldPlaceDividerBefore(option, within: options)
-                {
+                if let _ = option as? SelectionDivider {
+//                if let provider = contentProvider, provider.shouldPlaceDividerBefore(option, within: options)
+//                {
                     Divider()
+                } else {
+                    menuButton(for: option)
                 }
-                menuButton(for: option)
             }
         } label: {
             if let systemImage = contentProvider?.systemImage(for: option) {
