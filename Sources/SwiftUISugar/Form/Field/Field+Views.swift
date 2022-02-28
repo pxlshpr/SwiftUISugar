@@ -53,11 +53,9 @@ extension Field {
             .multilineTextAlignment(.leading)
             .if(selectorStyle == .prominent) { view in
                 view.font(.headline)
-                    .foregroundColor(.white)
             }
             .if(selectorStyle == .plain) { view in
                 view.font(.subheadline)
-                    .foregroundColor(.accentColor)
             }
     }
     
@@ -111,6 +109,7 @@ extension Field {
         }
         .transition(.scale)
         .animation(.interactiveSpring(), value: title)
+        .foregroundColor(foregroundColor)
         .padding(.leading, 10)
         .if(selectorStyle == .prominent, transform: { view in
             view

@@ -37,9 +37,9 @@ extension Field {
     
     //MARK: - Colors
     
-//    var foregroundColor: Color {
-//        colorScheme == .light ? .accentColor : .white
-//    }
+    var foregroundColor: Color {
+        colorScheme == .light ? .accentColor : .white
+    }
 
     var pillBackgroundColor: Color {
         colorScheme == .light ? Color(hex: "E7E1FF") : .accentColor
