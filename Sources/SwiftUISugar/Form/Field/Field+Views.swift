@@ -50,7 +50,14 @@ extension Field {
     @ViewBuilder
     var primaryText: some View {
         Text(selectedUnitString)
-            .font(.headline)
+            .if(selectorStyle == .prominent, transform: { view in
+                view
+                    .font(.headline)
+            })
+            .if(selectorStyle == .plain, transform: { view in
+                view
+                    .font(.subheadline)
+            })
             .multilineTextAlignment(.leading)
             .if(selectorStyle == .plain, transform: { view in
                 view.foregroundColor(Color.accentColor)
