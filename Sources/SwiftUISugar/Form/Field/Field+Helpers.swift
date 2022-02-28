@@ -10,30 +10,29 @@ extension Field {
     //MARK: - Strings
     
     func title(for option: SelectionOption) -> String {
-        contentProvider?.title(for: option, isPlural: false) ?? "Unsupported Option"
+        contentProvider?.title(for: option, isPlural: false)
+        ?? option.title(isPlural: false)
+        ?? "Unsupported Option"
     }
 
     var subtitle: String? {
         guard let unit = selectedUnit?.wrappedValue else { return nil }
         return contentProvider?.subtitle(for: unit, isPlural: isPlural)
+        ?? unit.subtitle(isPlural: isPlural)
     }
 
     var selectedUnitString: String {
-        guard let selectedUnit = selectedUnit?.wrappedValue else {
-            return ""
-        }
+        guard let selectedUnit = selectedUnit?.wrappedValue else { return "" }
         return unitString(for: selectedUnit)
     }
 
     func unitString(for unit: SelectionOption?) -> String {
-        guard let unit = unit, let contentProvider = contentProvider else {
-            return ""
-        }
+        guard let unit = unit, let contentProvider = contentProvider else { return "" }
+        var isPlural = false
         if let value = value, let doubleValue = Double(value.wrappedValue) {
-            return contentProvider.title(for: unit, isPlural: doubleValue > 1)
-        } else {
-            return contentProvider.title(for: unit, isPlural: false)
+            isPlural = doubleValue > 1
         }
+        return contentProvider.title(for: unit, isPlural: isPlural) ?? unit.title(isPlural: isPlural) ?? ""
     }
     
     //MARK: - Colors

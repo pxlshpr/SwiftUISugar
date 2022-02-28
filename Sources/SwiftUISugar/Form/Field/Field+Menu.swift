@@ -4,26 +4,34 @@ import SwiftHaptics
 extension Field {
 
     @ViewBuilder
+    func menuButtonLabel(for option: SelectionOption, withTitle title: String) -> some View {
+        if let systemImage = contentProvider?.systemImage(for: option) {
+            Label(title, systemImage: systemImage)
+        } else if let systemImage = option.systemImage {
+            Label(title, systemImage: systemImage)
+        } else {
+            Text(title)
+        }
+    }
+    
+    @ViewBuilder
     func menuButton(for option: SelectionOption) -> some View {
         Button(action: {
             selectedUnit?.wrappedValue = option
             onUnitChanged?(option)
         }) {
-            if let systemImage = contentProvider?.systemImage(for: option) {
-                Label(unitString(for: option), systemImage: systemImage)
-            } else {
-                Text(unitString(for: option))
-            }
+            menuButtonLabel(for: option, withTitle: unitString(for: option))
         }
     }
 
+    //MARK: - Menus
+    
     @ViewBuilder
     func menu(for options: Binding<[SelectionOption]>) -> some View {
         Menu {
             ForEach(options.indices, id: \.self) { index in
                 let option = options.wrappedValue[index]
                 if let _ = option as? SelectionDivider {
-//                if let provider = contentProvider, provider.shouldPlaceDividerBefore(option, within: options.wrappedValue)
                     Divider()
                 } else if option.isGroup, let subOptions = option.subOptions {
                     secondaryMenu(for: subOptions, option: option)
@@ -45,8 +53,6 @@ extension Field {
             ForEach(options.indices, id: \.self) { index in
                 let option = options[index]
                 if let _ = option as? SelectionDivider {
-//                if let provider = contentProvider, provider.shouldPlaceDividerBefore(option, within: options)
-//                {
                     Divider()
                 } else if option.isGroup, let subOptions = option.subOptions {
                     tertiaryMenu(for: subOptions, option: option)
@@ -55,11 +61,7 @@ extension Field {
                 }
             }
         } label: {
-            if let systemImage = contentProvider?.systemImage(for: option) {
-                Label(title(for: option), systemImage: systemImage)
-            } else {
-                Text(title(for: option))
-            }
+            menuButtonLabel(for: option, withTitle: title(for: option))
         }
         .onTapGesture {
             Haptics.feedback(style: .soft)
@@ -72,19 +74,13 @@ extension Field {
             ForEach(options.indices, id: \.self) { index in
                 let option = options[index]
                 if let _ = option as? SelectionDivider {
-//                if let provider = contentProvider, provider.shouldPlaceDividerBefore(option, within: options)
-//                {
                     Divider()
                 } else {
                     menuButton(for: option)
                 }
             }
         } label: {
-            if let systemImage = contentProvider?.systemImage(for: option) {
-                Label(title(for: option), systemImage: systemImage)
-            } else {
-                Text(title(for: option))
-            }
+            menuButtonLabel(for: option, withTitle: title(for: option))
         }
         .onTapGesture {
             Haptics.feedback(style: .soft)
