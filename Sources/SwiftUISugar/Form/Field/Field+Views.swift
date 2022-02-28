@@ -108,7 +108,7 @@ extension Field {
             chevron
         }
         .transition(.scale)
-        .animation(.interactiveSpring(), value: title)
+        .animation(.easeInOut, value: title)
         .foregroundColor(foregroundColor)
         .padding(.leading, 10)
         .if(selectorStyle == .prominent, transform: { view in
