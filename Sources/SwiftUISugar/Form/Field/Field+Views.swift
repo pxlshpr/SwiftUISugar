@@ -34,25 +34,37 @@ extension Field {
             if units.count > 1 {
                 menu(for: units)
             } else {
-                selectedOptionText(singleOption: true)
+                selectedOptionText
             }
         }
     }
 
+    var textAlignment: HorizontalAlignment {
+        value == nil ? .trailing : .leading
+    }
+    
+    var textVerticalSpacing: CGFloat {
+        3
+    }
+    
     @ViewBuilder
-    func selectedOptionText(singleOption: Bool = false) -> some View {
-        HStack(spacing: 0) {
-            VStack(alignment: value == nil ? .trailing : .leading, spacing: 3) {
-                Text(selectedUnitString)
-                    .font(.headline)
-                    .multilineTextAlignment(.leading)
-                    .foregroundColor(Color.accentColor)
-                if let subtitle = subtitle {
-                    Text(subtitle)
-//                        .font(.subheadline)
-//                        .multilineTextAlignment(.leading)
-//                        .foregroundColor(Color(.secondaryLabel))
-                        .font(.subheadline)
+    var primaryText: some View {
+        Text(selectedUnitString)
+            .font(.headline)
+            .multilineTextAlignment(.leading)
+            .if(selectorStyle == .plain, transform: { view in
+                view.foregroundColor(Color.accentColor)
+            })
+    }
+    
+    @ViewBuilder
+    var secondaryText: some View {
+        if let subtitle = subtitle {
+            Text(subtitle)
+                .font(.subheadline)
+                .multilineTextAlignment(.leading)
+                .if(selectorStyle == .plain, transform: { view in
+                    view
                         .foregroundColor(Color(.secondaryLabel))
                         .padding(.vertical, 3)
                         .padding(.horizontal, 7)
@@ -61,26 +73,52 @@ extension Field {
                             RoundedRectangle(cornerRadius: 7.0)
                                 .fill(Color(.secondarySystemFill))
                         )
-
-                }
+                })
+        }
+    }
+    
+    var haveOptions: Bool {
+        (units?.wrappedValue.count ?? 1) > 1
+    }
+    
+    @ViewBuilder
+    var chevron: some View {
+        if haveOptions {
+            Spacer().frame(width: 5)
+            Image(systemName: "chevron.down")
+                .font(.system(size: 12, weight: .semibold))
+                .if(selectorStyle == .plain, transform: { view in
+                    view
+                        .foregroundColor(Color(.tertiaryLabel))
+                })
+        }
+    }
+    
+    @ViewBuilder
+    var selectedOptionText: some View {
+        HStack(spacing: 0) {
+            VStack(alignment: textAlignment, spacing: textVerticalSpacing) {
+                primaryText
+                secondaryText
             }
-            if !singleOption {
-                Spacer().frame(width: 5)
-                Image(systemName: "chevron.down")
-                    .font(.system(size: 12, weight: .semibold))
-                    .foregroundColor(Color(.tertiaryLabel))
-            }
+            chevron
         }
         .transition(.scale)
         .animation(.interactiveSpring(), value: selectedUnitString)
         .padding(.leading, 10)
-//        .padding(.trailing, 10)
+        .if(selectorStyle == .prominent, transform: { view in
+            view
+                .padding(.trailing, 10)
+        })
         .padding(.vertical, 3)
-//        .background(backgroundView)
+        .if(selectorStyle == .prominent, transform: { view in
+            view
+                .background(backgroundView)
+        })
         .padding(.vertical, Self.PaddingTapTargetVertical)
         .contentShape(Rectangle())
-        .grayscale(singleOption ? 1.0 : 0.0)
-        .disabled(singleOption)
+        .grayscale(haveOptions ? 1.0 : 0.0)
+        .disabled(haveOptions)
     }
     
 //    @ViewBuilder

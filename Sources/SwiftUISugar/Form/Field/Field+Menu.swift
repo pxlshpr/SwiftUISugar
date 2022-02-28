@@ -33,7 +33,7 @@ extension Field {
                 }
             }
         } label: {
-            selectedOptionText()
+            selectedOptionText
         }
         .onTapGesture {
             Haptics.feedback(style: .soft)

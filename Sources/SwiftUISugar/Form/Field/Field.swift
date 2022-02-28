@@ -3,11 +3,17 @@ import SwiftHaptics
 
 public typealias UnitChangedHandler = (SelectionOption) -> Void
 
+public enum SelectorFieldStyle {
+    case plain
+    case prominent
+}
+
 public struct Field: View {
 
     @Binding var label: String
     var value: Binding<String>?
     @State var keyboardType: UIKeyboardType = .default
+    @State var selectorStyle: SelectorFieldStyle
     var contentProvider: FieldContentProvider?
 
     @State var placeholder: String? = nil
@@ -39,6 +45,7 @@ public struct Field: View {
         units: Binding<[SelectionOption]>? = nil,
         selectedUnit: Binding<SelectionOption>? = nil,
         keyboardType: UIKeyboardType = .alphabet,
+        selectorStyle: SelectorFieldStyle = .plain,
         contentProvider: FieldContentProvider? = nil,
         onUnitChanged: UnitChangedHandler? = nil
     ) {
@@ -49,6 +56,7 @@ public struct Field: View {
         self.units = units
         self.selectedUnit = selectedUnit
         self._keyboardType = State(initialValue: keyboardType)
+        self._selectorStyle = State(initialValue: selectorStyle)
         self.onUnitChanged = onUnitChanged
         self.contentProvider = contentProvider
     }
@@ -62,6 +70,7 @@ public struct Field: View {
         units: Binding<[SelectionOption]>? = nil,
         selectedUnit: Binding<SelectionOption>? = nil,
         keyboardType: UIKeyboardType = .alphabet,
+        selectorStyle: SelectorFieldStyle = .plain,
         contentProvider: FieldContentProvider? = nil,
         onUnitChanged: UnitChangedHandler? = nil
     ) {
@@ -72,6 +81,7 @@ public struct Field: View {
             units: units,
             selectedUnit: selectedUnit,
             keyboardType: keyboardType,
+            selectorStyle: selectorStyle,
             contentProvider: contentProvider,
             onUnitChanged: onUnitChanged)
     }
