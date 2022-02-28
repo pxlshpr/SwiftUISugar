@@ -1,6 +1,6 @@
 import SwiftUI
 
-extension View {
+public extension View {
     func animatableFont(size: Double,
                         weight: Font.Weight,
                         design: Font.Design = .default) -> some View {
