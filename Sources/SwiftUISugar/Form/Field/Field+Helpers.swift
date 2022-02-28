@@ -37,9 +37,9 @@ extension Field {
     
     //MARK: - Colors
     
-    var foregroundColor: Color {
-        colorScheme == .light ? .accentColor : .white
-    }
+//    var foregroundColor: Color {
+//        colorScheme == .light ? .accentColor : .white
+//    }
 
     var pillBackgroundColor: Color {
         colorScheme == .light ? Color(hex: "E7E1FF") : .accentColor
@@ -49,7 +49,7 @@ extension Field {
         guard let units = units?.wrappedValue else {
             return Color(.secondaryLabel)
         }
-        return units.count > 1 ? Color.accentColor : Color(.secondaryLabel)
+        return units.count > 1 ? .accentColor : Color(.secondaryLabel)
     }
 
 }

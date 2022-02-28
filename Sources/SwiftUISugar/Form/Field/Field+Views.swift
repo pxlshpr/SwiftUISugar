@@ -56,7 +56,7 @@ extension Field {
             }
             .if(selectorStyle == .plain) { view in
                 view.font(.subheadline)
-                    .foregroundColor(Color.accentColor)
+//                    .foregroundColor(.accentColor)
             }
     }
     
