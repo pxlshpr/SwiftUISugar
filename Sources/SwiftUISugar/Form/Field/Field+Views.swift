@@ -105,10 +105,10 @@ extension Field {
         HStack(spacing: 0) {
             VStack(alignment: textAlignment, spacing: textVerticalSpacing) {
                 primaryText
-                    .transition(.scale)
+//                    .transition(.scale)
                     .animation(.interactiveSpring(), value: title)
                 secondaryText
-                    .transition(.scale)
+//                    .transition(.scale)
                     .animation(.interactiveSpring(), value: title)
             }
             chevron
