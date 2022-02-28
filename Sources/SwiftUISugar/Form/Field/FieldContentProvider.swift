@@ -3,11 +3,15 @@ import Foundation
 public protocol FieldContentProvider {
     func title(for option: SelectionOption, isPlural: Bool) -> String?
     func subtitle(for option: SelectionOption, isPlural: Bool) -> String?
+    func menuTitle(for option: SelectionOption, isPlural: Bool) -> String?
     func systemImage(for option: SelectionOption) -> String?
 }
 
 /// Default implementations
 extension FieldContentProvider {
+    func menuTitle(for option: SelectionOption, isPlural: Bool) -> String? {
+        return nil
+    }
     func title(for option: SelectionOption, isPlural: Bool) -> String? {
         return nil
     }

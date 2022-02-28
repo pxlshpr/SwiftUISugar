@@ -26,13 +26,17 @@ extension Field {
         return title(for: selectedUnit)
     }
 
-    func title(for option: SelectionOption?) -> String {
+    func title(for option: SelectionOption?, forMenu: Bool = false) -> String {
         guard let option = option else { return "Unsupported" }
         var isPlural = true
         if let value = value, let doubleValue = Double(value.wrappedValue) {
             isPlural = doubleValue > 1
         }
-        return contentProvider?.title(for: option, isPlural: isPlural) ?? option.title(isPlural: isPlural) ?? "Unsupported"
+        if forMenu {
+            return contentProvider?.menuTitle(for: option, isPlural: isPlural) ?? option.menuTitle(isPlural: isPlural) ?? "Unsupported"
+        } else {
+            return contentProvider?.title(for: option, isPlural: isPlural) ?? option.title(isPlural: isPlural) ?? "Unsupported"
+        }
     }
     
     //MARK: - Colors

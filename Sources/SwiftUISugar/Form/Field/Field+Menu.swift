@@ -5,7 +5,7 @@ extension Field {
 
     @ViewBuilder
     func menuButtonLabel(for option: SelectionOption) -> some View {
-        let title = title(for: option)
+        let title = title(for: option, forMenu: true)
         if let systemImage = contentProvider?.systemImage(for: option) {
             Label(title, systemImage: systemImage)
         } else if let systemImage = option.systemImage {
