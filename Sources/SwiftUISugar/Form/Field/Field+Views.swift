@@ -77,13 +77,13 @@ extension Field {
         }
     }
     
-    var haveOptions: Bool {
+    var haveMultipleOptions: Bool {
         (units?.wrappedValue.count ?? 1) > 1
     }
     
     @ViewBuilder
     var chevron: some View {
-        if haveOptions {
+        if haveMultipleOptions {
             Spacer().frame(width: 5)
             Image(systemName: "chevron.down")
                 .font(.system(size: 12, weight: .semibold))
@@ -117,8 +117,8 @@ extension Field {
         })
         .padding(.vertical, Self.PaddingTapTargetVertical)
         .contentShape(Rectangle())
-        .grayscale(haveOptions ? 1.0 : 0.0)
-        .disabled(haveOptions)
+        .grayscale(!haveMultipleOptions ? 1.0 : 0.0)
+        .disabled(!haveMultipleOptions)
     }
     
 //    @ViewBuilder
