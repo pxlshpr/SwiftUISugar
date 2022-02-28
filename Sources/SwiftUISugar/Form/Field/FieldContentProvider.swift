@@ -9,13 +9,13 @@ public protocol FieldContentProvider {
 
 /// Default implementations
 extension FieldContentProvider {
-    func menuTitle(for option: SelectionOption, isPlural: Bool) -> String? {
+    public func menuTitle(for option: SelectionOption, isPlural: Bool) -> String? {
         return nil
     }
-    func title(for option: SelectionOption, isPlural: Bool) -> String? {
+    public func title(for option: SelectionOption, isPlural: Bool) -> String? {
         return nil
     }
-    func subtitle(for option: SelectionOption, isPlural: Bool) -> String? {
+    public func subtitle(for option: SelectionOption, isPlural: Bool) -> String? {
         return nil
     }
     public func systemImage(for option: SelectionOption) -> String? {
