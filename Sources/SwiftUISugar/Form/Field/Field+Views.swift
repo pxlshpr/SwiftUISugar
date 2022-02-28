@@ -50,28 +50,26 @@ extension Field {
     @ViewBuilder
     var primaryText: some View {
         Text(selectedUnitString)
-            .if(selectorStyle == .prominent, transform: { view in
-                view
-                    .font(.headline)
-            })
-            .if(selectorStyle == .plain, transform: { view in
-                view
-                    .font(.subheadline)
-            })
             .multilineTextAlignment(.leading)
-            .if(selectorStyle == .plain, transform: { view in
-                view.foregroundColor(Color.accentColor)
-            })
+            .if(selectorStyle == .prominent) { view in
+                view.font(.headline)
+            }
+            .if(selectorStyle == .plain) { view in
+                view.font(.subheadline)
+                    .foregroundColor(Color.accentColor)
+            }
     }
     
     @ViewBuilder
     var secondaryText: some View {
         if let subtitle = subtitle {
             Text(subtitle)
-                .font(.subheadline)
                 .multilineTextAlignment(.leading)
-                .if(selectorStyle == .plain, transform: { view in
-                    view
+                .if(selectorStyle == .prominent) { view in
+                    view.font(.subheadline)
+                }
+                .if(selectorStyle == .plain) { view in
+                    view.font(.caption2)
                         .foregroundColor(Color(.secondaryLabel))
                         .padding(.vertical, 3)
                         .padding(.horizontal, 7)
@@ -80,7 +78,7 @@ extension Field {
                             RoundedRectangle(cornerRadius: 7.0)
                                 .fill(Color(.secondarySystemFill))
                         )
-                })
+                }
         }
     }
     
@@ -94,10 +92,9 @@ extension Field {
             Spacer().frame(width: 5)
             Image(systemName: "chevron.down")
                 .font(.system(size: 12, weight: .semibold))
-                .if(selectorStyle == .plain, transform: { view in
-                    view
-                        .foregroundColor(Color(.tertiaryLabel))
-                })
+                .if(selectorStyle == .plain) { view in
+                    view.foregroundColor(Color(.tertiaryLabel))
+                }
         }
     }
     
