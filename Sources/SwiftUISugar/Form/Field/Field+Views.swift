@@ -43,7 +43,6 @@ extension Field {
             }
         }
         .onReceive(selectionOptionChanged) { notification in
-            print("⭐️ Selection option changed. Now: \(selectedUnit?.wrappedValue.title(isPlural: false) ?? "nil")")
             refreshMenuBool.toggle()
         }
     }
@@ -210,11 +209,11 @@ extension Field {
                 Text(label)
                     .foregroundColor(value.wrappedValue.count > 0 ? Color(.secondaryLabel) : Color(.tertiaryLabel))
                 Spacer()
-//                if let units = unit {
-//                    Text(units)
-//                        .foregroundColor(value.wrappedValue.count > 0 ? Color(.secondaryLabel) : Color(.tertiaryLabel))
-//                        .multilineTextAlignment(.trailing)
-//                }
+                if let units = unit {
+                    Text(units)
+                        .foregroundColor(value.wrappedValue.count > 0 ? Color(.secondaryLabel) : Color(.tertiaryLabel))
+                        .multilineTextAlignment(.trailing)
+                }
             }
         } else {
             Text(label)
