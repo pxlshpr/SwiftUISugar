@@ -45,7 +45,10 @@ extension Field {
     //MARK: - Colors
     
     var foregroundColor: Color {
-        value == nil || colorScheme == .light ? .accentColor : .white
+        guard selectorStyle != .prominent else {
+            return .white
+        }
+        return colorScheme == .light ? .accentColor : .white
     }
 
     var pillBackgroundColor: Color {
