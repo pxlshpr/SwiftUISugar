@@ -46,9 +46,9 @@ extension Field {
     
     var foregroundColor: Color {
         guard selectorStyle != .prominent else {
-            return .white
+            return colorScheme == .light ? .accentColor : .white
         }
-        return colorScheme == .light ? .accentColor : .white
+        return .accentColor
     }
 
     var pillBackgroundColor: Color {

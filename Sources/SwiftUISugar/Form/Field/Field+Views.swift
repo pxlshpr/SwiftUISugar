@@ -138,7 +138,7 @@ extension Field {
     var backgroundView: some View {
         RoundedRectangle(cornerRadius: 6)
             .fill(pillBackgroundColor)
-//            .overlay(RoundedRectangle(cornerRadius: 6))
+            .overlay(RoundedRectangle(cornerRadius: 6))
     }
 
     @ViewBuilder
