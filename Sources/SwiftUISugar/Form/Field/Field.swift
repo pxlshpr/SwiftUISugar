@@ -27,6 +27,8 @@ public struct Field: View {
     @FocusState var isFocused: Bool
     @Environment(\.colorScheme) var colorScheme
 
+    @State var refreshMenuBool: Bool = false
+    
     /// Constants
     let Padding: CGFloat = 10.0
     let FontSize = 13.0

@@ -37,12 +37,14 @@ extension Field {
             }
             if units.count > 1 {
                 menu(for: units)
+                    .id(refreshMenuBool)
             } else {
                 selectedOptionText
             }
         }
         .onReceive(selectionOptionChanged) { notification in
             print("⭐️ Selection option changed. Now: \(selectedUnit?.wrappedValue.title(isPlural: false) ?? "nil")")
+            refreshMenuBool.toggle()
         }
     }
 
