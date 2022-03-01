@@ -6,26 +6,45 @@ public struct SectionHeader: View {
     var imageName: Binding<String>?
     @Binding var title: String
     var titlePrefix: Binding<String>?
+    var onPrefixTapped: (() -> Void)?
 
-    public init(_ title: String, prefix: String? = nil, imageName: String? = nil, isEditing: Binding<Bool>? = nil) {
+    public init(_ title: String,
+                prefix: String? = nil,
+                imageName: String? = nil,
+                isEditing: Binding<Bool>? = nil,
+                onPrefixTapped: (() -> Void)? = nil
+    ) {
         self.init(.constant(title),
                   prefix: prefix != nil ? .constant(prefix!) : nil,
                   imageName: imageName != nil ? .constant(imageName!) : nil,
-                  isEditing: isEditing)
+                  isEditing: isEditing,
+                  onPrefixTapped: onPrefixTapped)
     }
 
-    public init(_ title: Binding<String>, prefix: Binding<String>? = nil, imageName: String? = nil, isEditing: Binding<Bool>? = nil) {
+    public init(_ title: Binding<String>,
+                prefix: Binding<String>? = nil,
+                imageName: String? = nil,
+                isEditing: Binding<Bool>? = nil,
+                onPrefixTapped: (() -> Void)? = nil
+    ) {
         self.init(title,
                   prefix: prefix,
                   imageName: imageName != nil ? .constant(imageName!) : nil,
-                  isEditing: isEditing)
+                  isEditing: isEditing,
+                  onPrefixTapped: onPrefixTapped)
     }
 
-    public init(_ title: Binding<String>, prefix: Binding<String>? = nil, imageName: Binding<String>? = nil, isEditing: Binding<Bool>? = nil) {
+    public init(_ title: Binding<String>,
+                prefix: Binding<String>? = nil,
+                imageName: Binding<String>? = nil,
+                isEditing: Binding<Bool>? = nil,
+                onPrefixTapped: (() -> Void)? = nil
+    ) {
         self._title = title
         self.titlePrefix = prefix
         self.imageName = imageName
         self.isEditing = isEditing
+        self.onPrefixTapped = onPrefixTapped
     }
     
     @ViewBuilder
@@ -47,8 +66,17 @@ public struct SectionHeader: View {
                     .foregroundColor(Color(.tertiaryLabel))
             }
             if let titlePrefix = titlePrefix {
-                Text(titlePrefix.wrappedValue)
-                    .foregroundColor(Color(.tertiaryLabel))
+                if let onPrefixTapped = onPrefixTapped {
+                    Button {
+                        onPrefixTapped()
+                    } label: {
+                        Text(titlePrefix.wrappedValue)
+                            .foregroundColor(.accentColor)
+                    }
+                } else {
+                    Text(titlePrefix.wrappedValue)
+                        .foregroundColor(Color(.tertiaryLabel))
+                }
             }
             Text(title)
                 .foregroundColor(Color(.secondaryLabel))
