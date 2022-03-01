@@ -35,6 +35,7 @@ extension Field {
     static func menuButton(for option: SelectionOption, value: Binding<String>?, contentProvider: FieldContentProvider?, onOptionSelected: @escaping ((SelectionOption) -> Void)) -> some View {
         Button(action: {
             onOptionSelected(option)
+            NotificationCenter.default.post(name: .selectionOptionChanged, object: nil)
         }) {
             menuButtonLabel(for: option, value: value, contentProvider: contentProvider)
         }

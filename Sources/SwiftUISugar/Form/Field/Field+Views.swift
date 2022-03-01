@@ -1,7 +1,7 @@
 import SwiftUI
 
 extension Notification.Name {
-    public static var selectionOptionChanged: Notification.Name { return .init("selectionOptionChanged") }
+    static var selectionOptionChanged: Notification.Name { return .init("selectionOptionChanged") }
 }
 
 extension Field {
