@@ -10,7 +10,7 @@ public enum SelectorFieldStyle {
 
 public struct Field: View {
 
-    @Binding var label: String
+    var label: Binding<String>?
     var value: Binding<String>?
     @State var keyboardType: UIKeyboardType = .default
     @State var selectorStyle: SelectorFieldStyle
@@ -41,7 +41,7 @@ public struct Field: View {
 
     //MARK: - Initializers
     public init(
-        label: Binding<String>,
+        label: Binding<String>? = nil,
         value: Binding<String>? = nil,
         placeholder: String? = nil,
         unit: String? = nil,
@@ -52,7 +52,7 @@ public struct Field: View {
         contentProvider: FieldContentProvider? = nil,
         onUnitChanged: UnitChangedHandler? = nil
     ) {
-        self._label = label
+        self.label = label
         self.value = value
         self._placeholder = State(initialValue: placeholder)
         self._unit = State(initialValue: unit)
@@ -89,6 +89,26 @@ public struct Field: View {
             contentProvider: contentProvider,
             onUnitChanged: onUnitChanged)
     }
+    
+//    public init(
+//        units: Binding<[SelectionOption]>? = nil,
+//        selectedUnit: Binding<SelectionOption>? = nil,
+//        selectorStyle: SelectorFieldStyle = .plain,
+//        contentProvider: FieldContentProvider? = nil,
+//        onUnitChanged: UnitChangedHandler? = nil
+//    ) {
+//        self.init(
+//            value: value,
+//            placeholder: placeholder,
+//            unit: unit,
+//            units: units,
+//            selectedUnit: selectedUnit,
+//            keyboardType: keyboardType,
+//            selectorStyle: selectorStyle,
+//            contentProvider: contentProvider,
+//            onUnitChanged: onUnitChanged)
+//    }
+
     
     //MARK: - Legacy
 //    public init(

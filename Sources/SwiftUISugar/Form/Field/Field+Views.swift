@@ -1,9 +1,5 @@
 import SwiftUI
 
-extension Notification.Name {
-    static var selectionOptionChanged: Notification.Name { return .init("selectionOptionChanged") }
-}
-
 extension Field {
 
     @ViewBuilder
@@ -29,11 +25,13 @@ extension Field {
     @ViewBuilder
     func menuField(for units: Binding<[SelectionOption]>) -> some View {
         HStack {
-            if value != nil {
-                field
-            } else {
-                labelsLayer
-                Spacer()
+            if label != nil {
+                if value != nil {
+                    field
+                } else {
+                    labelsLayer
+                    Spacer()
+                }
             }
             if units.count > 1 {
                 menu(for: units)
@@ -113,10 +111,8 @@ extension Field {
         HStack(spacing: 0) {
             VStack(alignment: textAlignment, spacing: textVerticalSpacing) {
                 primaryText
-//                     .transition(.scale)
                     .animation(.interactiveSpring(), value: title)
                 secondaryText
-//                    .transition(.scale)
                     .animation(.interactiveSpring(), value: title)
             }
             chevron
@@ -138,38 +134,6 @@ extension Field {
         .disabled(!haveMultipleOptions)
     }
     
-//    @ViewBuilder
-//    func selectedOptionText_legacy(singleOption: Bool = false) -> some View {
-//        HStack(spacing: 0) {
-//            VStack (alignment: value == nil ? .trailing : .leading) {
-//                Text(selectedUnitString)
-//                    .font(.headline)
-//                    .multilineTextAlignment(.leading)
-//                if let subtitle = subtitle {
-//                    Text(subtitle)
-//                        .font(.subheadline)
-//                        .multilineTextAlignment(.leading)
-//                }
-//            }
-//            if !singleOption {
-//                Spacer().frame(width: 5)
-//                Image(systemName: "chevron.down")
-//                    .font(.system(size: 12, weight: .semibold))
-//            }
-//        }
-//        .transition(.scale)
-//        .animation(.interactiveSpring(), value: selectedUnitString)
-//        .foregroundColor(foregroundColor)
-//        .padding(.leading, 10)
-//        .padding(.trailing, 10)
-//        .padding(.vertical, 3)
-//        .background(backgroundView)
-//        .padding(.vertical, Self.PaddingTapTargetVertical)
-//        .contentShape(Rectangle())
-//        .grayscale(singleOption ? 1.0 : 0.0)
-//        .disabled(singleOption)
-//    }
-
     @ViewBuilder
     var backgroundView: some View {
         RoundedRectangle(cornerRadius: 6)
@@ -190,35 +154,39 @@ extension Field {
 
     @ViewBuilder
     var textFieldLayer: some View {
-        HStack {
-            Spacer()
-                .frame(width: label.widthForLabelFont + Padding)
-            textField
-            /// placeholder that simulates the unit being placed on the `labelsLayer` to pad out the space needed
-            if let units = unit {
-                Text(units)
-                    .foregroundColor(Color(.clear))
-                    .multilineTextAlignment(.trailing)
+        if let label = label {
+            HStack {
+                Spacer()
+                    .frame(width: label.wrappedValue.widthForLabelFont + Padding)
+                textField
+                /// placeholder that simulates the unit being placed on the `labelsLayer` to pad out the space needed
+                if let units = unit {
+                    Text(units)
+                        .foregroundColor(Color(.clear))
+                        .multilineTextAlignment(.trailing)
+                }
             }
         }
     }
 
     @ViewBuilder
     var labelsLayer: some View {
-        if let value = value {
-            HStack {
-                Text(label)
-                    .foregroundColor(value.wrappedValue.count > 0 ? Color(.secondaryLabel) : Color(.tertiaryLabel))
-                Spacer()
-                if let units = unit {
-                    Text(units)
+        if let label = label {
+            if let value = value {
+                HStack {
+                    Text(label.wrappedValue)
                         .foregroundColor(value.wrappedValue.count > 0 ? Color(.secondaryLabel) : Color(.tertiaryLabel))
-                        .multilineTextAlignment(.trailing)
+                    Spacer()
+                    if let units = unit {
+                        Text(units)
+                            .foregroundColor(value.wrappedValue.count > 0 ? Color(.secondaryLabel) : Color(.tertiaryLabel))
+                            .multilineTextAlignment(.trailing)
+                    }
                 }
+            } else {
+                Text(label.wrappedValue)
+                    .foregroundColor(Color(.label))
             }
-        } else {
-            Text(label)
-                .foregroundColor(Color(.label))
         }
     }
     
