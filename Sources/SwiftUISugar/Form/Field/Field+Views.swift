@@ -194,11 +194,11 @@ extension Field {
             Spacer()
                 .frame(width: label.widthForLabelFont + Padding)
             textField
-//            if let units = unit {
-//                Text(units)
-//                    .foregroundColor(Color(.clear))
-//                    .multilineTextAlignment(.trailing)
-//            }
+            if let units = unit {
+                Text(units)
+                    .foregroundColor(Color(.clear))
+                    .multilineTextAlignment(.trailing)
+            }
         }
     }
 
