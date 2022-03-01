@@ -69,21 +69,15 @@ public struct SectionHeader: View {
     var titleView: some View {
         HStack {
             if let titlePrefix = titlePrefix {
-                if let onPrefixTapped = onPrefixTapped {
-                    Button {
-                        onPrefixTapped()
-                    } label: {
-                        image
-                        Text(titlePrefix.wrappedValue)
-                    }
-                    .font(.headline)
-                    .foregroundColor(.accentColor)
-                } else {
+                Button {
+                    onPrefixTapped?()
+                } label: {
                     image
-                        .foregroundColor(Color(.tertiaryLabel))
                     Text(titlePrefix.wrappedValue)
-                        .foregroundColor(Color(.tertiaryLabel))
                 }
+                .font(.headline)
+                .foregroundColor(.accentColor)
+                .disabled(onPrefixTapped == nil)
             }
             Text(title)
                 .foregroundColor(Color(.secondaryLabel))
