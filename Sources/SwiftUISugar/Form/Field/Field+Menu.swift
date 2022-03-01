@@ -41,7 +41,7 @@ extension Field {
     }
     
     @ViewBuilder
-    public static func menu<LabelContent: View>(for options: [SelectionOption], label: LabelContent, value: Binding<String>?, contentProvider: FieldContentProvider?, onOptionSelection: @escaping ((SelectionOption) -> Void)) -> some View {
+    public static func menu<LabelContent: View>(for options: [SelectionOption], label: LabelContent, value: Binding<String>?, contentProvider: FieldContentProvider? = nil, onOptionSelection: @escaping ((SelectionOption) -> Void)) -> some View {
         Menu {
             ForEach(options.indices, id: \.self) { index in
                 let option = options[index]
