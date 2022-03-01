@@ -59,21 +59,28 @@ public struct SectionHeader: View {
     }
     
     @ViewBuilder
+    var image: some View {
+        if let imageName = imageName?.wrappedValue {
+            Image(systemName: imageName)
+        }
+    }
+    
+    @ViewBuilder
     var titleView: some View {
         HStack {
-            if let imageName = imageName?.wrappedValue {
-                Image(systemName: imageName)
-                    .foregroundColor(Color(.tertiaryLabel))
-            }
             if let titlePrefix = titlePrefix {
                 if let onPrefixTapped = onPrefixTapped {
                     Button {
                         onPrefixTapped()
                     } label: {
+                        image
                         Text(titlePrefix.wrappedValue)
-                            .foregroundColor(.accentColor)
                     }
+                    .font(.headline)
+                    .foregroundColor(.accentColor)
                 } else {
+                    image
+                        .foregroundColor(Color(.tertiaryLabel))
                     Text(titlePrefix.wrappedValue)
                         .foregroundColor(Color(.tertiaryLabel))
                 }
