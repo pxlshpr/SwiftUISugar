@@ -194,6 +194,7 @@ extension Field {
             Spacer()
                 .frame(width: label.widthForLabelFont + Padding)
             textField
+            /// placeholder that simulates the unit being placed on the `labelsLayer` to pad out the space needed
             if let units = unit {
                 Text(units)
                     .foregroundColor(Color(.clear))
