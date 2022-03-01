@@ -35,6 +35,7 @@ public struct Field: View {
     static var PaddingTapTargetHorizontal: CGFloat = 10.0
     static var PaddingTapTargetVertical: CGFloat = 7.0
 
+    let selectionOptionChanged = NotificationCenter.default.publisher(for: .selectionOptionChanged)
 
     //MARK: - Initializers
     public init(

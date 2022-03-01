@@ -1,5 +1,9 @@
 import SwiftUI
 
+extension Notification.Name {
+    static var selectionOptionChanged: Notification.Name { return .init("selectionOptionChanged") }
+}
+
 extension Field {
 
     @ViewBuilder
@@ -36,6 +40,9 @@ extension Field {
             } else {
                 selectedOptionText
             }
+        }
+        .onReceive(selectionOptionChanged) { notification in
+            print("⭐️ Selection option changed. Now: \(selectedUnit?.wrappedValue.title(isPlural: false) ?? "nil")")
         }
     }
 
