@@ -81,6 +81,7 @@ public struct Field: View {
             label: .constant(label),
             value: value,
             placeholder: placeholder,
+            unit: unit,
             units: units,
             selectedUnit: selectedUnit,
             keyboardType: keyboardType,
