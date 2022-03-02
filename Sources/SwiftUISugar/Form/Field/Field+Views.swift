@@ -31,8 +31,15 @@ extension Field {
                     .multilineTextAlignment(.trailing)
             } else {
                 Text(option)
-                    .foregroundColor(value.wrappedValue.count > 0 ? Color(.secondaryLabel) : Color(.tertiaryLabel))
                     .multilineTextAlignment(.trailing)
+                    .font(.headline)
+                    .foregroundColor(foregroundColor)
+                    .padding(.leading, 10)
+                    .padding(.trailing, 10)
+                    .padding(.vertical, 3)
+                    .background(backgroundView)
+                    .padding(.vertical, Self.PaddingTapTargetVertical)
+                    .grayscale(1.0)
             }
         }
     }
