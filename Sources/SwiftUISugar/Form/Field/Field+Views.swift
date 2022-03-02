@@ -23,6 +23,64 @@ extension Field {
     }
 
     @ViewBuilder
+    var singleOptionText: some View {
+        if let option = unit, let value = value {
+            if selectorStyle == .plain {
+                Text(option)
+                    .foregroundColor(value.wrappedValue.count > 0 ? Color(.secondaryLabel) : Color(.tertiaryLabel))
+                    .multilineTextAlignment(.trailing)
+            } else {
+                Text(option)
+                    .foregroundColor(value.wrappedValue.count > 0 ? Color(.secondaryLabel) : Color(.tertiaryLabel))
+                    .multilineTextAlignment(.trailing)
+            }
+        }
+    }
+    
+    @ViewBuilder
+    var labelsLayer: some View {
+        if let label = label {
+            if let value = value {
+                HStack {
+                    Text(label.wrappedValue)
+                        .foregroundColor(value.wrappedValue.count > 0 ? Color(.secondaryLabel) : Color(.tertiaryLabel))
+                    Spacer()
+                    singleOptionText
+                }
+            } else {
+                Text(label.wrappedValue)
+                    .foregroundColor(Color(.label))
+            }
+        }
+    }
+    
+    @ViewBuilder
+    var textFieldLayer: some View {
+        if let label = label {
+            HStack {
+                Spacer()
+                    .frame(width: label.wrappedValue.widthForLabelFont + Padding)
+                textField
+                /// placeholder that simulates the unit being placed on the `labelsLayer` to pad out the space needed
+                singleOptionText
+                    .opacity(0)
+            }
+        }
+    }
+    
+    @ViewBuilder
+    var textField: some View {
+        if let value = value {
+            TextField(placeholder ?? "", text: value)
+                .focused($isFocused)
+                .keyboardType(keyboardType)
+                .multilineTextAlignment(.trailing)
+                .frame(maxHeight: .infinity)
+        }
+    }
+
+    
+    @ViewBuilder
     func menuField(for units: Binding<[SelectionOption]>) -> some View {
         HStack {
             if label != nil {
@@ -139,55 +197,6 @@ extension Field {
         RoundedRectangle(cornerRadius: 6)
             .fill(pillBackgroundColor)
 //            .overlay(RoundedRectangle(cornerRadius: 6))
-    }
-
-    @ViewBuilder
-    var textField: some View {
-        if let value = value {
-            TextField(placeholder ?? "", text: value)
-                .focused($isFocused)
-                .keyboardType(keyboardType)
-                .multilineTextAlignment(.trailing)
-                .frame(maxHeight: .infinity)
-        }
-    }
-
-    @ViewBuilder
-    var textFieldLayer: some View {
-        if let label = label {
-            HStack {
-                Spacer()
-                    .frame(width: label.wrappedValue.widthForLabelFont + Padding)
-                textField
-                /// placeholder that simulates the unit being placed on the `labelsLayer` to pad out the space needed
-                if let units = unit {
-                    Text(units)
-                        .foregroundColor(Color(.clear))
-                        .multilineTextAlignment(.trailing)
-                }
-            }
-        }
-    }
-
-    @ViewBuilder
-    var labelsLayer: some View {
-        if let label = label {
-            if let value = value {
-                HStack {
-                    Text(label.wrappedValue)
-                        .foregroundColor(value.wrappedValue.count > 0 ? Color(.secondaryLabel) : Color(.tertiaryLabel))
-                    Spacer()
-                    if let units = unit {
-                        Text(units)
-                            .foregroundColor(value.wrappedValue.count > 0 ? Color(.secondaryLabel) : Color(.tertiaryLabel))
-                            .multilineTextAlignment(.trailing)
-                    }
-                }
-            } else {
-                Text(label.wrappedValue)
-                    .foregroundColor(Color(.label))
-            }
-        }
     }
     
     //MARK: - Legacy
