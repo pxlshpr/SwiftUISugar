@@ -28,7 +28,7 @@ extension Field {
 
     func title(for option: SelectionOption?, forMenu: Bool = false) -> String {
         guard let option = option else { return "Unsupported" }
-        var isPlural = true
+        var isPlural = false
         if let value = value, let doubleValue = Double(value.wrappedValue) {
             isPlural = doubleValue > 1
         }
