@@ -202,7 +202,9 @@ extension Field {
     }
     
     var haveValue: Bool {
-        guard let value = value else { return false }
+        guard let value = value else {
+            return true
+        }
         return !value.wrappedValue.isEmpty
     }
     
