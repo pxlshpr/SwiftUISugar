@@ -24,10 +24,10 @@ extension Field {
 
     @ViewBuilder
     var singleOptionText: some View {
-        if let option = unit, let value = value {
+        if let option = unit {
             if selectorStyle == .plain {
                 Text(option)
-                    .foregroundColor(value.wrappedValue.count > 0 ? Color(.secondaryLabel) : Color(.tertiaryLabel))
+                    .foregroundColor(haveValue ? Color(.secondaryLabel) : Color(.tertiaryLabel))
                     .multilineTextAlignment(.trailing)
             } else {
                 Text(option)
@@ -40,6 +40,7 @@ extension Field {
                     .background(backgroundView)
                     .padding(.vertical, Self.PaddingTapTargetVertical)
                     .grayscale(1.0)
+                    .opacity(haveValue ? 1.0 : 0.5)
             }
         }
     }
@@ -197,6 +198,12 @@ extension Field {
         .contentShape(Rectangle())
         .grayscale(!haveMultipleOptions ? 1.0 : 0.0)
         .disabled(!haveMultipleOptions)
+        .opacity(haveValue ? 1.0 : 0.5)
+    }
+    
+    var haveValue: Bool {
+        guard let value = value else { return false }
+        return !value.wrappedValue.isEmpty
     }
     
     @ViewBuilder
