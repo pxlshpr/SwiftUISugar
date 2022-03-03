@@ -198,7 +198,7 @@ extension Field {
         .contentShape(Rectangle())
         .grayscale(!haveMultipleOptions ? 1.0 : 0.0)
         .disabled(!haveMultipleOptions)
-        .opacity(haveValue ? 1.0 : 0.5)
+//        .opacity(haveValue ? 1.0 : 0.5)
     }
     
     var haveValue: Bool {
