@@ -20,7 +20,7 @@ public struct Field: View {
     @State var unit: String? = nil /// Single (optional) unit
 
     /// Multiple units
-    var units: Binding<[SelectionOption]>? = nil
+    var units: Binding<[SelectionOption]>? =     nil
     var selectedUnit: Binding<SelectionOption>? = nil
     var onUnitChanged: UnitChangedHandler? = nil
 

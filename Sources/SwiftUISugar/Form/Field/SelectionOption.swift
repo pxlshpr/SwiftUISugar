@@ -1,4 +1,5 @@
 import Foundation
+import SwiftUI
 
 public protocol SelectionOption {
     var optionId: String { get }
@@ -9,6 +10,7 @@ public protocol SelectionOption {
     func menuTitle(isPlural: Bool) -> String?
     func subtitle(isPlural: Bool) -> String?
     var systemImage: String? { get }
+    var role: ButtonRole? { get }
 }
 
 extension SelectionOption {
@@ -18,4 +20,5 @@ extension SelectionOption {
     public func title(isPlural: Bool) -> String? { nil }
     public func subtitle(isPlural: Bool) -> String? { nil }
     public var systemImage: String? { nil }
+    public var role: ButtonRole? { nil }
 }
