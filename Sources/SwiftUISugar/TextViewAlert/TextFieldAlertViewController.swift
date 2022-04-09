@@ -46,6 +46,7 @@ public class TextFieldAlertViewController: UIViewController {
         vc.addTextField { [weak self] textField in
             guard let self = self else { return }
             textField.text = self.text
+            textField.keyboardType = .alphabet
             textField.autocapitalizationType = .words
             self.subscription = NotificationCenter.default
                 .publisher(for: UITextField.textDidChangeNotification, object: textField)
