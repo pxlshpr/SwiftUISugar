@@ -51,6 +51,7 @@ extension ImagePickerView {
                 return
             }
             var images = [UIImage]()
+            var processedImagesCount = 0
             for i in 0..<results.count {
                 let result = results[i]
                 if result.itemProvider.canLoadObject(ofClass: UIImage.self) {
@@ -59,32 +60,28 @@ extension ImagePickerView {
 //                            self.isPresented = false
 //                            self.didFail(ImagePickerError(picker: picker, error: error))
 //                            continue
+                            processedImagesCount += 1
                         } else if let image = newImage as? UIImage {
+                            processedImagesCount += 1
                             images.append(image)
                         }
-//                        if images.count == results.count {
-//                            self.isPresented = false
-//                            if images.count != 0 {
-//                                self.didSelect(ImagePickerResult(picker: picker, images: images))
-//                            } else {
-//                                self.didCancel(picker)
-//                            }
-//                        }
+                        if processedImagesCount == results.count {
+                            self.isPresented = false
+                            if images.count != 0 {
+                                self.didSelect(ImagePickerResult(picker: picker, images: images))
+                            } else {
+                                self.didCancel(picker)
+                            }
+                        }
                     }
                 } else {
                     /// We've removed these lines (from the original source), since it resulted in the entire group of selected photos to fail when only one of them was not loadable (which happened when it was an unsupported file format such as .webp)
 //                    self.isPresented = false
 //                    self.didFail(ImagePickerError(picker: picker, error: ImagePickerViewError.cannotLoadObject))
+                    processedImagesCount += 1
                     continue
                 }
-            }
-            
-            self.isPresented = false
-            if images.count != 0 {
-                self.didSelect(ImagePickerResult(picker: picker, images: images))
-            } else {
-                self.didCancel(picker)
-            }
+            }            
         }
     }
 }
