@@ -55,20 +55,21 @@ extension ImagePickerView {
                 let result = results[i]
                 if result.itemProvider.canLoadObject(ofClass: UIImage.self) {
                     result.itemProvider.loadObject(ofClass: UIImage.self) { newImage, error in
-                        if let error = error {
-                            self.isPresented = false
-                            self.didFail(ImagePickerError(picker: picker, error: error))
+                        if let _ = error {
+//                            self.isPresented = false
+//                            self.didFail(ImagePickerError(picker: picker, error: error))
+//                            continue
                         } else if let image = newImage as? UIImage {
                             images.append(image)
                         }
-                        if images.count == results.count {
-                            self.isPresented = false
-                            if images.count != 0 {
-                                self.didSelect(ImagePickerResult(picker: picker, images: images))
-                            } else {
-                                self.didCancel(picker)
-                            }
-                        }
+//                        if images.count == results.count {
+//                            self.isPresented = false
+//                            if images.count != 0 {
+//                                self.didSelect(ImagePickerResult(picker: picker, images: images))
+//                            } else {
+//                                self.didCancel(picker)
+//                            }
+//                        }
                     }
                 } else {
                     /// We've removed these lines (from the original source), since it resulted in the entire group of selected photos to fail when only one of them was not loadable (which happened when it was an unsupported file format such as .webp)
@@ -78,7 +79,12 @@ extension ImagePickerView {
                 }
             }
             
-            
+            self.isPresented = false
+            if images.count != 0 {
+                self.didSelect(ImagePickerResult(picker: picker, images: images))
+            } else {
+                self.didCancel(picker)
+            }
         }
     }
 }
