@@ -48,7 +48,8 @@ extension Field {
 //        guard selectorStyle != .prominent else {
 //            return colorScheme == .light ? .accentColor : .white
 //        }
-        return .accentColor
+//        return .accentColor
+        return colorScheme == .light ? .accentColor : Color(hex: "9F85FE")
     }
 
     var pillBackgroundColor: Color {
