@@ -46,19 +46,27 @@ extension Field {
     }
     
     @ViewBuilder
-    var labelsLayer: some View {
+    var labelView: some View {
         if let label = label {
-            if let value = value {
-                HStack {
-                    Text(label.wrappedValue)
-                        .foregroundColor(value.wrappedValue.count > 0 ? Color(.secondaryLabel) : Color(.tertiaryLabel))
-                    Spacer()
-                    singleOptionText
-                }
-            } else {
+            HStack {
                 Text(label.wrappedValue)
-                    .foregroundColor(Color(.label))
+                Image(systemName: "sparkles")
             }
+        }
+    }
+    
+    @ViewBuilder
+    var labelsLayer: some View {
+        if let value = value {
+            HStack {
+                labelView
+                    .foregroundColor(value.wrappedValue.count > 0 ? Color(.secondaryLabel) : Color(.tertiaryLabel))
+                Spacer()
+                singleOptionText
+            }
+        } else {
+            labelView
+                .foregroundColor(Color(.label))
         }
     }
     
