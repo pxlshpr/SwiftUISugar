@@ -50,7 +50,9 @@ extension Field {
         if let label = label {
             HStack {
                 Text(label.wrappedValue)
-                Image(systemName: "sparkles")
+                if let systemImage = systemImage {
+                    Image(systemName: systemImage.wrappedValue)
+                }
             }
         }
     }
