@@ -51,12 +51,14 @@ extension Field {
             HStack {
                 Text(label.wrappedValue)
                 if let systemImage = systemImage?.wrappedValue {
-                    Image(systemName: systemImage)
+                    Image(systemName:
+                            
+                             systemImage)
                 }
             }
         }
     }
-    
+
     @ViewBuilder
     var labelsLayer: some View {
         if let value = value {

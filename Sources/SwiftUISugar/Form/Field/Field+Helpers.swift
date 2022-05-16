@@ -43,16 +43,17 @@ extension Field {
     }
     
     //MARK: - Colors
-    
+    //TODO: Make these configurable, preferably in one place with each project that uses it
     var foregroundColor: Color {
-        guard selectorStyle != .prominent else {
-            return colorScheme == .light ? .accentColor : .white
-        }
+//        guard selectorStyle != .prominent else {
+//            return colorScheme == .light ? .accentColor : .white
+//        }
         return .accentColor
     }
 
     var pillBackgroundColor: Color {
-        colorScheme == .light ? Color(hex: "E7E1FF") : .accentColor
+//        colorScheme == .light ? Color(hex: "E7E1FF") : .accentColor
+        colorScheme == .light ? Color(hex: "E7E1FF") : Color(hex: "2A263A")
     }
 
     var unitTextColor: Color {
