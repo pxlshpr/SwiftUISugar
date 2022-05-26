@@ -66,11 +66,13 @@ extension ImagePickerView {
                             images.append(image)
                         }
                         if processedImagesCount == results.count {
-                            self.isPresented = false
-                            if images.count != 0 {
-                                self.didSelect(ImagePickerResult(picker: picker, images: images))
-                            } else {
-                                self.didCancel(picker)
+                            DispatchQueue.main.async {
+                                self.isPresented = false
+                                if images.count != 0 {
+                                    self.didSelect(ImagePickerResult(picker: picker, images: images))
+                                } else {
+                                    self.didCancel(picker)
+                                }
                             }
                         }
                     }
