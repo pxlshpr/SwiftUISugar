@@ -6,7 +6,6 @@ public final class DocumentPicker: NSObject, UIViewControllerRepresentable {
     //  typealias UIViewControllerType = UIDocumentPickerViewController
     
     var url: URL?
-    
     weak var delegate: UIDocumentPickerDelegate?
     
     public init(url: URL? = nil, delegate: UIDocumentPickerDelegate? = nil) {
