@@ -8,7 +8,7 @@ public final class DocumentPicker: NSObject, UIViewControllerRepresentable {
     var url: URL?
     weak var delegate: UIDocumentPickerDelegate?
     
-    init(url: URL? = nil, delegate: UIDocumentPickerDelegate? = nil) {
+    public init(url: URL? = nil, delegate: UIDocumentPickerDelegate? = nil) {
         self.url = url
         self.delegate = delegate
     }
