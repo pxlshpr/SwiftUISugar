@@ -6,6 +6,7 @@ public final class DocumentPicker: NSObject, UIViewControllerRepresentable {
     //  typealias UIViewControllerType = UIDocumentPickerViewController
     
     var url: URL?
+    var exportAsCopy: Bool = false
     weak var delegate: UIDocumentPickerDelegate?
     
     public init(url: URL? = nil, delegate: UIDocumentPickerDelegate? = nil) {
@@ -17,7 +18,7 @@ public final class DocumentPicker: NSObject, UIViewControllerRepresentable {
         let vc: UIDocumentPickerViewController
         if let url = url {
 //            vc = UIDocumentPickerViewController(url: url, in: .moveToService)
-            vc = UIDocumentPickerViewController(forExporting: [url])
+            vc = UIDocumentPickerViewController(forExporting: [url], asCopy: exportAsCopy)
         } else {
             vc = UIDocumentPickerViewController(forOpeningContentTypes: [.data], asCopy: true)
 //            vc = UIDocumentPickerViewController(documentTypes: ["public.data"], in: .import)
