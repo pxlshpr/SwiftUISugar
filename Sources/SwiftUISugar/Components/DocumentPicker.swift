@@ -1,16 +1,18 @@
 import SwiftUI
 import UniformTypeIdentifiers
 
+//TODO: Clean this up and make the syntax more understable
 public final class DocumentPicker: NSObject, UIViewControllerRepresentable {
     
     //  typealias UIViewControllerType = UIDocumentPickerViewController
     
     var url: URL?
-    var exportAsCopy: Bool = false
+    var exportAsCopy: Bool
     weak var delegate: UIDocumentPickerDelegate?
     
-    public init(url: URL? = nil, delegate: UIDocumentPickerDelegate? = nil) {
+    public init(url: URL? = nil, exportAsCopy: Bool = false, delegate: UIDocumentPickerDelegate? = nil) {
         self.url = url
+        self.exportAsCopy = exportAsCopy
         self.delegate = delegate
     }
     
