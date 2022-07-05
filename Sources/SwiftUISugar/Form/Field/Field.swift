@@ -16,7 +16,7 @@ public struct Field<Content: View>: View {
     var label: Binding<String>?
     var value: Binding<String>?
     var accessorySystemImage: Binding<String?>?
-    var accessoryMenu: Content? = nil
+    var accessoryMenuContents: () -> Content?
     @State var keyboardType: UIKeyboardType = .default
     @State var selectorStyle: SelectorFieldStyle
     var contentProvider: FieldContentProvider?
@@ -47,7 +47,7 @@ public struct Field<Content: View>: View {
         label: Binding<String>? = nil,
         value: Binding<String>? = nil,
         accessorySystemImage: Binding<String?>? = nil,
-        accessoryMenu: Content? = nil,
+        @ViewBuilder accessoryMenuContents: @escaping () -> Content? = { nil },
         placeholder: String? = nil,
         unit: String? = nil,
         units: Binding<[SelectionOption]>? = nil,
@@ -60,7 +60,7 @@ public struct Field<Content: View>: View {
         self.label = label
         self.value = value
         self.accessorySystemImage = accessorySystemImage
-        self.accessoryMenu = accessoryMenu
+        self.accessoryMenuContents = accessoryMenuContents
         self._placeholder = State(initialValue: placeholder)
         self._unit = State(initialValue: unit)
         self.units = units
@@ -76,7 +76,7 @@ public struct Field<Content: View>: View {
         label: String,
         value: Binding<String>? = nil,
         accessorySystemImage: Binding<String?>? = nil,
-        accessoryMenu: Content? = nil,
+        @ViewBuilder accessoryMenuContents: @escaping () -> Content? = { nil },
         placeholder: String? = nil,
         unit: String? = nil,
         units: Binding<[SelectionOption]>? = nil,
@@ -90,7 +90,7 @@ public struct Field<Content: View>: View {
             label: .constant(label),
             value: value,
             accessorySystemImage: accessorySystemImage,
-            accessoryMenu: accessoryMenu,
+            accessoryMenuContents: accessoryMenuContents,
             placeholder: placeholder,
             unit: unit,
             units: units,
