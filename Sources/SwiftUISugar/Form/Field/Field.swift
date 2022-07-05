@@ -18,7 +18,7 @@ public struct Field<Content>: View where Content: View {
     var value: Binding<String>?
     var accessorySystemImage: Binding<String?>?
     
-    var accessoryMenuContents: () -> Content? = { nil }
+    var accessoryMenuContents: Content
 //    var accessoryMenuContents: Content?
 
     @State var keyboardType: UIKeyboardType = .default
@@ -51,7 +51,7 @@ public struct Field<Content>: View where Content: View {
         label: Binding<String>? = nil,
         value: Binding<String>? = nil,
         accessorySystemImage: Binding<String?>? = nil,
-//        accessoryMenuContents: @escaping () -> Content? = { nil },
+        @ViewBuilder accessoryMenuContents: () -> Content,
         placeholder: String? = nil,
         unit: String? = nil,
         units: Binding<[SelectionOption]>? = nil,
@@ -64,7 +64,7 @@ public struct Field<Content>: View where Content: View {
         self.label = label
         self.value = value
         self.accessorySystemImage = accessorySystemImage
-//        self.accessoryMenuContents = accessoryMenuContents
+        self.accessoryMenuContents = accessoryMenuContents()
         self._placeholder = State(initialValue: placeholder)
         self._unit = State(initialValue: unit)
         self.units = units
@@ -80,7 +80,7 @@ public struct Field<Content>: View where Content: View {
         label: String,
         value: Binding<String>? = nil,
         accessorySystemImage: Binding<String?>? = nil,
-//        accessoryMenuContents: @escaping () -> Content? = { nil },
+        @ViewBuilder accessoryMenuContents: @escaping () -> Content,
         placeholder: String? = nil,
         unit: String? = nil,
         units: Binding<[SelectionOption]>? = nil,
@@ -94,7 +94,7 @@ public struct Field<Content>: View where Content: View {
             label: .constant(label),
             value: value,
             accessorySystemImage: accessorySystemImage,
-//            accessoryMenuContents: accessoryMenuContents,
+            accessoryMenuContents: accessoryMenuContents,
             placeholder: placeholder,
             unit: unit,
             units: units,
@@ -104,45 +104,65 @@ public struct Field<Content>: View where Content: View {
             contentProvider: contentProvider,
             onUnitChanged: onUnitChanged)
     }
-    
-//    public init(
-//        units: Binding<[SelectionOption]>? = nil,
-//        selectedUnit: Binding<SelectionOption>? = nil,
-//        selectorStyle: SelectorFieldStyle = .plain,
-//        contentProvider: FieldContentProvider? = nil,
-//        onUnitChanged: UnitChangedHandler? = nil
-//    ) {
-//        self.init(
-//            value: value,
-//            placeholder: placeholder,
-//            unit: unit,
-//            units: units,
-//            selectedUnit: selectedUnit,
-//            keyboardType: keyboardType,
-//            selectorStyle: selectorStyle,
-//            contentProvider: contentProvider,
-//            onUnitChanged: onUnitChanged)
-//    }
+}
 
-    
-    //MARK: - Legacy
-//    public init(
-//        label: Binding<String>,
-//        value: Binding<String>,
-//        placeholder: String? = nil,
-//        units: Binding<[SelectionOption]>,
-//        selectedUnit: Binding<SelectionOption>,
-//        keyboardType: UIKeyboardType = .alphabet,
-//        contentProvider: FieldContentProvider? = nil,
-//        onUnitChanged: UnitChangedHandler? = nil
-//    ) {
-//        self._label = label
-//        self.value = value
-//        self._keyboardType = State(initialValue: keyboardType)
-//        self._placeholder = State(initialValue: placeholder)
-//        self.units = units
-//        self.selectedUnit = selectedUnit
-//        self.onUnitChanged = onUnitChanged
-//        self.contentProvider = contentProvider
-//    }
+extension Field where Content == EmptyView {
+    public init(
+        label: Binding<String>? = nil,
+        value: Binding<String>? = nil,
+        accessorySystemImage: Binding<String?>? = nil,
+        placeholder: String? = nil,
+        unit: String? = nil,
+        units: Binding<[SelectionOption]>? = nil,
+        selectedUnit: Binding<SelectionOption>? = nil,
+        keyboardType: UIKeyboardType = .alphabet,
+        selectorStyle: SelectorFieldStyle = .plain,
+        contentProvider: FieldContentProvider? = nil,
+        onUnitChanged: UnitChangedHandler? = nil
+    ) {
+        self.init(
+            label: label,
+            value: value,
+            accessorySystemImage: accessorySystemImage,
+            accessoryMenuContents: { EmptyView() },
+            placeholder: placeholder,
+            unit: unit,
+            units: units,
+            selectedUnit: selectedUnit,
+            keyboardType: keyboardType,
+            selectorStyle: selectorStyle,
+            contentProvider: contentProvider,
+            onUnitChanged: onUnitChanged
+        )
+    }
+
+    //MARK: Convenience Initializers
+    public init(
+        label: String,
+        value: Binding<String>? = nil,
+        accessorySystemImage: Binding<String?>? = nil,
+        placeholder: String? = nil,
+        unit: String? = nil,
+        units: Binding<[SelectionOption]>? = nil,
+        selectedUnit: Binding<SelectionOption>? = nil,
+        keyboardType: UIKeyboardType = .alphabet,
+        selectorStyle: SelectorFieldStyle = .plain,
+        contentProvider: FieldContentProvider? = nil,
+        onUnitChanged: UnitChangedHandler? = nil
+    ) {
+        self.init(
+            label: label,
+            value: value,
+            accessorySystemImage: accessorySystemImage,
+            accessoryMenuContents: { EmptyView() },
+            placeholder: placeholder,
+            unit: unit,
+            units: units,
+            selectedUnit: selectedUnit,
+            keyboardType: keyboardType,
+            selectorStyle: selectorStyle,
+            contentProvider: contentProvider,
+            onUnitChanged: onUnitChanged
+        )
+    }
 }
