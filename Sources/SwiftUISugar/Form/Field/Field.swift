@@ -18,7 +18,7 @@ public struct Field<Content>: View where Content: View {
     var value: Binding<String>?
     var accessorySystemImage: Binding<String?>?
     
-    var accessoryMenuContents: () -> Content?
+    var accessoryMenuContents: () -> Content? = { nil }
 //    var accessoryMenuContents: Content?
 
     @State var keyboardType: UIKeyboardType = .default
@@ -51,7 +51,7 @@ public struct Field<Content>: View where Content: View {
         label: Binding<String>? = nil,
         value: Binding<String>? = nil,
         accessorySystemImage: Binding<String?>? = nil,
-        accessoryMenuContents: @escaping () -> Content? = { nil },
+//        accessoryMenuContents: @escaping () -> Content? = { nil },
         placeholder: String? = nil,
         unit: String? = nil,
         units: Binding<[SelectionOption]>? = nil,
@@ -64,7 +64,7 @@ public struct Field<Content>: View where Content: View {
         self.label = label
         self.value = value
         self.accessorySystemImage = accessorySystemImage
-        self.accessoryMenuContents = accessoryMenuContents
+//        self.accessoryMenuContents = accessoryMenuContents
         self._placeholder = State(initialValue: placeholder)
         self._unit = State(initialValue: unit)
         self.units = units
@@ -80,7 +80,7 @@ public struct Field<Content>: View where Content: View {
         label: String,
         value: Binding<String>? = nil,
         accessorySystemImage: Binding<String?>? = nil,
-        accessoryMenuContents: @escaping () -> Content? = { nil },
+//        accessoryMenuContents: @escaping () -> Content? = { nil },
         placeholder: String? = nil,
         unit: String? = nil,
         units: Binding<[SelectionOption]>? = nil,
@@ -94,7 +94,7 @@ public struct Field<Content>: View where Content: View {
             label: .constant(label),
             value: value,
             accessorySystemImage: accessorySystemImage,
-            accessoryMenuContents: accessoryMenuContents,
+//            accessoryMenuContents: accessoryMenuContents,
             placeholder: placeholder,
             unit: unit,
             units: units,
