@@ -53,7 +53,7 @@ extension Field {
                 if let accessoryMenuContents = accessoryMenuContents,
                    let accessorySystemImage = accessorySystemImage?.wrappedValue {
                     Menu {
-                        accessoryMenuContents
+                        accessoryMenuContents()
                     } label: {
                         Image(systemName: accessorySystemImage)
                     }
