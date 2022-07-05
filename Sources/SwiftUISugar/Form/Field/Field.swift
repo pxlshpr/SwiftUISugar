@@ -16,7 +16,10 @@ public struct Field<Content: View>: View {
     var label: Binding<String>?
     var value: Binding<String>?
     var accessorySystemImage: Binding<String?>?
-    var accessoryMenuContents: () -> Content?
+    
+//    var accessoryMenuContents: () -> Content?
+    var accessoryMenuContents: Content?
+
     @State var keyboardType: UIKeyboardType = .default
     @State var selectorStyle: SelectorFieldStyle
     var contentProvider: FieldContentProvider?
@@ -60,7 +63,7 @@ public struct Field<Content: View>: View {
         self.label = label
         self.value = value
         self.accessorySystemImage = accessorySystemImage
-        self.accessoryMenuContents = accessoryMenuContents
+        self.accessoryMenuContents = accessoryMenuContents()
         self._placeholder = State(initialValue: placeholder)
         self._unit = State(initialValue: unit)
         self.units = units
