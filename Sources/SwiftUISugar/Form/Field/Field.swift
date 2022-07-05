@@ -8,11 +8,15 @@ public enum SelectorFieldStyle {
     case prominent
 }
 
-public struct Field: View {
+let PaddingTapTargetHorizontal: CGFloat = 10.0
+let PaddingTapTargetVertical: CGFloat = 7.0
+
+public struct Field<Content: View>: View {
 
     var label: Binding<String>?
     var value: Binding<String>?
     var accessorySystemImage: Binding<String?>?
+    var accessoryMenu: Content?
     @State var keyboardType: UIKeyboardType = .default
     @State var selectorStyle: SelectorFieldStyle
     var contentProvider: FieldContentProvider?
@@ -35,8 +39,6 @@ public struct Field: View {
     let FontSize = 13.0
     let FontWeight: Font.Weight = .semibold
     let UIFontWeight: UIFont.Weight = .semibold
-    static var PaddingTapTargetHorizontal: CGFloat = 10.0
-    static var PaddingTapTargetVertical: CGFloat = 7.0
 
     let selectionOptionChanged = NotificationCenter.default.publisher(for: .selectionOptionChanged)
 
@@ -45,6 +47,7 @@ public struct Field: View {
         label: Binding<String>? = nil,
         value: Binding<String>? = nil,
         accessorySystemImage: Binding<String?>? = nil,
+        accessoryMenu: Content? = nil,
         placeholder: String? = nil,
         unit: String? = nil,
         units: Binding<[SelectionOption]>? = nil,
@@ -57,6 +60,7 @@ public struct Field: View {
         self.label = label
         self.value = value
         self.accessorySystemImage = accessorySystemImage
+        self.accessoryMenu = accessoryMenu
         self._placeholder = State(initialValue: placeholder)
         self._unit = State(initialValue: unit)
         self.units = units
@@ -72,6 +76,7 @@ public struct Field: View {
         label: String,
         value: Binding<String>? = nil,
         accessorySystemImage: Binding<String?>? = nil,
+        accessoryMenu: Content? = nil,
         placeholder: String? = nil,
         unit: String? = nil,
         units: Binding<[SelectionOption]>? = nil,
@@ -85,6 +90,7 @@ public struct Field: View {
             label: .constant(label),
             value: value,
             accessorySystemImage: accessorySystemImage,
+            accessoryMenu: accessoryMenu,
             placeholder: placeholder,
             unit: unit,
             units: units,

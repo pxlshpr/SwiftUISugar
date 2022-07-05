@@ -38,7 +38,7 @@ extension Field {
                     .padding(.trailing, 10)
                     .padding(.vertical, 3)
                     .background(backgroundView)
-                    .padding(.vertical, Self.PaddingTapTargetVertical)
+                    .padding(.vertical, PaddingTapTargetVertical)
                     .grayscale(1.0)
                     .opacity(haveValue ? 1.0 : 0.5)
             }
@@ -50,6 +50,14 @@ extension Field {
         if let label = label {
             HStack {
                 Text(label.wrappedValue)
+                if let accessoryMenu = accessoryMenu,
+                   let accessorySystemImage = accessorySystemImage?.wrappedValue {
+                    Menu {
+                        accessoryMenu
+                    } label: {
+                        Image(systemName: accessorySystemImage)
+                    }
+                }
                 if let accessorySystemImage = accessorySystemImage?.wrappedValue {
                     Image(systemName: accessorySystemImage)
                 }
@@ -204,7 +212,7 @@ extension Field {
             view
                 .background(backgroundView)
         })
-        .padding(.vertical, Self.PaddingTapTargetVertical)
+        .padding(.vertical, PaddingTapTargetVertical)
         .contentShape(Rectangle())
         .grayscale(!haveMultipleOptions ? 1.0 : 0.0)
         .disabled(!haveMultipleOptions)
