@@ -56,10 +56,12 @@ extension Field {
                         accessoryMenuContents
                     } label: {
                         Image(systemName: accessorySystemImage)
+                            .foregroundColor(.accentColor)
                     }
-                }
-                if let accessorySystemImage = accessorySystemImage?.wrappedValue {
-                    Image(systemName: accessorySystemImage)
+                } else {
+                    if let accessorySystemImage = accessorySystemImage?.wrappedValue {
+                        Image(systemName: accessorySystemImage)
+                    }
                 }
             }
         }
