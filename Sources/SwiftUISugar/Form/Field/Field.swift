@@ -16,7 +16,7 @@ public struct Field<Content: View>: View {
     var label: Binding<String>?
     var value: Binding<String>?
     var accessorySystemImage: Binding<String?>?
-    var accessoryMenu: Content?
+    var accessoryMenu: Content? = nil
     @State var keyboardType: UIKeyboardType = .default
     @State var selectorStyle: SelectorFieldStyle
     var contentProvider: FieldContentProvider?
