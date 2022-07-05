@@ -22,10 +22,10 @@ extension Field {
     @ViewBuilder
     static func menuButtonLabel(for option: SelectionOption, value: Binding<String>?, contentProvider: FieldContentProvider?) -> some View {
         let title = title(for: option, forMenu: true, value: value, contentProvider: contentProvider)
-        if let accessorySystemItem = contentProvider?.accessorySystemItem(for: option) {
-            Label(title, systemImage: accessorySystemItem)
-        } else if let accessorySystemItem = option.accessorySystemItem {
-            Label(title, systemImage: accessorySystemItem)
+        if let accessorySystemImage = contentProvider?.accessorySystemImage(for: option) {
+            Label(title, systemImage: accessorySystemImage)
+        } else if let accessorySystemImage = option.accessorySystemImage {
+            Label(title, systemImage: accessorySystemImage)
         } else {
             Text(title)
         }
