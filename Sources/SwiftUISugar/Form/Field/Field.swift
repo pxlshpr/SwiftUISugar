@@ -12,7 +12,7 @@ public struct Field: View {
 
     var label: Binding<String>?
     var value: Binding<String>?
-    var systemImage: Binding<String?>?
+    var accessorySystemItem: Binding<String?>?
     @State var keyboardType: UIKeyboardType = .default
     @State var selectorStyle: SelectorFieldStyle
     var contentProvider: FieldContentProvider?
@@ -44,7 +44,7 @@ public struct Field: View {
     public init(
         label: Binding<String>? = nil,
         value: Binding<String>? = nil,
-        systemImage: Binding<String?>? = nil,
+        accessorySystemItem: Binding<String?>? = nil,
         placeholder: String? = nil,
         unit: String? = nil,
         units: Binding<[SelectionOption]>? = nil,
@@ -56,7 +56,7 @@ public struct Field: View {
     ) {
         self.label = label
         self.value = value
-        self.systemImage = systemImage
+        self.accessorySystemItem = accessorySystemItem
         self._placeholder = State(initialValue: placeholder)
         self._unit = State(initialValue: unit)
         self.units = units
@@ -71,7 +71,7 @@ public struct Field: View {
     public init(
         label: String,
         value: Binding<String>? = nil,
-        systemImage: Binding<String?>? = nil,
+        accessorySystemItem: Binding<String?>? = nil,
         placeholder: String? = nil,
         unit: String? = nil,
         units: Binding<[SelectionOption]>? = nil,
@@ -84,7 +84,7 @@ public struct Field: View {
         self.init(
             label: .constant(label),
             value: value,
-            systemImage: systemImage,
+            accessorySystemItem: accessorySystemItem,
             placeholder: placeholder,
             unit: unit,
             units: units,

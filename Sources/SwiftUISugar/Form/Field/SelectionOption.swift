@@ -9,7 +9,7 @@ public protocol SelectionOption {
     func title(isPlural: Bool) -> String?
     func menuTitle(isPlural: Bool) -> String?
     func subtitle(isPlural: Bool) -> String?
-    var systemImage: String? { get }
+    var accessorySystemItem: String? { get }
     var role: ButtonRole? { get }
 }
 
@@ -19,6 +19,6 @@ extension SelectionOption {
     public func menuTitle(isPlural: Bool) -> String? { nil }
     public func title(isPlural: Bool) -> String? { nil }
     public func subtitle(isPlural: Bool) -> String? { nil }
-    public var systemImage: String? { nil }
+    public var accessorySystemItem: String? { nil }
     public var role: ButtonRole? { nil }
 }
