@@ -1,4 +1,7 @@
 import SwiftUI
+import AVFAudio
+
+let AccessoryImageWidth: CGFloat = 20
 
 extension Field {
 
@@ -50,6 +53,9 @@ extension Field {
         if let label = label {
             HStack {
                 Text(label.wrappedValue)
+                    .if(isFocused, transform: { text in
+                            text.foregroundColor(.accentColor)
+                    })
                 if let accessoryMenuContents = accessoryMenuContents,
                    let accessorySystemImage = accessorySystemImage?.wrappedValue {
                     Menu {
@@ -57,11 +63,10 @@ extension Field {
                     } label: {
                         Image(systemName: accessorySystemImage)
                             .foregroundColor(.accentColor)
+                            .frame(width: AccessoryImageWidth)
                     }
-                } else {
-                    if let accessorySystemImage = accessorySystemImage?.wrappedValue {
-                        Image(systemName: accessorySystemImage)
-                    }
+                } else if let accessorySystemImage = accessorySystemImage?.wrappedValue {
+                    Image(systemName: accessorySystemImage)
                 }
             }
         }
@@ -82,17 +87,29 @@ extension Field {
         }
     }
     
+    var labelWidth: CGFloat {
+        guard let label = label else { return 0 }
+        let baseWidth = label.wrappedValue.widthForLabelFont + Padding
+        if isShowingAccessoryImage {
+            return baseWidth + AccessoryImageWidth
+        } else {
+            return baseWidth
+        }
+    }
+    
+    var isShowingAccessoryImage: Bool {
+        accessorySystemImage != nil
+    }
+    
     @ViewBuilder
     var textFieldLayer: some View {
-        if let label = label {
-            HStack {
-                Spacer()
-                    .frame(width: label.wrappedValue.widthForLabelFont + Padding)
-                textField
-                /// placeholder that simulates the unit being placed on the `labelsLayer` to pad out the space needed
-                singleOptionText
-                    .opacity(0)
-            }
+        HStack {
+            Spacer()
+                .frame(width: labelWidth)
+            textField
+            /// placeholder that simulates the unit being placed on the `labelsLayer` to pad out the space needed
+            singleOptionText
+                .opacity(0)
         }
     }
     
