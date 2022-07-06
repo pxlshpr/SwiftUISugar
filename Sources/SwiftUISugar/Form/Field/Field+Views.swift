@@ -54,7 +54,9 @@ extension Field {
             HStack {
                 Text(label.wrappedValue)
                     .if(isFocused, transform: { text in
-                            text.foregroundColor(.accentColor)
+                            text
+                            .bold()
+                            .foregroundColor(.accentColor)
                     })
                 if let accessoryMenuContents = accessoryMenuContents,
                    let accessorySystemImage = accessorySystemImage?.wrappedValue {
