@@ -50,7 +50,7 @@ extension Field {
 //        }
 //        return .accentColor
 //        return colorScheme == .light ? .accentColor : Color(hex: "9F85FE")
-        return colorScheme == .light ? Color(hex: "6236FF") : Color(hex: "9F85FE")
+        colorScheme == .light ? Color(hex: "6236FF") : Color(hex: "9F85FE")
     }
 
     var pillBackgroundColor: Color {

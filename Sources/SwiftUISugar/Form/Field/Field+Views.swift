@@ -21,7 +21,7 @@ extension Field {
             textFieldLayer
         }
         .onTapGesture {
-            isFocused = true
+//            isFocused = true
         }
     }
 
@@ -235,7 +235,8 @@ extension Field {
         })
         .padding(.vertical, PaddingTapTargetVertical)
         .contentShape(Rectangle())
-        .grayscale(!haveMultipleOptions ? 1.0 : 0.0)
+        .grayscale(isFocused ? 0.0 : 1.0)
+//        .grayscale(!haveMultipleOptions ? 1.0 : 0.0)
         .disabled(!haveMultipleOptions)
 //        .opacity(haveValue ? 1.0 : 0.5)
     }
