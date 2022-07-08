@@ -7,11 +7,14 @@ extension Field {
 
     @ViewBuilder
     public var body: some View {
-        if let units = units {
-            menuField(for: units)
-        } else {
-            field
+        Group {
+            if let units = units {
+                menuField(for: units)
+            } else {
+                field
+            }
         }
+        .listRowBackground(isFocused ? Color.accentColor : Color(.secondarySystemGroupedBackground))
     }
 
     @ViewBuilder
@@ -53,10 +56,10 @@ extension Field {
         if let label = label {
             HStack {
                 Text(label.wrappedValue)
+                
                     .if(isFocused, transform: { text in
                             text
                             .bold()
-                            .foregroundColor(.accentColor)
                     })
                 if let accessoryMenuContents = accessoryMenuContents,
                    let accessorySystemImage = accessorySystemImage?.wrappedValue {
@@ -64,10 +67,6 @@ extension Field {
                         accessoryMenuContents
                     } label: {
                         Image(systemName: accessorySystemImage)
-                            .if(isFocused, transform: { view in
-                                view
-                                    .foregroundColor(.accentColor)
-                            })
                             .frame(width: AccessoryImageWidth)
                     }
                 } else if let accessorySystemImage = accessorySystemImage?.wrappedValue {
@@ -79,17 +78,27 @@ extension Field {
 
     @ViewBuilder
     var labelsLayer: some View {
-        if let value = value {
+        if value != nil {
             HStack {
                 labelView
-                    .foregroundColor(value.wrappedValue.count > 0 ? Color(.secondaryLabel) : Color(.tertiaryLabel))
+                    .foregroundColor(labelColor)
                 Spacer()
                 singleOptionText
             }
         } else {
             labelView
-                .foregroundColor(Color(.label))
+                .foregroundColor(labelColor)
         }
+    }
+    
+    var labelColor: Color {
+        guard let value = value else {
+            return Color(.label)
+        }
+        guard !isFocused else {
+            return Color(.label)
+        }
+        return value.wrappedValue.count > 0 ? Color(.secondaryLabel) : Color(.tertiaryLabel)
     }
     
     var labelWidth: CGFloat {
