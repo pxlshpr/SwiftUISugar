@@ -64,7 +64,10 @@ extension Field {
                         accessoryMenuContents
                     } label: {
                         Image(systemName: accessorySystemImage)
-                            .foregroundColor(.accentColor)
+                            .if(isFocused, transform: { view in
+                                view
+                                    .foregroundColor(.accentColor)
+                            })
                             .frame(width: AccessoryImageWidth)
                     }
                 } else if let accessorySystemImage = accessorySystemImage?.wrappedValue {
