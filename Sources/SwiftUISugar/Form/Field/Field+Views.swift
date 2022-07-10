@@ -14,9 +14,22 @@ extension Field {
                 field
             }
         }
-        .listRowBackground(isFocused ? Color.accentColor : Color(.secondarySystemGroupedBackground))
+        .listRowBackground(rowBackgroundColor)
     }
 
+    var rowBackgroundColor: some View {
+        Group {
+            if isFocused {
+                Color.accentColor
+                    .opacity(0.2)
+                    .grayscale(0.2)
+                    .brightness(0.3)
+            } else {
+                Color(.secondarySystemGroupedBackground)
+            }
+        }
+    }
+    
     @ViewBuilder
     var field: some View {
         ZStack {
@@ -91,16 +104,6 @@ extension Field {
         }
     }
     
-    var labelColor: Color {
-        guard let value = value else {
-            return Color(.label)
-        }
-        guard !isFocused else {
-            return Color(.label)
-        }
-        return value.wrappedValue.count > 0 ? Color(.secondaryLabel) : Color(.tertiaryLabel)
-    }
-    
     var labelWidth: CGFloat {
         guard let label = label else { return 0 }
         let baseWidth = label.wrappedValue.widthForLabelFont + Padding
@@ -130,14 +133,24 @@ extension Field {
     @ViewBuilder
     var textField: some View {
         if let value = value {
-            TextField(placeholder ?? "", text: value)
+//            TextField(placeholder ?? "", text: value)
+            TextField("", text: value)
                 .focused($isFocused)
                 .keyboardType(keyboardType)
                 .multilineTextAlignment(.trailing)
                 .frame(maxHeight: .infinity)
+//                .accentColor(isFocused ? .white : Color(.secondarySystemGroupedBackground))
+//                .accentColor(Color(.secondarySystemGroupedBackground))
+//                .foregroundColor(.white)
+                .placeholder(when: value.wrappedValue.isEmpty) {
+                    HStack {
+                        Spacer()
+                        Text(placeholder ?? "")
+                            .foregroundColor(placeholderColor)
+                    }
+                }
         }
     }
-
     
     @ViewBuilder
     func menuField(for units: Binding<[SelectionOption]>) -> some View {
@@ -285,6 +298,19 @@ extension Field {
             Text(title)
                 .foregroundColor(unitTextColor)
                 .animation(.interactiveSpring(), value: title)
+        }
+    }
+}
+
+extension View {
+    func placeholder<Content: View>(
+        when shouldShow: Bool,
+        alignment: Alignment = .leading,
+        @ViewBuilder placeholder: () -> Content) -> some View {
+
+        ZStack(alignment: alignment) {
+            placeholder().opacity(shouldShow ? 1 : 0)
+            self
         }
     }
 }
