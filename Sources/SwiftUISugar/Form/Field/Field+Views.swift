@@ -133,22 +133,11 @@ extension Field {
     @ViewBuilder
     var textField: some View {
         if let value = value {
-//            TextField(placeholder ?? "", text: value)
-            TextField("", text: value)
+            TextField(placeholder ?? "", text: value)
                 .focused($isFocused)
                 .keyboardType(keyboardType)
                 .multilineTextAlignment(.trailing)
                 .frame(maxHeight: .infinity)
-//                .accentColor(isFocused ? .white : Color(.secondarySystemGroupedBackground))
-//                .accentColor(Color(.secondarySystemGroupedBackground))
-//                .foregroundColor(.white)
-                .placeholder(when: value.wrappedValue.isEmpty) {
-                    HStack {
-                        Spacer()
-                        Text(placeholder ?? "")
-                            .foregroundColor(placeholderColor)
-                    }
-                }
         }
     }
     
