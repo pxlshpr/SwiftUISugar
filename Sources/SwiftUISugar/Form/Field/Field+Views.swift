@@ -16,19 +16,6 @@ extension Field {
         }
         .listRowBackground(rowBackgroundColor)
     }
-
-    var rowBackgroundColor: some View {
-        Group {
-            if isFocused {
-                Color.accentColor
-                    .opacity(0.2)
-                    .grayscale(0.2)
-                    .brightness(0.3)
-            } else {
-                Color(.secondarySystemGroupedBackground)
-            }
-        }
-    }
     
     @ViewBuilder
     var field: some View {
@@ -40,25 +27,25 @@ extension Field {
 //            isFocused = true
         }
     }
-
+    
     @ViewBuilder
     var singleOptionText: some View {
         if let option = unit {
             if selectorStyle == .plain {
                 Text(option)
-                    .foregroundColor(haveValue ? Color(.secondaryLabel) : Color(.tertiaryLabel))
+                    .foregroundColor(singleOptionForegroundColor)
                     .multilineTextAlignment(.trailing)
             } else {
                 Text(option)
                     .multilineTextAlignment(.trailing)
                     .font(.headline)
-                    .foregroundColor(foregroundColor)
+                    .foregroundColor(singleOptionForegroundColor)
                     .padding(.leading, 10)
                     .padding(.trailing, 10)
                     .padding(.vertical, 3)
-                    .background(backgroundView)
+                    .background(singleOptionBackground)
                     .padding(.vertical, PaddingTapTargetVertical)
-                    .grayscale(1.0)
+                    .grayscale(isFocused ? 0.0 : 1.0)
                     .opacity(haveValue ? 1.0 : 0.5)
             }
         }
@@ -69,7 +56,6 @@ extension Field {
         if let label = label {
             HStack {
                 Text(label.wrappedValue)
-                
                     .if(isFocused, transform: { text in
                             text
                             .bold()
@@ -262,33 +248,26 @@ extension Field {
         return !value.wrappedValue.isEmpty
     }
     
-    @ViewBuilder
-    var backgroundView: some View {
-        RoundedRectangle(cornerRadius: 6)
-            .fill(pillBackgroundColor)
-//            .overlay(RoundedRectangle(cornerRadius: 6))
-    }
-    
     //MARK: - Legacy
-    @ViewBuilder
-    var unitText: some View {
-        if let subtitle = subtitle {
-            VStack(alignment: .leading) {
-                Text(title)
-                    .foregroundColor(unitTextColor)
-                    .animation(.interactiveSpring(), value: title)
-                Text(subtitle)
-                    .foregroundColor(unitTextColor)
-                    .font(.caption2)
-                    .animation(.interactiveSpring(), value: subtitle)
-            }
-            .foregroundColor(unitTextColor)
-        } else {
-            Text(title)
-                .foregroundColor(unitTextColor)
-                .animation(.interactiveSpring(), value: title)
-        }
-    }
+//    @ViewBuilder
+//    var unitText: some View {
+//        if let subtitle = subtitle {
+//            VStack(alignment: .leading) {
+//                Text(title)
+//                    .foregroundColor(unitTextColor)
+//                    .animation(.interactiveSpring(), value: title)
+//                Text(subtitle)
+//                    .foregroundColor(unitTextColor)
+//                    .font(.caption2)
+//                    .animation(.interactiveSpring(), value: subtitle)
+//            }
+//            .foregroundColor(unitTextColor)
+//        } else {
+//            Text(title)
+//                .foregroundColor(unitTextColor)
+//                .animation(.interactiveSpring(), value: title)
+//        }
+//    }
 }
 
 extension View {

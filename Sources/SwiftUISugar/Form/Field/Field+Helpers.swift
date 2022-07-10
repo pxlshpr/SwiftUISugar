@@ -40,29 +40,5 @@ extension Field {
         } else {
             return contentProvider?.title(for: option, isPlural: isPlural) ?? option.title(isPlural: isPlural) ?? "Unsupported"
         }
-    }
-    
-    //MARK: - Colors
-    //TODO: Make these configurable, preferably in one place with each project that uses it
-    var foregroundColor: Color {
-//        guard selectorStyle != .prominent else {
-//            return colorScheme == .light ? .accentColor : .white
-//        }
-//        return .accentColor
-//        return colorScheme == .light ? .accentColor : Color(hex: "9F85FE")
-        colorScheme == .light ? Color(hex: "6236FF") : Color(hex: "9F85FE")
-    }
-
-    var pillBackgroundColor: Color {
-//        colorScheme == .light ? Color(hex: "E7E1FF") : .accentColor
-        colorScheme == .light ? Color(hex: "E7E1FF") : Color(hex: "2A263A")
-    }
-
-    var unitTextColor: Color {
-        guard let units = units?.wrappedValue else {
-            return Color(.secondaryLabel)
-        }
-        return units.count > 1 ? .accentColor : Color(.secondaryLabel)
-    }
-
+    }    
 }
