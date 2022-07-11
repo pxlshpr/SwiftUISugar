@@ -39,14 +39,19 @@ extension Field {
                 Text(option)
                     .multilineTextAlignment(.trailing)
                     .font(.headline)
-                    .foregroundColor(singleOptionForegroundColor)
+                    .foregroundColor(
+                        singleOptionForegroundColor
+                            .opacity(foregroundOpacity)
+                    )
                     .padding(.leading, 10)
                     .padding(.trailing, 10)
                     .padding(.vertical, 3)
-                    .background(singleOptionBackground)
+                    .background(
+                        singleOptionBackground
+                            .opacity(backgroundOpacity)
+                    )
                     .padding(.vertical, PaddingTapTargetVertical)
                     .grayscale(isFocused ? 0.0 : 1.0)
-                    .opacity(haveValue ? 1.0 : 0.5)
             }
         }
     }
@@ -222,7 +227,10 @@ extension Field {
             }
             chevron
         }
-        .foregroundColor(foregroundColor)
+        .foregroundColor(
+            foregroundColor
+                .opacity(foregroundOpacity)
+        )
         .padding(.leading, 10)
         .if(selectorStyle == .prominent, transform: { view in
             view
@@ -231,14 +239,27 @@ extension Field {
         .padding(.vertical, 3)
         .if(selectorStyle == .prominent, transform: { view in
             view
-                .background(backgroundView)
+                .background(
+                    backgroundView
+                        .opacity(backgroundOpacity)
+                )
         })
         .padding(.vertical, PaddingTapTargetVertical)
         .contentShape(Rectangle())
         .grayscale(isFocused ? 0.0 : 1.0)
 //        .grayscale(!haveMultipleOptions ? 1.0 : 0.0)
         .disabled(!haveMultipleOptions)
-//        .opacity(haveValue ? 1.0 : 0.5)
+    }
+    
+    var foregroundOpacity: CGFloat {
+        guard !isFocused else {
+            return 1.0
+        }
+        return haveValue ? 1.0 : 0.5
+    }
+    
+    var backgroundOpacity: CGFloat {
+        haveValue ? 1.0 : 0.5
     }
     
     var haveValue: Bool {

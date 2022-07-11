@@ -1,8 +1,5 @@
 import SwiftUI
 
-let ColorHexPurpleDark = "6236FF"
-let ColorHexPurpleLight = "9F85FE"
-
 extension Field {
     
     //MARK: - Foreground Colors
@@ -25,12 +22,24 @@ extension Field {
     
     //TODO: Make these configurable, preferably in one place with each project that uses it
     var foregroundColor: Color {
+        if isFocused {
+            return .white
+        }
 //        guard selectorStyle != .prominent else {
 //            return colorScheme == .light ? .accentColor : .white
 //        }
 //        return .accentColor
 //        return colorScheme == .light ? .accentColor : Color(hex: "9F85FE")
-        colorScheme == .light ? Color(hex: ColorHexPurpleDark) : Color(hex: ColorHexPurpleLight)
+        if isLight {
+            if isFocused {
+                return Color.white
+//                return Color(hex: ColorHexPurpleExtraLight)
+            } else {
+                return Color(hex: ColorHexPurpleDark)
+            }
+        } else {
+            return Color(hex: ColorHexPurpleLight)
+        }
     }
     
 //    var unitTextColor: Color {
@@ -52,19 +61,6 @@ extension Field {
     
     //MARK: - Background Colors
     
-    var rowBackgroundColor: some View {
-        Group {
-            if isFocused {
-                Color.accentColor
-                    .opacity(0.2)
-                    .grayscale(0.2)
-                    .brightness(0.3)
-            } else {
-                Color(.secondarySystemGroupedBackground)
-            }
-        }
-    }
-    
     var singleOptionBackground: some View {
         backgroundView
     }
@@ -76,7 +72,48 @@ extension Field {
     }
 
     var pillBackgroundColor: Color {
-//        colorScheme == .light ? Color(hex: "E7E1FF") : .accentColor
-        colorScheme == .light ? Color(hex: "E7E1FF") : Color(hex: "2A263A")
+//        colorScheme == .light ? Color(hex: ColorHexPurpleExtraLight) : Color(hex: ColorHexPurpleExtraDark)
+        if isFocused {
+            return .accentColor
+        }
+        if isLight {
+            if isFocused {
+                return Color(hex: ColorHexPurpleLight)
+            } else {
+                return Color(hex: ColorHexPurpleExtraLight)
+            }
+        } else {
+            return Color(hex: ColorHexPurpleExtraDark)
+        }
+    }
+    
+    var isLight: Bool {
+        colorScheme == .light
+    }
+    
+    var rowBackgroundColor: some View {
+        Group {
+            if isFocused {
+                if isLight {
+                    Color(hex: ColorHexPurpleExtraLight)
+                } else {
+//                    Color(hex: ColorHexPurpleDarkMuted)
+                    Color(hex: ColorHexPurpleExtraDark)
+                }
+//                Color.accentColor
+//                    .opacity(0.2)
+//                    .grayscale(0.2)
+//                    .brightness(0.3)
+            } else {
+                Color(.secondarySystemGroupedBackground)
+            }
+        }
     }
 }
+
+let ColorHexPurpleDark = "6236FF"
+let ColorHexPurpleDarkMuted = "3E3953"
+let ColorHexPurpleExtraDark = "2A263A"
+let ColorHexPurpleLight = "9F85FE"
+let ColorHexPurpleLightMuted = "E3DDFC"
+let ColorHexPurpleExtraLight = "E7E1FF"
