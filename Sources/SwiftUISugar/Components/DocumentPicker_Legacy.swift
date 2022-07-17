@@ -39,7 +39,7 @@ public final class DocumentPicker_Legacy: NSObject, UIViewControllerRepresentabl
     }
 }
 
-public struct DocumentPicker_Legacy_AsAStruct: UIViewControllerRepresentable {
+public struct DocumentPicker: UIViewControllerRepresentable {
     
     var url: URL?
     var exportAsCopy: Bool
@@ -63,11 +63,11 @@ public struct DocumentPicker_Legacy_AsAStruct: UIViewControllerRepresentable {
         self.viewController = vc
     }
     
-    public func makeUIViewController(context: UIViewControllerRepresentableContext<DocumentPicker_Legacy_AsAStruct>) -> UIDocumentPickerViewController {
+    public func makeUIViewController(context: UIViewControllerRepresentableContext<DocumentPicker>) -> UIDocumentPickerViewController {
         viewController.delegate = delegate
         return viewController
     }
     
-    public func updateUIViewController(_ uiViewController: UIDocumentPickerViewController, context: UIViewControllerRepresentableContext<DocumentPicker_Legacy_AsAStruct>) {
+    public func updateUIViewController(_ uiViewController: UIDocumentPickerViewController, context: UIViewControllerRepresentableContext<DocumentPicker>) {
     }
 }
