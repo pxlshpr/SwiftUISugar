@@ -1,40 +1,35 @@
+import Foundation
 import SwiftUI
-import UniformTypeIdentifiers
+import UIKit
 
-//TODO: Clean this up and make the syntax more understable
-public final class DocumentPicker: NSObject, UIViewControllerRepresentable {
+struct DocumentPicker: UIViewControllerRepresentable {
     
-    //  typealias UIViewControllerType = UIDocumentPickerViewController
+    @Binding var filePath: URL?
     
-    var url: URL?
-    var exportAsCopy: Bool
-    weak var delegate: UIDocumentPickerDelegate?
-    
-    public init(url: URL? = nil, exportAsCopy: Bool = false, delegate: UIDocumentPickerDelegate? = nil) {
-        self.url = url
-        self.exportAsCopy = exportAsCopy
-        self.delegate = delegate
+    func makeCoordinator() -> DocumentPicker.Coordinator {
+        return DocumentPicker.Coordinator(parent1: self)
     }
     
-    lazy var viewController: UIDocumentPickerViewController = {
-        let vc: UIDocumentPickerViewController
-        if let url = url {
-//            vc = UIDocumentPickerViewController(url: url, in: .moveToService)
-            vc = UIDocumentPickerViewController(forExporting: [url], asCopy: exportAsCopy)
-        } else {
-            vc = UIDocumentPickerViewController(forOpeningContentTypes: [.data], asCopy: true)
-//            vc = UIDocumentPickerViewController(documentTypes: ["public.data"], in: .import)
+    func makeUIViewController(context: UIViewControllerRepresentableContext<DocumentPicker>) -> UIDocumentPickerViewController {
+        let picker = UIDocumentPickerViewController(documentTypes: ["public.item"], in: .open)
+        picker.allowsMultipleSelection = false
+        picker.delegate = context.coordinator
+        return picker
+    }
+    
+    func updateUIViewController(_ uiViewController: DocumentPicker.UIViewControllerType, context: UIViewControllerRepresentableContext<DocumentPicker>) {
+    }
+    
+    class Coordinator: NSObject, UIDocumentPickerDelegate {
+        
+        var parent: DocumentPicker
+        
+        init(parent1: DocumentPicker){
+            parent = parent1
         }
-        vc.allowsMultipleSelection = false
-        vc.delegate = delegate
-        return vc
-    }()
-    
-    public func makeUIViewController(context: UIViewControllerRepresentableContext<DocumentPicker>) -> UIDocumentPickerViewController {
-        viewController.delegate = delegate
-        return viewController
-    }
-    
-    public func updateUIViewController(_ uiViewController: UIDocumentPickerViewController, context: UIViewControllerRepresentableContext<DocumentPicker>) {
+        func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
+            parent.filePath = urls[0]
+            print(urls[0].absoluteString)
+        }
     }
 }
