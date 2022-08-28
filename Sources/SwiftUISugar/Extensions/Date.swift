@@ -2,6 +2,10 @@ import SwiftUI
 import SwiftSugar
 
 public extension Date {
+    var longDateText: Text {
+        longDateText()
+    }
+    
     func longDateText(onlyIncludeDateIfNotRelative: Bool = false) -> Text {
         let dateString = longDateString(onlyShowYearIfNotCurrent: true)
         
