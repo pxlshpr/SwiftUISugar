@@ -9,6 +9,15 @@
           "revision": "6300a8681b551f3df1023266116ca9700dbd14f9",
           "version": "0.1.0"
         }
+      },
+      {
+        "package": "SwiftSugar",
+        "repositoryURL": "https://github.com/pxlshpr/SwiftSugar",
+        "state": {
+          "branch": null,
+          "revision": "945a3007dfe2e9962f76e4730a0facff2329c63e",
+          "version": "0.0.51"
+        }
       }
     ]
   },
