@@ -2,22 +2,28 @@ import SwiftUI
 import SwiftSugar
 
 public extension Date {
-    var longDateText: Text {
-        longDateText()
-    }
-    
     func longDateText(onlyIncludeDateIfNotRelative: Bool = false) -> Text {
         let dateString = longDateString(onlyShowYearIfNotCurrent: true)
         
-        let suffix = ", \(dateString)"
-        
         let text: Text
         if isToday {
-            text = Text("**Today**\(onlyIncludeDateIfNotRelative ? "" : suffix)")
+            if onlyIncludeDateIfNotRelative {
+                text = Text("Today")
+            } else {
+                text = Text("**Today**, \(dateString)")
+            }
         } else if isYesterday {
-            text = Text("**Yesterday**\(onlyIncludeDateIfNotRelative ? "" : suffix)")
+            if onlyIncludeDateIfNotRelative {
+                text = Text("Yesterday")
+            } else {
+                text = Text("**Yesterday**, \(dateString)")
+            }
         } else if isTomorrow {
-            text = Text("**Tomorrow**\(onlyIncludeDateIfNotRelative ? "" : suffix)")
+            if onlyIncludeDateIfNotRelative {
+                text = Text("Tomorrow")
+            } else {
+                text = Text("**Tomorrow**, \(dateString)")
+            }
         } else {
             text = Text(dateString)
         }
