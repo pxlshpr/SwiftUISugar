@@ -5,14 +5,14 @@ struct NamespaceEnvironmentKey: EnvironmentKey {
 }
 
 extension EnvironmentValues {
-    var namespace: Namespace.ID {
+    public var namespace: Namespace.ID {
         get { self[NamespaceEnvironmentKey.self] }
         set { self[NamespaceEnvironmentKey.self] = newValue }
     }
 }
 
 extension View {
-    func namespace(_ value: Namespace.ID) -> some View {
+    public func namespace(_ value: Namespace.ID) -> some View {
         environment(\.namespace, value)
     }
 }
