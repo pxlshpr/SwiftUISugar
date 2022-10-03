@@ -1,15 +1,15 @@
 import SwiftUI
 
-struct FormStyledSection<Header: View, Content: View>: View {
+public struct FormStyledSection<Header: View, Content: View>: View {
     var header: Header?
     var content: () -> Content
 
-    init(header: Header, @ViewBuilder content: @escaping () -> Content) {
+    public init(header: Header, @ViewBuilder content: @escaping () -> Content) {
         self.header = header
         self.content = content
     }
 
-    var body: some View {
+    public var body: some View {
         if let header {
             withHeader(header)
         } else {
@@ -47,7 +47,7 @@ struct FormStyledSection<Header: View, Content: View>: View {
 
 /// Support optional header
 extension FormStyledSection where Header == EmptyView {
-    init(@ViewBuilder content: @escaping () -> Content) {
+    public init(@ViewBuilder content: @escaping () -> Content) {
         self.header = nil
         self.content = content
     }
