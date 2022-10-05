@@ -11,16 +11,21 @@ public struct FlowLayout<RefreshBinding, Data, ItemView: View>: View {
     
     @State private var totalHeight: CGFloat
     
+    var shouldAnimateHeight: Binding<Bool>?
+    
     public init(mode: Mode,
                 binding: Binding<RefreshBinding>,
                 items: [Data],
                 itemSpacing: CGFloat = flowLayoutDefaultItemSpacing,
-                @ViewBuilder viewMapping: @escaping (Data) -> ItemView) {
+                shouldAnimateHeight: Binding<Bool>? = nil,
+                @ViewBuilder viewMapping: @escaping (Data) -> ItemView
+    ) {
         self.mode = mode
         _binding = binding
         self.items = items
         self.itemSpacing = itemSpacing
         self.viewMapping = viewMapping
+        self.shouldAnimateHeight = shouldAnimateHeight
         _totalHeight = State(initialValue: (mode == .scrollable) ? .zero : .infinity)
     }
     
@@ -71,7 +76,12 @@ public struct FlowLayout<RefreshBinding, Data, ItemView: View>: View {
                     })
             }
         }
-        .background(HeightReaderView(binding: $totalHeight))
+        .background(
+            HeightReaderView(
+                binding: $totalHeight,
+                shouldAnimate: shouldAnimateHeight
+            )
+        )
     }
     
     public enum Mode {
@@ -85,16 +95,23 @@ private struct HeightPreferenceKey: PreferenceKey {
 }
 
 private struct HeightReaderView: View {
+    
     @Binding var binding: CGFloat
+    var shouldAnimate: Binding<Bool>?
+
     var body: some View {
         GeometryReader { geo in
             Color.clear
                 .preference(key: HeightPreferenceKey.self, value: geo.frame(in: .local).size.height)
         }
         .onPreferenceChange(HeightPreferenceKey.self) { h in
-//            withAnimation {
+            if let shouldAnimate, shouldAnimate.wrappedValue == true {
+                withAnimation {
+                    binding = h
+                }
+            } else {
                 binding = h
-//            }
+            }
         }
     }
 }
