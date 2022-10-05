@@ -121,11 +121,14 @@ public extension FlowLayout where RefreshBinding == Never? {
     init(mode: Mode,
          items: [Data],
          itemSpacing: CGFloat = flowLayoutDefaultItemSpacing,
-         @ViewBuilder viewMapping: @escaping (Data) -> ItemView) {
+         shouldAnimateHeight: Binding<Bool>? = nil,
+         @ViewBuilder viewMapping: @escaping (Data) -> ItemView
+    ) {
         self.init(mode: mode,
                   binding: .constant(nil),
                   items: items,
                   itemSpacing: itemSpacing,
+                  shouldAnimateHeight: shouldAnimateHeight,
                   viewMapping: viewMapping)
     }
 }
