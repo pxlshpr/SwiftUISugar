@@ -105,13 +105,13 @@ private struct HeightReaderView: View {
                 .preference(key: HeightPreferenceKey.self, value: geo.frame(in: .local).size.height)
         }
         .onPreferenceChange(HeightPreferenceKey.self) { h in
-//            if let shouldAnimate, shouldAnimate.wrappedValue == true {
+            if let shouldAnimate, shouldAnimate.wrappedValue == true {
                 withAnimation {
                     binding = h
                 }
-//            } else {
-//                binding = h
-//            }
+            } else {
+                binding = h
+            }
         }
     }
 }
