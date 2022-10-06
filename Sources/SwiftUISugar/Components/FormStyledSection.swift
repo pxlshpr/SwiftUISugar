@@ -68,6 +68,7 @@ public struct FormStyledSection<Header: View, Footer: View, Content: View>: View
     
     func footerView(for footer: Footer) -> some View {
         footer
+            .fixedSize(horizontal: false, vertical: true)
             .foregroundColor(Color(.secondaryLabel))
             .font(.footnote)
             .frame(maxWidth: .infinity, alignment: .leading)
@@ -145,7 +146,7 @@ public struct FormStyledScrollView<Content: View>: View {
 
 struct FormStyledSectionPreview: View {
     var footer: some View {
-        Text("Provide a source if you want")
+        Text("Provide a source if you want. Also this is now a very long footer lets see how this looks now shall we.")
     }
     
     
