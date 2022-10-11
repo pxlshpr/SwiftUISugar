@@ -88,8 +88,10 @@ public struct FormStyledSection<Header: View, Footer: View, Content: View>: View
         content()
             .frame(maxWidth: .infinity)
             .padding(20)
-            .background(Color(.secondarySystemGroupedBackground))
-            .cornerRadius(10)
+            .background(
+                RoundedRectangle(cornerRadius: 10)
+                    .foregroundColor(Color(.secondarySystemGroupedBackground))
+            )
     }
 }
 
