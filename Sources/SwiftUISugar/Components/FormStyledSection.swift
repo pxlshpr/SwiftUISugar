@@ -1,5 +1,8 @@
 import SwiftUI
 
+let DefaultHorizontalPadding: CGFloat = 17
+let DefaultVerticalPadding: CGFloat = 15
+
 public struct FormStyledSection<Header: View, Footer: View, Content: View>: View {
     var header: Header?
     var footer: Footer?
@@ -94,8 +97,6 @@ public struct FormStyledSection<Header: View, Footer: View, Content: View>: View
             .padding(.horizontal, 20)
     }
     
-    let DefaultHorizontalPadding: CGFloat = 17
-    let DefaultVerticalPadding: CGFloat = 15
     var contentView: some View {
         content()
 //            .background(.green)
