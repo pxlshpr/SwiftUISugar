@@ -4,10 +4,20 @@ public struct FormStyledSection<Header: View, Footer: View, Content: View>: View
     var header: Header?
     var footer: Footer?
     var content: () -> Content
+    var verticalPadding: CGFloat?
+    var horizontalPadding: CGFloat?
 
-    public init(header: Header, footer: Footer, @ViewBuilder content: @escaping () -> Content) {
+    public init(
+        header: Header,
+        footer: Footer,
+        horizontalPadding: CGFloat? = nil,
+        verticalPadding: CGFloat? = nil,
+        @ViewBuilder content: @escaping () -> Content
+    ) {
         self.header = header
         self.footer = footer
+        self.verticalPadding = verticalPadding
+        self.horizontalPadding = horizontalPadding
         self.content = content
     }
 
@@ -86,8 +96,10 @@ public struct FormStyledSection<Header: View, Footer: View, Content: View>: View
     
     var contentView: some View {
         content()
+//            .background(.green)
             .frame(maxWidth: .infinity)
-            .padding(20)
+            .padding(.horizontal, horizontalPadding ?? 20)
+            .padding(.vertical, verticalPadding ?? 20)
             .background(
                 RoundedRectangle(cornerRadius: 10)
                     .foregroundColor(Color(.secondarySystemGroupedBackground))
@@ -97,18 +109,32 @@ public struct FormStyledSection<Header: View, Footer: View, Content: View>: View
 
 /// Support optional header
 extension FormStyledSection where Header == EmptyView {
-    public init(footer: Footer, @ViewBuilder content: @escaping () -> Content) {
+    public init(
+        footer: Footer,
+        horizontalPadding: CGFloat? = nil,
+        verticalPadding: CGFloat? = nil,
+        @ViewBuilder content: @escaping () -> Content
+    ) {
         self.header = nil
         self.footer = footer
+        self.verticalPadding = verticalPadding
+        self.horizontalPadding = horizontalPadding
         self.content = content
     }
 }
 
 /// Support optional footer
 extension FormStyledSection where Footer == EmptyView {
-    public init(header: Header, @ViewBuilder content: @escaping () -> Content) {
+    public init(
+        header: Header,
+        horizontalPadding: CGFloat? = nil,
+        verticalPadding: CGFloat? = nil,
+        @ViewBuilder content: @escaping () -> Content
+    ) {
         self.header = header
         self.footer = nil
+        self.verticalPadding = verticalPadding
+        self.horizontalPadding = horizontalPadding
         self.content = content
     }
 }
@@ -116,35 +142,18 @@ extension FormStyledSection where Footer == EmptyView {
 
 /// Support optional header and footer
 extension FormStyledSection where Header == EmptyView, Footer == EmptyView {
-    public init(@ViewBuilder content: @escaping () -> Content) {
+    public init(
+        horizontalPadding: CGFloat? = nil,
+        verticalPadding: CGFloat? = nil,
+        @ViewBuilder content: @escaping () -> Content
+    ) {
         self.header = nil
         self.footer = nil
+        self.verticalPadding = verticalPadding
+        self.horizontalPadding = horizontalPadding
         self.content = content
     }
 }
-
-import SwiftUI
-
-public struct FormStyledScrollView<Content: View>: View {
-    
-    var content: () -> Content
-    
-    public init(@ViewBuilder content: @escaping () -> Content) {
-        self.content = content
-    }
-    
-    public var body: some View {
-        ScrollView(showsIndicators: false) {
-            content()
-                .frame(maxWidth: .infinity)
-        }
-        .background(
-            Color(.systemGroupedBackground)
-                .edgesIgnoringSafeArea(.all) /// requireds to cover the area that would be covered by the keyboard during its dismissal animation
-        )
-    }
-}
-
 
 struct FormStyledSectionPreview: View {
     var footer: some View {
