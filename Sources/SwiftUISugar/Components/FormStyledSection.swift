@@ -94,12 +94,14 @@ public struct FormStyledSection<Header: View, Footer: View, Content: View>: View
             .padding(.horizontal, 20)
     }
     
+    let DefaultHorizontalPadding: CGFloat = 17
+    let DefaultVerticalPadding: CGFloat = 15
     var contentView: some View {
         content()
 //            .background(.green)
             .frame(maxWidth: .infinity)
-            .padding(.horizontal, horizontalPadding ?? 20)
-            .padding(.vertical, verticalPadding ?? 20)
+            .padding(.horizontal, horizontalPadding ?? DefaultHorizontalPadding)
+            .padding(.vertical, verticalPadding ?? DefaultVerticalPadding)
             .background(
                 RoundedRectangle(cornerRadius: 10)
                     .foregroundColor(Color(.secondarySystemGroupedBackground))
