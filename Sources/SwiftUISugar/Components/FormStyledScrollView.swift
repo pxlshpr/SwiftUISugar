@@ -1,3 +1,4 @@
+#if canImport(UIKit)
 import SwiftUI
 
 public struct FormStyledScrollView<Content: View>: View {
@@ -19,3 +20,4 @@ public struct FormStyledScrollView<Content: View>: View {
         )
     }
 }
+#endif

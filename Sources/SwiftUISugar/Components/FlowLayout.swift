@@ -1,3 +1,4 @@
+#if canImport(UIKit)
 import SwiftUI
 
 public let flowLayoutDefaultItemSpacing: CGFloat = 4
@@ -132,3 +133,4 @@ public extension FlowLayout where RefreshBinding == Never? {
                   viewMapping: viewMapping)
     }
 }
+#endif

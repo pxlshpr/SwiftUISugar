@@ -1,3 +1,4 @@
+#if canImport(UIKit)
 import SwiftUI
 
 let DefaultHorizontalPadding: CGFloat = 17
@@ -222,3 +223,4 @@ struct FormStyledSection_Previews: PreviewProvider {
         FormStyledSectionPreview()
     }
 }
+#endif

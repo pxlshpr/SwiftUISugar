@@ -1,3 +1,4 @@
+#if canImport(UIKit)
 import SwiftUI
 
 public struct FormStyledButtonSection<Header: View, Footer: View, Content: View>: View {
@@ -57,3 +58,4 @@ extension FormStyledButtonSection where Header == EmptyView, Footer == EmptyView
         self.content = content
     }
 }
+#endif

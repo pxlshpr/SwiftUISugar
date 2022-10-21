@@ -1,3 +1,4 @@
+#if canImport(UIKit)
 import SwiftUI
 
 struct NamespaceEnvironmentKey: EnvironmentKey {
@@ -16,3 +17,4 @@ extension View {
         environment(\.namespace, value)
     }
 }
+#endif
