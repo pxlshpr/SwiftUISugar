@@ -1,5 +1,6 @@
 import SwiftUI
 
+@available(macOS 12, *)
 struct AnimatableFontModifier: AnimatableModifier {
     var size: Double
     var weight: Font.Weight = .regular
