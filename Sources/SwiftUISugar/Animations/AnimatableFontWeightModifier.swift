@@ -1,5 +1,6 @@
 import SwiftUI
 
+@available(macOS 12, *)
 struct AnimatableFontWeightModifier: AnimatableModifier {
     var style: Font.TextStyle = .body
     var weight: Font.Weight = .regular

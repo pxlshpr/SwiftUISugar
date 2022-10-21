@@ -1,3 +1,4 @@
+#if canImport(UIKit)
 import SwiftUI
 import SwiftHaptics
 
@@ -166,3 +167,4 @@ extension Field where Content == EmptyView {
         )
     }
 }
+#endif
