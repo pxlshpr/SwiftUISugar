@@ -1,3 +1,4 @@
+#if canImport(UIKit)
 import Combine
 import UIKit
 import SwiftUI
@@ -71,3 +72,4 @@ public class TextFieldAlertViewController: UIViewController {
         present(vc, animated: true, completion: nil)
     }
 }
+#endif

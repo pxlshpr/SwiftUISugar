@@ -1,3 +1,4 @@
+#if canImport(UIKit)
 import UIKit
 
 public extension UIImage {
@@ -18,3 +19,4 @@ public extension UIImage {
         size.width > size.height
     }
 }
+#endif

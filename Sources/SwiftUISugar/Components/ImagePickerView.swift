@@ -1,3 +1,4 @@
+#if canImport(UIKit)
 import SwiftUI
 import UIKit
 import PhotosUI
@@ -102,3 +103,4 @@ public enum ImagePickerViewError: Error {
     case cannotLoadObject
     case failedToLoadObject
 }
+#endif

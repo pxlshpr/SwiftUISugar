@@ -1,3 +1,4 @@
+#if canImport(UIKit)
 import Combine
 import UIKit
 import SwiftUI
@@ -38,3 +39,4 @@ extension TextFieldAlert: UIViewControllerRepresentable {
         // no update needed
     }
 }
+#endif

@@ -1,3 +1,4 @@
+#if canImport(UIKit)
 import UIKit
 
 public extension CGSize {
@@ -6,3 +7,4 @@ public extension CGSize {
         return width / height
     }
 }
+#endif
