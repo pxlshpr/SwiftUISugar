@@ -1,3 +1,4 @@
+#if canImport(UIKit)
 import SwiftUI
 import UniformTypeIdentifiers
 
@@ -83,3 +84,4 @@ extension URL {
         FileManager.default.fileExists(atPath: self.absoluteString)
     }
 }
+#endif

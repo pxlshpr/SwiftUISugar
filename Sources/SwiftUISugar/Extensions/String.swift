@@ -1,3 +1,4 @@
+#if canImport(UIKit)
 import SwiftUI
 
 public extension String {
@@ -7,3 +8,4 @@ public extension String {
         return size.width
     }
 }
+#endif

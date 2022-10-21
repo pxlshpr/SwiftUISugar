@@ -1,3 +1,4 @@
+#if canImport(UIKit)
 import SwiftUI
 
 public struct CustomCorner: Shape {
@@ -14,3 +15,4 @@ public struct CustomCorner: Shape {
         return Path(path.cgPath)
     }
 }
+#endif
