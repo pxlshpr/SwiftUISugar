@@ -13,7 +13,7 @@ public struct FormTextField: UIViewRepresentable {
     var keyboardType: UIKeyboardType = .default
     var tag: Int
     
-    init(placeholder: String,
+    public init(placeholder: String,
          text: Binding<String>,
          focusable: Binding<[Bool]>? = nil,
          returnedOnLastField: Binding<Bool>,
