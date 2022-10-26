@@ -3,15 +3,34 @@ import SwiftUI
 /// Taken from [this medium article](https://prafullkumar77.medium.com/how-to-move-to-the-next-textfield-swiftui-1eb24066fb0a)
 
 public struct FormTextField: UIViewRepresentable {
-    public let placeholder: String
-    @Binding public var text: String
-    public var focusable: Binding<[Bool]>? = nil
-    @Binding public var returnedOnLastField: Bool
+    let placeholder: String
+    @Binding var text: String
+    var focusable: Binding<[Bool]>? = nil
+    @Binding var returnedOnLastField: Bool
 
-    public var returnKeyType: UIReturnKeyType = .next
-    public var autocapitalizationType: UITextAutocapitalizationType = .none
-    public var keyboardType: UIKeyboardType = .default
-    public var tag: Int
+    var returnKeyType: UIReturnKeyType = .next
+    var autocapitalizationType: UITextAutocapitalizationType = .none
+    var keyboardType: UIKeyboardType = .default
+    var tag: Int
+    
+    init(placeholder: String,
+         text: Binding<String>,
+         focusable: Binding<[Bool]>? = nil,
+         returnedOnLastField: Binding<Bool>,
+         returnKeyType: UIReturnKeyType = .next,
+         autocapitalizationType: UITextAutocapitalizationType = .none,
+         keyboardType: UIKeyboardType = .default,
+         tag: Int
+    ) {
+        self.placeholder = placeholder
+        self.focusable = focusable
+        self.returnKeyType = returnKeyType
+        self.autocapitalizationType = autocapitalizationType
+        self.keyboardType = keyboardType
+        self.tag = tag
+        _text = text
+        _returnedOnLastField = returnedOnLastField
+    }
     
     public func makeUIView(context: Context) -> UITextField {
         let textField = UITextField(frame: .zero)
