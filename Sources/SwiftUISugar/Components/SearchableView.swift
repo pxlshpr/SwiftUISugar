@@ -168,9 +168,9 @@ public struct SearchableView<Content: View>: View {
             searchText = ""
         } label: {
             Image(systemName: "xmark.circle.fill")
-                .foregroundColor(Color(.secondaryLabel))
+                .foregroundColor(Color(.quaternaryLabel))
         }
-        .opacity(searchText.isEmpty ? 0 : 1)
+        .opacity((!searchText.isEmpty && isFocused) ? 1 : 0)
     }
 
     var searchBar: some View {
