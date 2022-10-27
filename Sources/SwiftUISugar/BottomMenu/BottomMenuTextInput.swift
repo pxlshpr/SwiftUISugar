@@ -8,7 +8,7 @@ public struct BottomMenuTextInput {
     let submitString: String
     let autocapitalization: TextInputAutocapitalization
     
-    init(
+    public init(
         placeholder: String = "",
         keyboardType: UIKeyboardType = .default,
         submitString: String = "",
