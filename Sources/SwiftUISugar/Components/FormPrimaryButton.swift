@@ -6,7 +6,7 @@ public struct FormPrimaryButton: View {
     var color: Color = .accentColor
     var action: () -> ()
     
-    public init(title: String, color: Color, action: @escaping () -> Void) {
+    public init(title: String, color: Color = .accentColor, action: @escaping () -> Void) {
         self.title = title
         self.color = color
         self.action = action
