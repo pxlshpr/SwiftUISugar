@@ -1,25 +1,32 @@
 {
-  "object": {
-    "pins": [
-      {
-        "package": "SwiftHaptics",
-        "repositoryURL": "https://github.com/pxlshpr/SwiftHaptics",
-        "state": {
-          "branch": null,
-          "revision": "6300a8681b551f3df1023266116ca9700dbd14f9",
-          "version": "0.1.0"
-        }
-      },
-      {
-        "package": "SwiftSugar",
-        "repositoryURL": "https://github.com/pxlshpr/SwiftSugar",
-        "state": {
-          "branch": null,
-          "revision": "485228890dcef83c325b20cad33d1bf47b3e9c43",
-          "version": "0.0.62"
-        }
+  "pins" : [
+    {
+      "identity" : "activityindicatorview",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/exyte/ActivityIndicatorView",
+      "state" : {
+        "revision" : "0fb57e69b6130b4beb8ba49eaafe13563f2f6bd6",
+        "version" : "1.1.0"
       }
-    ]
-  },
-  "version": 1
+    },
+    {
+      "identity" : "swifthaptics",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/pxlshpr/SwiftHaptics",
+      "state" : {
+        "revision" : "6300a8681b551f3df1023266116ca9700dbd14f9",
+        "version" : "0.1.0"
+      }
+    },
+    {
+      "identity" : "swiftsugar",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/pxlshpr/SwiftSugar",
+      "state" : {
+        "revision" : "485228890dcef83c325b20cad33d1bf47b3e9c43",
+        "version" : "0.0.62"
+      }
+    }
+  ],
+  "version" : 2
 }

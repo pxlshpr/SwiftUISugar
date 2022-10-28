@@ -17,6 +17,7 @@ let package = Package(
     dependencies: [
         .package(url: "https://github.com/pxlshpr/SwiftHaptics", from: "0.1.0"),
         .package(url: "https://github.com/pxlshpr/SwiftSugar", from: "0.0.62"),
+        .package(url: "https://github.com/exyte/ActivityIndicatorView", from: "1.1.0"),
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
@@ -26,6 +27,7 @@ let package = Package(
             dependencies: [
                 .product(name: "SwiftHaptics", package: "swifthaptics"),
                 .product(name: "SwiftSugar", package: "swiftsugar"),
+                .product(name: "ActivityIndicatorView", package: "activityindicatorview"),
             ]),
         .testTarget(
             name: "SwiftUISugarTests",
