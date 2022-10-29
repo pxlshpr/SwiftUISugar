@@ -109,7 +109,6 @@ public struct BottomMenuModifier: ViewModifier {
             //                buttonsContent(geometry)
             //            }
             buttonsContent().readSize { size in
-                print("buttonSize is: \(size.height)")
                 buttonsSize = size
             }
         }
