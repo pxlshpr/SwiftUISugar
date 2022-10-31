@@ -1,5 +1,4 @@
 import SwiftUI
-import SwiftUISugar
 import SwiftHaptics
 
 public struct BottomMenuModifier: ViewModifier {
