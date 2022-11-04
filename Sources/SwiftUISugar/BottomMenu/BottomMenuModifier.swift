@@ -4,18 +4,20 @@ import SwiftHaptics
 public struct BottomMenuModifier: ViewModifier {
     
     @Environment(\.colorScheme) var colorScheme
+    @FocusState var isFocused: Bool
+
+    let menu: BottomMenu
+    @Binding var isPresented: Bool
     @State var animateBackground: Bool = false
     @State var animatedIsPresented: Bool = false
-    @FocusState var isFocused: Bool
     @State var inputText: String = ""
-    
-    @Binding var isPresented: Bool
-    let menu: BottomMenu
     @State var actionToReceiveTextInputFor: BottomMenuAction?
     @State var linkedMenu: BottomMenu?
-    
     @State var menuTransition: AnyTransition = .move(edge: .bottom)
-    
+    @State var animationDurationBackground: CGFloat = 0.1
+    @State var animationDurationButtons: CGFloat = 0.15
+    @State private var buttonsSize = CGSize.zero
+
     public init(isPresented: Binding<Bool>, menu: BottomMenu) {
         _isPresented = isPresented
         self.menu = menu
@@ -28,10 +30,6 @@ public struct BottomMenuModifier: ViewModifier {
         }
     }
     
-    @State var animationDurationBackground: CGFloat = 0.1
-    @State var animationDurationButtons: CGFloat = 0.15
-    
-    @State private var buttonsSize = CGSize.zero
     
     public func body(content: Content) -> some View {
         content
