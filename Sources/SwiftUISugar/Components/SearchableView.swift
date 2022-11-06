@@ -72,17 +72,16 @@ public struct SearchableView<Content: View>: View {
     }
     
     public var body: some View {
-//        NavigationView {
-            ZStack {
-                content()
-//                    .blur(radius: blurRadius)
-                if !isHidden {
-                    searchLayer
-                        .zIndex(10)
-                        .transition(.move(edge: .bottom))
-                }
+        ZStack {
+            content()
+                .edgesIgnoringSafeArea(.bottom)
+                .blur(radius: blurRadius)
+            if !isHidden {
+                searchLayer
+                    .zIndex(10)
+                    .transition(.move(edge: .bottom))
             }
-//        }
+        }
         .onAppear {
             if focusOnAppear {
                 focusOnSearchTextField()
@@ -98,8 +97,21 @@ public struct SearchableView<Content: View>: View {
                     showingSearchLayer = true
                 }
             }
+            
+            Haptics.feedback(style: .soft)
+            withAnimation(
+                .interpolatingSpring(
+                    mass: 3,
+                    stiffness: 1000,
+                    damping: 500,
+                    initialVelocity: 0)
+            ) {
+                //TODO: programmatically set keyboard height here based off device
+                bottomPadding = newValue ? 270 : 0
+            }
         }
     }
+    @State var bottomPadding: CGFloat = 0
     
     var blurRadius: CGFloat {
         guard blurWhileSearching else { return 0 }
@@ -120,8 +132,6 @@ public struct SearchableView<Content: View>: View {
                     .background(
                         .ultraThinMaterial
                     )
-    //            return Color.accentColor
-    //                .opacity(0.5)
             } else {
                 colorScheme == .light ? Color(hex: colorHexKeyboardLight) : Color(hex: colorHexKeyboardDark)
             }
@@ -131,7 +141,6 @@ public struct SearchableView<Content: View>: View {
     var textFieldColor: Color {
         colorScheme == .light ? Color(hex: colorHexSearchTextFieldLight) : Color(hex: colorHexSearchTextFieldDark)
     }
-
     
     var background: some View {
         keyboardColor
@@ -150,12 +159,7 @@ public struct SearchableView<Content: View>: View {
                     Haptics.feedback(style: .soft)
                     didSubmit()
                 }
-//                        guard !searchViewModel.searchText.isEmpty else {
-//                            dismiss()
-//                            return
-//                        }
                 resignFocusOfSearchTextField()
-//                        startSearching()
             }
     }
     
@@ -204,18 +208,21 @@ public struct SearchableView<Content: View>: View {
         }
     }
 
-    
     var searchLayer: some View {
         ZStack {
             VStack {
                 Spacer()
                 searchBar
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 50)
+                    .padding(.bottom, bottomPadding)
                     .background(
                         keyboardColor
                             .edgesIgnoringSafeArea(.bottom)
                     )
             }
         }
+        .ignoresSafeArea(.keyboard)
     }
     
     func resignFocusOfSearchTextField() {
