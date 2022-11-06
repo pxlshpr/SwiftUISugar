@@ -78,6 +78,7 @@ public struct SearchableView<Content: View>: View {
                     .blur(radius: blurRadius)
                 if !isHidden {
                     searchLayer
+                        .zIndex(10)
                         .transition(.move(edge: .bottom))
                 }
             }
