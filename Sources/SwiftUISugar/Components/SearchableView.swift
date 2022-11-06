@@ -75,7 +75,7 @@ public struct SearchableView<Content: View>: View {
 //        NavigationView {
             ZStack {
                 content()
-                    .blur(radius: blurRadius)
+//                    .blur(radius: blurRadius)
                 if !isHidden {
                     searchLayer
                         .zIndex(10)
