@@ -14,8 +14,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pxlshpr/SwiftHaptics",
       "state" : {
-        "revision" : "6300a8681b551f3df1023266116ca9700dbd14f9",
-        "version" : "0.1.0"
+        "revision" : "c3069ce1390e5562b2d2c0e4ffed5a1b4e9aba54",
+        "version" : "0.1.3"
       }
     },
     {
@@ -23,8 +23,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pxlshpr/SwiftSugar",
       "state" : {
-        "revision" : "485228890dcef83c325b20cad33d1bf47b3e9c43",
-        "version" : "0.0.62"
+        "revision" : "080d38c0cb15782a1b24ae9ba1ff2163b0e196cb",
+        "version" : "0.0.86"
       }
     }
   ],

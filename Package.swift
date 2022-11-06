@@ -15,8 +15,8 @@ let package = Package(
             targets: ["SwiftUISugar"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/pxlshpr/SwiftHaptics", from: "0.1.0"),
-        .package(url: "https://github.com/pxlshpr/SwiftSugar", from: "0.0.62"),
+        .package(url: "https://github.com/pxlshpr/SwiftHaptics", from: "0.1.3"),
+        .package(url: "https://github.com/pxlshpr/SwiftSugar", from: "0.0.86"),
         .package(url: "https://github.com/exyte/ActivityIndicatorView", from: "1.1.0"),
     ],
     targets: [
