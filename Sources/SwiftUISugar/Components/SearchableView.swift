@@ -21,6 +21,7 @@ public struct SearchableView<Content: View>: View {
     @FocusState var isFocused: Bool
     @State var showingSearchLayer: Bool = false
 
+    @Binding var isHidden: Bool
     let blurWhileSearching: Bool
     let focusOnAppear: Bool
     let prompt: String
@@ -33,10 +34,12 @@ public struct SearchableView<Content: View>: View {
         focused: Binding<Bool> = .constant(true),
         blurWhileSearching: Bool = false,
         focusOnAppear: Bool = false,
+        isHidden: Binding<Bool> = .constant(false),
         didSubmit: SearchSubmitHandler? = nil,
         @ViewBuilder content: @escaping () -> Content)
     {
         _searchText = searchText
+        _isHidden = isHidden
         self.prompt = prompt
         self.externalIsFocused = focused
         self.blurWhileSearching = blurWhileSearching
@@ -52,11 +55,13 @@ public struct SearchableView<Content: View>: View {
         focused: Binding<Bool> = .constant(true),
         blurWhileSearching: Bool = false,
         focusOnAppear: Bool = false,
+        isHidden: Binding<Bool> = .constant(false),
         didSubmit: SearchSubmitHandler? = nil,
         @ViewBuilder buttonViews: @escaping () -> TupleView<Views>,
         @ViewBuilder content: @escaping () -> Content)
     {
         _searchText = searchText
+        _isHidden = isHidden
         self.prompt = prompt
         self.externalIsFocused = focused
         self.blurWhileSearching = blurWhileSearching
@@ -71,7 +76,10 @@ public struct SearchableView<Content: View>: View {
             ZStack {
                 content()
                     .blur(radius: blurRadius)
-                searchLayer
+                if !isHidden {
+                    searchLayer
+                        .transition(.move(edge: .bottom))
+                }
             }
 //        }
         .onAppear {

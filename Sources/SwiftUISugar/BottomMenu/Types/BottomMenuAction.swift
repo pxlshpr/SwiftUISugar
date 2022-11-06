@@ -1,5 +1,4 @@
 import SwiftUI
-import SwiftUISugar
 
 public struct BottomMenuAction: Hashable, Equatable {
     let title: String
