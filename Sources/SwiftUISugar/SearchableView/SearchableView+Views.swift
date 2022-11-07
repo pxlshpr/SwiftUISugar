@@ -16,9 +16,6 @@ extension SearchableView {
             }
         }
         .onAppear(perform: appeared)
-        .onDisappear {
-            print("Disappeared, time to reset sheet")
-        }
         .onChange(of: externalIsFocused.wrappedValue, perform: externalIsFocusedChanged)
         .onChange(of: isFocused, perform: isFocusedChanged)
     }
