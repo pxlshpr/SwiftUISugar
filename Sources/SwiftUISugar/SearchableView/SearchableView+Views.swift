@@ -111,7 +111,7 @@ extension SearchableView {
                         .shadow(color: shadowColor, radius: 3, x: 0, y: 3)
                 )
         }
-        .offset(x: isExpanded ? 0 : 20)
+        .offset(x: isExpanded ? 0 : shrunkenOffset)
     }
     
     //MARK: TextField
@@ -133,7 +133,7 @@ extension SearchableView {
             .foregroundColor(isExpanded ? textFieldColor : Color(.tertiarySystemGroupedBackground))
             .frame(height: isExpanded ? 48 : 38)
             .frame(width: isExpanded ? UIScreen.main.bounds.width - 18 : 120)
-            .offset(x: isExpanded ? 0 : -20)
+            .offset(x: isExpanded ? 0 : -shrunkenOffset)
             .shadow(color: shadowColor, radius: 3, x: 0, y: 3)
     }
 
@@ -160,5 +160,9 @@ extension SearchableView {
                 .foregroundColor(Color(.quaternaryLabel))
         }
         .opacity((!searchText.isEmpty && isFocused) ? 1 : 0)
+    }
+    
+    var safeAreaBottomInset: some View {
+        Spacer().frame(height: bottomInset)
     }
 }
