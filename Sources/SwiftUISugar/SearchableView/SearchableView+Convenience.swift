@@ -67,7 +67,7 @@ extension SearchableView {
     var bottomInset: CGFloat {
         
         let OffsetWhileFocused = 366.0
-        let OffsetWhileShrunken = 0.0
+        let OffsetWhileShrunken = 100.0 /// Previously 0.0
         let OffsetWhileExpandedAndNotFocused = 100.0
         
         if isFocused {
