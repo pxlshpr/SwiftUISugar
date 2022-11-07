@@ -11,13 +11,11 @@ public struct SearchableView<Content: View>: View {
 
     //MARK: Internal
     @Environment(\.colorScheme) var colorScheme
-    @State var showingSearchLayer: Bool = false
 
     @FocusState var isFocused: Bool
     @State var isFocusedForAnimation = false
 
     @Binding var isHidden: Bool
-    let blurWhileSearching: Bool
     let focusOnAppear: Bool
     let promptSuffix: String
 
@@ -31,7 +29,6 @@ public struct SearchableView<Content: View>: View {
         searchText: Binding<String>,
         promptSuffix: String = "Search",
         focused: Binding<Bool> = .constant(true),
-        blurWhileSearching: Bool = false,
         focusOnAppear: Bool = false,
         isHidden: Binding<Bool> = .constant(false),
         didSubmit: SearchSubmitHandler? = nil,
@@ -41,7 +38,6 @@ public struct SearchableView<Content: View>: View {
         _isHidden = isHidden
         self.promptSuffix = promptSuffix
         self.externalIsFocused = focused
-        self.blurWhileSearching = blurWhileSearching
         self.focusOnAppear = focusOnAppear
         self.didSubmit = didSubmit
         self.buttonViews = []
@@ -57,7 +53,6 @@ public struct SearchableView<Content: View>: View {
         searchText: Binding<String>,
         promptSuffix: String = "Search",
         focused: Binding<Bool> = .constant(true),
-        blurWhileSearching: Bool = false,
         focusOnAppear: Bool = false,
         isHidden: Binding<Bool> = .constant(false),
         didSubmit: SearchSubmitHandler? = nil,
@@ -68,7 +63,6 @@ public struct SearchableView<Content: View>: View {
         _isHidden = isHidden
         self.promptSuffix = promptSuffix
         self.externalIsFocused = focused
-        self.blurWhileSearching = blurWhileSearching
         self.focusOnAppear = focusOnAppear
         self.didSubmit = didSubmit
         self.buttonViews = buttonViews().getViews

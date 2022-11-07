@@ -11,10 +11,7 @@ extension SearchableView {
     }
     func tappedSearchBar() {
         Haptics.feedback(style: .soft)
-        withAnimation {
-            isFocusedForAnimation = true
-        }
-        isFocused = true
+        focusOnSearchTextField()
     }
     
     func tappedSubmit() {
@@ -26,16 +23,15 @@ extension SearchableView {
     }
 
     //MARK: - TextField Focus
+    
     func resignFocusOfSearchTextField() {
-        withAnimation {
-            showingSearchLayer = false
-        }
         isFocused = false
     }
     
     func focusOnSearchTextField() {
+        /// This is crucial to be run before setting `isFocused`, as the `TextField` wouldn't be in the view hierarchy while shrunken
         withAnimation {
-            showingSearchLayer = true
+            isFocusedForAnimation = true
         }
         isFocused = true
     }
@@ -50,11 +46,6 @@ extension SearchableView {
     
     func isFocusedChanged(to newValue: Bool) {
         externalIsFocused.wrappedValue = newValue
-        if blurWhileSearching && !showingSearchLayer && newValue {
-            withAnimation {
-                showingSearchLayer = true
-            }
-        }
         withAnimation {
             isFocusedForAnimation = newValue
         }
