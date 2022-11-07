@@ -2,14 +2,7 @@ import SwiftUI
 import SwiftSugar
 import SwiftHaptics
 
-let colorHexKeyboardLight = "CDD0D6"
-let colorHexKeyboardDark = "303030"
-let colorHexSearchTextFieldDark = "535355"
-let colorHexSearchTextFieldLight = "FFFFFF"
-
-public typealias SearchSubmitHandler = (() -> ())
-
-public struct SearchableView<Content: View>: View {
+public struct SearchableView_Legacy<Content: View>: View {
     
     @Binding var searchText: String
     var externalIsFocused: Binding<Bool>
@@ -21,6 +14,7 @@ public struct SearchableView<Content: View>: View {
     @FocusState var isFocused: Bool
     @State var showingSearchLayer: Bool = false
 
+    @Binding var isHidden: Bool
     let blurWhileSearching: Bool
     let focusOnAppear: Bool
     let prompt: String
@@ -33,10 +27,12 @@ public struct SearchableView<Content: View>: View {
         focused: Binding<Bool> = .constant(true),
         blurWhileSearching: Bool = false,
         focusOnAppear: Bool = false,
+        isHidden: Binding<Bool> = .constant(false),
         didSubmit: SearchSubmitHandler? = nil,
         @ViewBuilder content: @escaping () -> Content)
     {
         _searchText = searchText
+        _isHidden = isHidden
         self.prompt = prompt
         self.externalIsFocused = focused
         self.blurWhileSearching = blurWhileSearching
@@ -52,11 +48,13 @@ public struct SearchableView<Content: View>: View {
         focused: Binding<Bool> = .constant(true),
         blurWhileSearching: Bool = false,
         focusOnAppear: Bool = false,
+        isHidden: Binding<Bool> = .constant(false),
         didSubmit: SearchSubmitHandler? = nil,
         @ViewBuilder buttonViews: @escaping () -> TupleView<Views>,
         @ViewBuilder content: @escaping () -> Content)
     {
         _searchText = searchText
+        _isHidden = isHidden
         self.prompt = prompt
         self.externalIsFocused = focused
         self.blurWhileSearching = blurWhileSearching
@@ -70,8 +68,12 @@ public struct SearchableView<Content: View>: View {
 //        NavigationView {
             ZStack {
                 content()
-                    .blur(radius: blurRadius)
-                searchLayer
+//                    .blur(radius: blurRadius)
+                if !isHidden {
+                    searchLayer
+                        .zIndex(10)
+                        .transition(.move(edge: .bottom))
+                }
             }
 //        }
         .onAppear {
@@ -214,31 +216,5 @@ public struct SearchableView<Content: View>: View {
             showingSearchLayer = false
         }
         isFocused = false
-    }
-}
-
-extension TupleView {
-    var getViews: [AnyView] {
-        makeArray(from: value)
-    }
-    
-    private struct GenericView {
-        let body: Any
-        
-        var anyView: AnyView? {
-            AnyView(_fromValue: body)
-        }
-    }
-    
-    private func makeArray<Tuple>(from tuple: Tuple) -> [AnyView] {
-        func convert(child: Mirror.Child) -> AnyView? {
-            withUnsafeBytes(of: child.value) { ptr -> AnyView? in
-                let binded = ptr.bindMemory(to: GenericView.self)
-                return binded.first?.anyView
-            }
-        }
-        
-        let tupleMirror = Mirror(reflecting: tuple)
-        return tupleMirror.children.compactMap(convert)
     }
 }
