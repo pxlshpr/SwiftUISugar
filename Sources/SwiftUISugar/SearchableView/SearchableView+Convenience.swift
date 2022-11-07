@@ -61,17 +61,20 @@ extension SearchableView {
      However, **this means that the user would need to manually apply a bottom offset to the content** in this specific state **(while the search field isn't focused, and the search text is empty)**,
      if they would like to alleviate this.
      
-     [ ] Remove the hardcoded value we've got for `OffsetWhileFocused` which takes into account the keyboard height, or at least hardcode this for all possible devices.
      [x] ~~Find a way to specify a bottom inset for the content of the scrollView (assuming the user is using this on a scrollView), while maintaining the scroll indicators without an inset.
-            Perhaps place a spacer at the bottom of the content (which is essentially what we want).
+            Perhaps place a spacer at the bottom of the content (which is essentially what we want).~~
             *We seemingly fixed this by actually setting the `OffsetWhileShrunken` once we noticed that the scrollview indicator insets do actually need to be present (and in line with the bottom of the content),
             otherwise extending to the bottom of the screen past the curved corners.*
+     
+     [ ] Remove the hardcoded value we've got for `OffsetWhileFocused` which takes into account the keyboard height, or at least hardcode this for all possible devices.
+     [ ] Remove the hardcoded values for `OffsetWhileShrunken` and `OffsetWhileExpandedAndNotFocused` to definitely calculate the heights for the bars in those states.
+
      */
     var bottomInset: CGFloat {
         
         let OffsetWhileFocused = 366.0
         let OffsetWhileShrunken = 80.0 /// Previously 0.0
-        let OffsetWhileExpandedAndNotFocused = 100.0
+        let OffsetWhileExpandedAndNotFocused = 105.0
         
         if isFocused {
             return OffsetWhileFocused
