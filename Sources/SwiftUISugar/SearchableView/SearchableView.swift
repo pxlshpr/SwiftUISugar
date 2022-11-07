@@ -2,6 +2,13 @@ import SwiftUI
 import SwiftSugar
 import SwiftHaptics
 
+/**
+ 
+ Todo: ** Known Glitch **
+ If the color scheme is changed—the next focus doesn't move the search bar up or down as expected.
+ 
+ */
+
 public struct SearchableView<Content: View>: View {
 
     @Binding var searchText: String
