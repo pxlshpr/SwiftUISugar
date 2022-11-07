@@ -79,11 +79,11 @@ extension SearchableView {
                 }
                 HStack(spacing: 0) {
                     Text("Search")
-                        .foregroundColor(Color(.label))
+                        .foregroundColor(.white)
                         .colorMultiply(isExpanded ? Color(.tertiaryLabel) : Color(.secondaryLabel))
                         .opacity(isExpanded ? (searchText.isEmpty ? 1 : 0) : 1)
                         .multilineTextAlignment(.leading)
-                        .kerning(0.5)
+//                        .kerning(0.5)
                     if isExpanded {
                         Text(" \(promptSuffix)")
                             .foregroundColor(Color(.tertiaryLabel))
