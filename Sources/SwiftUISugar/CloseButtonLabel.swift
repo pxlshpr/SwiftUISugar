@@ -10,3 +10,10 @@ public var closeButtonLabel: some View {
                 .opacity(0.5)
         )
 }
+
+public var navigationLinkArrow: some View {
+    Image(systemName: "chevron.right")
+        .imageScale(.small)
+        .fontWeight(.medium)
+        .foregroundColor(Color(.tertiaryLabel))
+}
