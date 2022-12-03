@@ -1,4 +1,5 @@
 import SwiftUI
+import SwiftHaptics
 
 /// Use this to ensure that a sheet is shown upon setting it to true.
 ///
@@ -7,13 +8,19 @@ import SwiftUI
 ///
 /// This is what the check for whether it is already true is for—and we set it to false and set it back to true
 /// after a delay in that case to ensure that it actually gets presented.
-public func showSheetWithBinding(_ binding: Binding<Bool>) {
+public func showSheetWithBinding(_ binding: Binding<Bool>, includeHaptics: Bool = true) {
     if binding.wrappedValue {
         binding.wrappedValue = false
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            if includeHaptics {
+                Haptics.feedback(style: .soft)
+            }
             binding.wrappedValue = true
         }
     } else {
+        if includeHaptics {
+            Haptics.feedback(style: .soft)
+        }
         binding.wrappedValue = true
     }
 }
