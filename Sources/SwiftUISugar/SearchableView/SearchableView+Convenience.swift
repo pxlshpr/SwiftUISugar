@@ -7,6 +7,7 @@ extension SearchableView {
     }
     
     var isExpanded: Bool {
+//        return true
         isFocusedForAnimation || !searchText.isEmpty
     }
     
@@ -17,8 +18,13 @@ extension SearchableView {
         return Color(.black).opacity(colorScheme == .light ? 0.2 : 0.2)
     }
 
-    var textFieldColor: Color {
+    var expandedTextFieldColor: Color {
         colorScheme == .light ? Color(hex: colorHexSearchTextFieldLight) : Color(hex: colorHexSearchTextFieldDark)
+    }
+
+    var collapsedTextFieldColor: Color {
+//        Color(.tertiarySystemGroupedBackground)
+        Color.accentColor
     }
 
     @ViewBuilder

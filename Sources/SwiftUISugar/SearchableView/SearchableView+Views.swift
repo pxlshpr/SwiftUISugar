@@ -3,6 +3,19 @@ import SwiftUI
 extension SearchableView {
     
     public var body: some View {
+        contents
+//        contents_test
+    }
+    
+    var contents_test: some View {
+        VStack {
+            Spacer()
+            TextField("", text: $searchText)
+                .background(.green)
+        }
+    }
+    
+    var contents: some View {
         ZStack {
             content()
                 .frame(width: UIScreen.main.bounds.width) //TODO: Remove this as `.main` will be deprecated
@@ -13,6 +26,7 @@ extension SearchableView {
                 searchLayer
                     .zIndex(10)
                     .transition(.move(edge: .bottom))
+                    .opacity(isFocusedForAppState ? 0 : 1)
             }
         }
         .onAppear(perform: appeared)
@@ -33,6 +47,26 @@ extension SearchableView {
                             }
                         }
                     )
+            }
+        }
+        .onWillResignActive {
+            print("willResignActive")
+            if isFocused {
+                isFocusedForAppState = true
+                resignFocusOfSearchTextField()
+            }
+        }
+        .onDidEnterBackground {
+            print("didEnterBackground")
+        }
+        .onWillEnterForeground {
+            print("willEnterForeground")
+        }
+        .onDidBecomeActive {
+            print("didBecomeActive")
+            if isFocusedForAppState {
+                focusOnSearchTextField()
+                isFocusedForAppState = false
             }
         }
     }
@@ -63,6 +97,24 @@ extension SearchableView {
         }
     }
     
+    var expandedTextColor: Color {
+        Color(.tertiaryLabel)
+    }
+    
+    var collapsedTextColor: Color {
+//        Color(.secondaryLabel)
+        Color.white.opacity(0.9)
+    }
+    
+    var expandedAccessoryColor: Color {
+        Color(.secondaryLabel)
+    }
+    
+    var collapsedAccessoryColor: Color {
+//        Color(.secondaryLabel)
+        Color.white.opacity(0.8)
+    }
+    
     var textFieldContents: some View {
         HStack(spacing: 5) {
             searchIcon
@@ -80,13 +132,13 @@ extension SearchableView {
                 HStack(spacing: 0) {
                     Text("Search")
                         .foregroundColor(.white)
-                        .colorMultiply(isExpanded ? Color(.tertiaryLabel) : Color(.secondaryLabel))
+                        .colorMultiply(isExpanded ? expandedTextColor : collapsedTextColor)
                         .opacity(isExpanded ? (searchText.isEmpty ? 1 : 0) : 1)
                         .multilineTextAlignment(.leading)
 //                        .kerning(0.5)
                     if isExpanded {
                         Text(" \(promptSuffix)")
-                            .foregroundColor(Color(.tertiaryLabel))
+                            .foregroundColor(expandedTextColor)
                             .transition(.asymmetric(
                                 insertion: .opacity.combined(with: .move(edge: .leading)),
                                 removal: .move(edge: .trailing).combined(with: .opacity)))
@@ -101,12 +153,12 @@ extension SearchableView {
     var accessoryViews: some View {
         ForEach(buttonViews.indices, id: \.self) { index in
             buttonViews[index]
-                .foregroundColor(Color(.label))
-                .colorMultiply(isExpanded ? Color(.secondaryLabel) : Color(.secondaryLabel))
+                .foregroundColor(.white)
+                .colorMultiply(isExpanded ? expandedAccessoryColor : collapsedAccessoryColor)
                 .padding(6)
                 .background(
                     Circle()
-                        .foregroundColor(isExpanded ? textFieldColor : Color(.tertiarySystemGroupedBackground))
+                        .foregroundColor(isExpanded ? expandedTextFieldColor : collapsedTextFieldColor)
                         .shadow(color: shadowColor, radius: 3, x: 0, y: 3)
                 )
         }
@@ -129,7 +181,7 @@ extension SearchableView {
         
     var textFieldBackground: some View {
         RoundedRectangle(cornerRadius: isExpanded ? 15 : 20, style: .circular)
-            .foregroundColor(isExpanded ? textFieldColor : Color(.tertiarySystemGroupedBackground))
+            .foregroundColor(isExpanded ? expandedTextFieldColor : collapsedTextFieldColor)
             .frame(height: isExpanded ? 48 : 38)
             .frame(width: isExpanded ? UIScreen.main.bounds.width - 18 : 120)
             .offset(x: isExpanded ? 0 : -shrunkenOffset)
@@ -145,10 +197,20 @@ extension SearchableView {
     //MARK: Components
     
     var searchIcon: some View {
-        Image(systemName: "magnifyingglass")
-            .foregroundColor(Color(.secondaryLabel))
+        var color: Color {
+//            Color(.secondaryLabel)
+            isExpanded ? Color(.secondaryLabel) : .white
+        }
+        
+        var opacity: CGFloat {
+            isExpanded ? 1.0 : 0.5
+        }
+        
+        return Image(systemName: "magnifyingglass")
+            .foregroundColor(color)
             .font(.system(size: 18))
             .fontWeight(.semibold)
+            .opacity(opacity)
     }
 
     var clearButton: some View {

@@ -3,10 +3,8 @@ import SwiftSugar
 import SwiftHaptics
 
 /**
- 
  Todo: ** Known Glitch **
- If the color scheme is changed—the next focus doesn't move the search bar up or down as expected.
- 
+ [ ] If the color scheme is changed—the next focus doesn't move the search bar up or down as expected.
  */
 
 public struct SearchableView<Content: View>: View {
@@ -18,7 +16,7 @@ public struct SearchableView<Content: View>: View {
 
     //MARK: Internal
     @Environment(\.colorScheme) var colorScheme
-
+    
     @FocusState var isFocused: Bool
     @State var isFocusedForAnimation = false
 
@@ -27,6 +25,9 @@ public struct SearchableView<Content: View>: View {
     let promptSuffix: String
 
     let didSubmit: SearchSubmitHandler?
+    
+    /// Used to save state when moving to background
+    @State var isFocusedForAppState: Bool = false
 
     /**
      - Parameters:
