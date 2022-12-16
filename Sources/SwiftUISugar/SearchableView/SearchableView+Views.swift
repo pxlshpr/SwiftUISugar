@@ -26,7 +26,7 @@ extension SearchableView {
                 searchLayer
                     .zIndex(10)
                     .transition(.move(edge: .bottom))
-                    .opacity(isFocusedForAppState ? 0 : 1)
+                    .opacity(isHidingSearchViewsInBackground ? 0 : 1)
             }
         }
         .onAppear(perform: appeared)
@@ -51,7 +51,9 @@ extension SearchableView {
         }
         .onWillResignActive {
             if isFocused {
-                isFocusedForAppState = true
+                withAnimation {
+                    isHidingSearchViewsInBackground = true
+                }
                 resignFocusOfSearchTextField()
             }
         }
@@ -60,9 +62,11 @@ extension SearchableView {
         .onWillEnterForeground {
         }
         .onDidBecomeActive {
-            if isFocusedForAppState {
-//                focusOnSearchTextField()
-//                isFocusedForAppState = false
+            if isHidingSearchViewsInBackground {
+                focusOnSearchTextField()
+                withAnimation {
+                    isHidingSearchViewsInBackground = false
+                }
             }
         }
     }

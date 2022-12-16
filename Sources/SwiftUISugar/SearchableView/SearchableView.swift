@@ -27,7 +27,7 @@ public struct SearchableView<Content: View>: View {
     let didSubmit: SearchSubmitHandler?
     
     /// Used to save state when moving to background
-    @State var isFocusedForAppState: Bool = false
+    @State var isHidingSearchViewsInBackground: Bool = false
 
     /**
      - Parameters:
