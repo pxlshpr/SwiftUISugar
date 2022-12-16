@@ -50,23 +50,19 @@ extension SearchableView {
             }
         }
         .onWillResignActive {
-            print("willResignActive")
             if isFocused {
                 isFocusedForAppState = true
                 resignFocusOfSearchTextField()
             }
         }
         .onDidEnterBackground {
-            print("didEnterBackground")
         }
         .onWillEnterForeground {
-            print("willEnterForeground")
         }
         .onDidBecomeActive {
-            print("didBecomeActive")
             if isFocusedForAppState {
-                focusOnSearchTextField()
-                isFocusedForAppState = false
+//                focusOnSearchTextField()
+//                isFocusedForAppState = false
             }
         }
     }
