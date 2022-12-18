@@ -45,8 +45,6 @@ extension SearchableView {
     }
     
     func isFocusedChanged(to newValue: Bool) {
-//        print("🟣 Bottom Padding: \(bottomPadding)")
-//        print("🟣 Ignored safeAreaEdges: \(ignoredSafeAreaEdges)")
         externalIsFocused.wrappedValue = newValue
         withAnimation {
             isFocusedForAnimation = newValue
