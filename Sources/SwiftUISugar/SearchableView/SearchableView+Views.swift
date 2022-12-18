@@ -15,6 +15,14 @@ extension SearchableView {
         }
     }
     
+    var bottomPadding: CGFloat {
+        isFocused ? 0 : 30
+    }
+    
+    var ignoredSafeAreaEdges: Edge.Set {
+        isFocused ? [] : .bottom
+    }
+    
     var contents: some View {
         ZStack {
             content()
@@ -23,10 +31,14 @@ extension SearchableView {
                 .edgesIgnoringSafeArea(.bottom)
 //                .interactiveDismissDisabled(isFocused)
             if !isHidden {
-                searchLayer
-                    .zIndex(10)
-                    .transition(.move(edge: .bottom))
-                    .opacity(isHidingSearchViewsInBackground ? 0 : 1)
+//                GeometryReader { proxy in
+                    searchLayer
+                        .zIndex(10)
+                        .transition(.move(edge: .bottom))
+                        .opacity(isHidingSearchViewsInBackground ? 0 : 1)
+                        .padding(.bottom, bottomPadding)
+                        .edgesIgnoringSafeArea(ignoredSafeAreaEdges)
+//                }
             }
         }
         .onAppear(perform: appeared)
@@ -90,8 +102,10 @@ extension SearchableView {
         ZStack {
             textFieldBackground
             HStack {
+                Spacer()
                 textFieldContents
                 accessoryViews
+                Spacer()
             }
             .padding(.horizontal, 12)
         }
