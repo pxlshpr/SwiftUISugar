@@ -21,7 +21,7 @@ extension SearchableView {
                 .frame(width: UIScreen.main.bounds.width) //TODO: Remove this as `.main` will be deprecated
                 .safeAreaInset(edge: .bottom) { safeAreaBottomInset }
                 .edgesIgnoringSafeArea(.bottom)
-                .interactiveDismissDisabled(isFocused)
+//                .interactiveDismissDisabled(isFocused)
             if !isHidden {
                 searchLayer
                     .zIndex(10)
