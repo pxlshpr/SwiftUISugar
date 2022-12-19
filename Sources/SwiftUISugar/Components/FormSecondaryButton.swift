@@ -5,9 +5,12 @@ public struct FormSecondaryButton: View {
     var title: String
     var action: () -> ()
     
-    public init(title: String, action: @escaping () -> Void) {
+    let foregroundColor: Color
+    
+    public init(title: String, foregroundColor: Color = .accentColor, action: @escaping () -> Void) {
         self.title = title
         self.action = action
+        self.foregroundColor = foregroundColor
     }
     
     public var body: some View {
@@ -16,7 +19,7 @@ public struct FormSecondaryButton: View {
         } label: {
             Text(title)
                 .bold()
-                .foregroundColor(.accentColor)
+                .foregroundColor(foregroundColor)
                 .padding(.vertical)
                 .frame(maxWidth: .infinity)
                 .background(
