@@ -18,7 +18,7 @@ public struct SearchableView<Content: View>: View {
     @Environment(\.colorScheme) var colorScheme
     
     @FocusState var isFocused: Bool
-    @State var isFocusedForAnimation = false
+    @State var isFocusedForAnimation: Bool
 
     @Binding var isHidden: Bool
     let focusOnAppear: Bool
@@ -28,7 +28,11 @@ public struct SearchableView<Content: View>: View {
     
     /// Used to save state when moving to background
     @State var isHidingSearchViewsInBackground: Bool = false
+    
+    @State var hasFocusedOnAppear: Bool
+    @State var hasCompletedFocusedOnAppearAnimation: Bool
 
+    let keyboardDidShow = NotificationCenter.default.publisher(for: UIWindow.keyboardDidShowNotification)
     /**
      - Parameters:
         - promptSuffix: The suffix for the seach prompt. For instance, for `Search Foods`, this will only be `Foods`.
@@ -44,6 +48,9 @@ public struct SearchableView<Content: View>: View {
     {
         _searchText = searchText
         _isHidden = isHidden
+        _isFocusedForAnimation = State(initialValue: focusOnAppear)
+        _hasFocusedOnAppear = State(initialValue: !focusOnAppear)
+        _hasCompletedFocusedOnAppearAnimation = State(initialValue: !focusOnAppear)
         self.promptSuffix = promptSuffix
         self.externalIsFocused = focused
         self.focusOnAppear = focusOnAppear
@@ -69,6 +76,9 @@ public struct SearchableView<Content: View>: View {
     {
         _searchText = searchText
         _isHidden = isHidden
+        _isFocusedForAnimation = State(initialValue: focusOnAppear)
+        _hasFocusedOnAppear = State(initialValue: !focusOnAppear)
+        _hasCompletedFocusedOnAppearAnimation = State(initialValue: !focusOnAppear)
         self.promptSuffix = promptSuffix
         self.externalIsFocused = focused
         self.focusOnAppear = focusOnAppear

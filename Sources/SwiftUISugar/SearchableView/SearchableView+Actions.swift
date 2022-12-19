@@ -39,9 +39,9 @@ extension SearchableView {
     //MARK: - Events
     
     func appeared() {
-        if focusOnAppear {
-            focusOnSearchTextField()
-        }
+//        if focusOnAppear {
+//            focusOnSearchTextField()
+//        }
     }
     
     func isFocusedChanged(to newValue: Bool) {

@@ -1,4 +1,5 @@
 import SwiftUI
+import Introspect
 
 extension SearchableView {
     
@@ -16,11 +17,49 @@ extension SearchableView {
     }
     
     var bottomPadding: CGFloat {
-        isFocused ? 0 : 30
+        guard hasCompletedFocusedOnAppearAnimation else { return 0 }
+        return isFocused ? 0 : 30
     }
     
     var ignoredSafeAreaEdges: Edge.Set {
-        isFocused ? [] : .bottom
+        guard hasCompletedFocusedOnAppearAnimation else { return [] }
+        return isFocused ? [] : .bottom
+    }
+    
+    var opacity: CGFloat {
+        guard hasCompletedFocusedOnAppearAnimation else { return 0 }
+        return isHidingSearchViewsInBackground ? 0 : 1
+    }
+ 
+    //MARK: TextField
+    
+    var textField: some View {
+        TextField("", text: $searchText)
+            .focused($isFocused)
+            .font(.system(size: 18))
+            .keyboardType(.alphabet)
+            .submitLabel(.search)
+            .autocorrectionDisabled()
+            .onSubmit(tappedSubmit)
+            .introspectTextField { uiTextField in
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    if !hasFocusedOnAppear && focusOnAppear {
+                        print("becoming first responder")
+                        uiTextField.becomeFirstResponder()
+                        hasFocusedOnAppear = true
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+                            withAnimation(.easeIn) {
+                                hasCompletedFocusedOnAppearAnimation = true
+                            }
+                        }
+                    }
+                }
+            }
+        
+    }
+    
+    var offset: CGFloat {
+        hasCompletedFocusedOnAppearAnimation ? 0 : 70
     }
     
     var contents: some View {
@@ -35,15 +74,22 @@ extension SearchableView {
                     searchLayer
                         .zIndex(10)
                         .transition(.move(edge: .bottom))
-                        .opacity(isHidingSearchViewsInBackground ? 0 : 1)
+                        .opacity(opacity)
                         .padding(.bottom, bottomPadding)
                         .edgesIgnoringSafeArea(ignoredSafeAreaEdges)
+//                        .offset(y: offset)
 //                }
             }
         }
         .onAppear(perform: appeared)
         .onChange(of: externalIsFocused.wrappedValue, perform: externalIsFocusedChanged)
         .onChange(of: isFocused, perform: isFocusedChanged)
+        .onReceive(keyboardDidShow) { notification in
+            withAnimation {
+//                hasCompletedFocusedOnAppearAnimation = true
+            }
+//            print("keyboard did show")
+        }
     }
     
     var searchLayer: some View {
@@ -177,18 +223,6 @@ extension SearchableView {
                 )
         }
         .offset(x: isExpanded ? 0 : shrunkenOffset)
-    }
-    
-    //MARK: TextField
-    
-    var textField: some View {
-        TextField("", text: $searchText)
-            .focused($isFocused)
-            .font(.system(size: 18))
-            .keyboardType(.alphabet)
-            .submitLabel(.search)
-            .autocorrectionDisabled()
-            .onSubmit(tappedSubmit)
     }
     
     //MARK: Backgrounds
