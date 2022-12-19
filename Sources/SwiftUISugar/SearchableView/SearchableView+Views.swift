@@ -42,18 +42,18 @@ extension SearchableView {
             .autocorrectionDisabled()
             .onSubmit(tappedSubmit)
             .introspectTextField { uiTextField in
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+//                DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) {
                     if !hasFocusedOnAppear && focusOnAppear {
                         print("becoming first responder")
                         uiTextField.becomeFirstResponder()
                         hasFocusedOnAppear = true
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                             withAnimation(.easeIn) {
                                 hasCompletedFocusedOnAppearAnimation = true
                             }
                         }
                     }
-                }
+//                }
             }
         
     }
