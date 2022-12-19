@@ -29,7 +29,7 @@ extension SearchableView {
 
     @ViewBuilder
     var keyboardColor: some View {
-        if !isFocused {
+        if !isFocused && hasCompletedFocusedOnAppearAnimation {
             Color.clear
                 .background(.ultraThinMaterial)
         } else {

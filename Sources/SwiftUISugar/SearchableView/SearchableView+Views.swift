@@ -99,7 +99,7 @@ extension SearchableView {
                 searchBar
                     .background(
                         Group {
-                            if isFocused {
+                            if isFocused || !hasCompletedFocusedOnAppearAnimation {
                                 keyboardColor
                                     .edgesIgnoringSafeArea(.bottom)
                             }
