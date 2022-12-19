@@ -27,7 +27,7 @@ extension SearchableView {
     }
     
     var opacity: CGFloat {
-        guard hasCompletedFocusedOnAppearAnimation else { return 0 }
+//        guard hasCompletedFocusedOnAppearAnimation else { return 0 }
         return isHidingSearchViewsInBackground ? 0 : 1
     }
  
