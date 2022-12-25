@@ -3,12 +3,22 @@ import SwiftUI
 
 public struct FormStyledScrollView<Content: View>: View {
     
-    let backgroundColor: Color
+    @Environment(\.colorScheme) var colorScheme
+    
+    let customBackgroundColor: Color?
     var content: () -> Content
     
-    public init(backgroundColor: Color = Color(.systemGroupedBackground), @ViewBuilder content: @escaping () -> Content) {
-        self.backgroundColor = backgroundColor
+    public init(backgroundColor: Color? = nil, @ViewBuilder content: @escaping () -> Content) {
+        self.customBackgroundColor = backgroundColor
         self.content = content
+    }
+    
+    var backgroundColor: Color {
+        guard let customBackgroundColor else {
+//            return colorScheme == .dark ? Color(hex: "1C1C1E") : Color(hex: "F2F1F6")
+            return colorScheme == .dark ? Color(hex: "1C1C1E") : Color(.systemGroupedBackground)
+        }
+        return customBackgroundColor
     }
     
     public var body: some View {

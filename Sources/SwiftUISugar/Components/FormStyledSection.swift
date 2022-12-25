@@ -5,6 +5,9 @@ let DefaultHorizontalPadding: CGFloat = 17
 let DefaultVerticalPadding: CGFloat = 15
 
 public struct FormStyledSection<Header: View, Footer: View, Content: View>: View {
+    
+    @Environment(\.colorScheme) var colorScheme
+    
     var header: Header?
     var footer: Footer?
     var content: () -> Content
@@ -98,6 +101,11 @@ public struct FormStyledSection<Header: View, Footer: View, Content: View>: View
             .padding(.horizontal, 20)
     }
     
+    var backgroundColor: Color {
+//        Color(.secondarySystemGroupedBackground)
+        colorScheme == .light ? Color(.secondarySystemGroupedBackground) : Color(hex: "2C2C2E")
+    }
+    
     var contentView: some View {
         content()
 //            .background(.green)
@@ -106,7 +114,7 @@ public struct FormStyledSection<Header: View, Footer: View, Content: View>: View
             .padding(.vertical, verticalPadding ?? DefaultVerticalPadding)
             .background(
                 RoundedRectangle(cornerRadius: 10)
-                    .foregroundColor(Color(.secondarySystemGroupedBackground))
+                    .foregroundColor(backgroundColor)
             )
     }
 }
