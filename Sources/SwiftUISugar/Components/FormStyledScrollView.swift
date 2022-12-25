@@ -42,13 +42,13 @@ public struct FormBackground: View {
     }
 }
 
-public struct FormBackgroundShapeStyle: ShapeStyle {
-    @Environment(\.colorScheme) var colorScheme
-    public init() { }
-    public var body: some View {
-        formBackgroundColor(colorScheme: colorScheme)
-    }
-}
+//public struct FormBackgroundShapeStyle: ShapeStyle {
+//    @Environment(\.colorScheme) var colorScheme
+//    public init() { }
+//    public var body: some View {
+//        formBackgroundColor(colorScheme: colorScheme)
+//    }
+//}
 
 public struct FormCellBackground: View {
     @Environment(\.colorScheme) var colorScheme
@@ -58,13 +58,13 @@ public struct FormCellBackground: View {
     }
 }
 
-public struct FormCellBackgroundShapeStyle: ShapeStyle {
-    @Environment(\.colorScheme) var colorScheme
-    public init() { }
-    public var body: some View {
-        formCellBackgroundColor(colorScheme: colorScheme)
-    }
-}
+//public struct FormCellBackgroundShapeStyle: ShapeStyle {
+//    @Environment(\.colorScheme) var colorScheme
+//    public init() { }
+//    public var body: some View {
+//        formCellBackgroundColor(colorScheme: colorScheme)
+//    }
+//}
 
 
 public func formBackgroundColor(colorScheme: ColorScheme) -> Color {
