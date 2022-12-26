@@ -106,6 +106,26 @@ extension SearchableView {
                         }
                     )
             }
+            VStack {
+                Spacer()
+                HStack {
+                    Button {
+                        
+                    } label: {
+                        DismissButtonLabel()
+                    }
+                    Spacer()
+                    if isFocused {
+                        Button {
+                            resignFocusOfSearchTextField()
+                        } label: {
+                            DismissButtonLabel(forKeyboard: true)
+                        }
+                    }
+                }
+                .padding(.horizontal, 20)
+                .padding(.bottom, isFocused ? 70 : 0)
+            }
         }
         .onWillResignActive {
             if isFocused {
