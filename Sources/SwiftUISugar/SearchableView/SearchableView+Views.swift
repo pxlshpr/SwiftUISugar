@@ -135,7 +135,10 @@ extension SearchableView {
 
     
     var shouldShowButtonsLayer: Bool {
-        hasAppeared && (didDismiss != nil || showKeyboardDismiss)
+        if focusOnAppear {
+            guard hasAppeared else { return false }
+        }
+        return didDismiss != nil || showKeyboardDismiss
     }
     
     var buttonsLayer: some View {

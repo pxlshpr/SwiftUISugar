@@ -60,47 +60,39 @@ public struct DismissButtonLabel: View {
         self.forKeyboard = forKeyboard
     }
     
-    var foregroundColor: Color {
-    //    .white
-//        colorScheme == .light ? .white : .black
-        Color(.label)
-    }
-
-    var backgroundColor: Color {
-    //    .accentColor
-        Color(.quaternaryLabel)
-    }
-
-
-    var systemImage: String {
+    @ViewBuilder
+    public var body: some View {
         if forKeyboard {
-            return "keyboard.chevron.compact.down"
+            keyboardButton
         } else {
-            return "chevron.down"
-//            return "xmark"
-//            return "chevron.compact.down"
+            dismissButton
         }
     }
     
-    var imageScale: Image.Scale {
-        forKeyboard ? .small : .medium
-    }
-    var fontWeight: Font.Weight {
-        forKeyboard ? .regular : .medium
-    }
-    
-    public var body: some View {
-        Image(systemName: systemImage)
-//            .imageScale(.medium)
+    var dismissButton: some View {
+        Image(systemName: "chevron.down")
             .imageScale(.medium)
             .fontWeight(.medium)
-            .foregroundColor(foregroundColor)
+//            .foregroundStyle(.thinMaterial)
+            .foregroundColor(.white)
+            .frame(width: 37, height: 37)
+            .background(
+                Circle()
+                    .foregroundColor(.accentColor)
+                    .foregroundStyle(.thinMaterial)
+                    .shadow(color: Color(.black).opacity(0.2), radius: 3, x: 0, y: 3)
+            )
+    }
+    
+    var keyboardButton: some View {
+        Image(systemName: "keyboard.chevron.compact.down")
+            .imageScale(.medium)
+            .fontWeight(.medium)
+            .foregroundColor(Color(.label))
             .frame(width: 37, height: 37)
             .background(
                 Circle()
                     .foregroundStyle(.thinMaterial)
-//                    .background(.thinMaterial)
-//                    .foregroundColor(backgroundColor)
                     .shadow(color: Color(.black).opacity(0.2), radius: 3, x: 0, y: 3)
             )
     }
