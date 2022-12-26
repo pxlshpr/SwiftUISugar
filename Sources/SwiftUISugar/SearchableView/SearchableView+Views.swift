@@ -70,17 +70,14 @@ extension SearchableView {
                 .safeAreaInset(edge: .bottom) { safeAreaBottomInset }
                 .edgesIgnoringSafeArea(.bottom)
 //                .interactiveDismissDisabled(isFocused)
-            if !isHidden {
-//                GeometryReader { proxy in
-                    searchLayer
-                        .zIndex(10)
-                        .transition(.move(edge: .bottom))
-                        .opacity(opacity)
-                        .padding(.bottom, bottomPadding)
-                        .edgesIgnoringSafeArea(ignoredSafeAreaEdges)
-//                        .offset(y: offset)
-//                }
-            }
+//            if !isHidden {
+                searchLayer
+//                    .zIndex(10)
+//                    .transition(.move(edge: .bottom))
+                    .opacity(opacity)
+                    .padding(.bottom, bottomPadding)
+                    .edgesIgnoringSafeArea(ignoredSafeAreaEdges)
+//            }
         }
         .onAppear(perform: appeared)
         .onChange(of: externalIsFocused.wrappedValue, perform: externalIsFocusedChanged)
@@ -95,17 +92,21 @@ extension SearchableView {
     
     var searchLayer: some View {
         ZStack {
-            VStack {
-                Spacer()
-                searchBar
-                    .background(
-                        Group {
-                            if isFocused || !hasCompletedFocusedOnAppearAnimation {
-                                keyboardColor
-                                    .edgesIgnoringSafeArea(.bottom)
+            if !isHidden {
+                VStack {
+                    Spacer()
+                    searchBar
+                        .background(
+                            Group {
+                                if isFocused || !hasCompletedFocusedOnAppearAnimation {
+                                    keyboardColor
+                                        .edgesIgnoringSafeArea(.bottom)
+                                }
                             }
-                        }
-                    )
+                        )
+                }
+                .zIndex(10)
+                .transition(.move(edge: .bottom))
             }
             if shouldShowButtonsLayer {
                 buttonsLayer
