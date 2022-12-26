@@ -19,8 +19,8 @@ public struct DismissableView<Content: View>: View {
     public var body: some View {
         ZStack {
             content()
-                .safeAreaInset(edge: .bottom) { safeAreaBottomInset }
-                .edgesIgnoringSafeArea(.bottom)
+//                .safeAreaInset(edge: .bottom) { safeAreaBottomInset }
+//                .edgesIgnoringSafeArea(.bottom)
             buttonLayer
         }
     }
