@@ -22,8 +22,10 @@ public struct SearchableView<Content: View>: View {
 
     @Binding var isHidden: Bool
     let focusOnAppear: Bool
+    let showKeyboardDismiss: Bool
     let promptSuffix: String
 
+    let didDismiss: (() -> ())?
     let didSubmit: SearchSubmitHandler?
     
     /// Used to save state when moving to background
@@ -43,6 +45,8 @@ public struct SearchableView<Content: View>: View {
         focused: Binding<Bool> = .constant(true),
         focusOnAppear: Bool = false,
         isHidden: Binding<Bool> = .constant(false),
+        showKeyboardDismiss: Bool = false,
+        didDismiss: (() -> ())? = nil,
         didSubmit: SearchSubmitHandler? = nil,
         @ViewBuilder content: @escaping () -> Content)
     {
@@ -54,6 +58,8 @@ public struct SearchableView<Content: View>: View {
         self.promptSuffix = promptSuffix
         self.externalIsFocused = focused
         self.focusOnAppear = focusOnAppear
+        self.showKeyboardDismiss = showKeyboardDismiss
+        self.didDismiss = didDismiss
         self.didSubmit = didSubmit
         self.buttonViews = []
         self.content = content
@@ -70,6 +76,8 @@ public struct SearchableView<Content: View>: View {
         focused: Binding<Bool> = .constant(true),
         focusOnAppear: Bool = false,
         isHidden: Binding<Bool> = .constant(false),
+        showKeyboardDismiss: Bool = false,
+        didDismiss: (() -> ())? = nil,
         didSubmit: SearchSubmitHandler? = nil,
         @ViewBuilder buttonViews: @escaping () -> TupleView<Views>,
         @ViewBuilder content: @escaping () -> Content)
@@ -82,6 +90,8 @@ public struct SearchableView<Content: View>: View {
         self.promptSuffix = promptSuffix
         self.externalIsFocused = focused
         self.focusOnAppear = focusOnAppear
+        self.showKeyboardDismiss = showKeyboardDismiss
+        self.didDismiss = didDismiss
         self.didSubmit = didSubmit
         self.buttonViews = buttonViews().getViews
         self.content = content

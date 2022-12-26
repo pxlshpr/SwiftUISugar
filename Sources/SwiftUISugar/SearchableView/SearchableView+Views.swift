@@ -106,25 +106,8 @@ extension SearchableView {
                         }
                     )
             }
-            VStack {
-                Spacer()
-                HStack {
-                    Button {
-                        
-                    } label: {
-                        DismissButtonLabel()
-                    }
-                    Spacer()
-                    if isFocused {
-                        Button {
-                            resignFocusOfSearchTextField()
-                        } label: {
-                            DismissButtonLabel(forKeyboard: true)
-                        }
-                    }
-                }
-                .padding(.horizontal, 20)
-                .padding(.bottom, isFocused ? 70 : 0)
+            if shouldShowButtonsLayer {
+                buttonsLayer
             }
         }
         .onWillResignActive {
@@ -149,6 +132,36 @@ extension SearchableView {
         }
     }
 
+    
+    var shouldShowButtonsLayer: Bool {
+        didDismiss != nil || showKeyboardDismiss
+    }
+    
+    var buttonsLayer: some View {
+        VStack {
+            Spacer()
+            HStack {
+                if let didDismiss {
+                    Button {
+                        didDismiss()
+                    } label: {
+                        DismissButtonLabel()
+                    }
+                }
+                Spacer()
+                if isFocused, showKeyboardDismiss {
+                    Button {
+                        resignFocusOfSearchTextField()
+                    } label: {
+                        DismissButtonLabel(forKeyboard: true)
+                    }
+                }
+            }
+            .padding(.horizontal, 20)
+            .padding(.bottom, isFocused ? 70 : 0)
+        }
+    }
+    
     var searchBar: some View {
         ZStack {
             if isExpanded {
