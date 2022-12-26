@@ -76,7 +76,8 @@ public struct DismissButtonLabel: View {
         if forKeyboard {
             return "keyboard.chevron.compact.down"
         } else {
-            return "xmark"
+            return "chevron.down"
+//            return "xmark"
 //            return "chevron.compact.down"
         }
     }
