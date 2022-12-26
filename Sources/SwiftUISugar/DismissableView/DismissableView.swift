@@ -1,16 +1,29 @@
 import SwiftUI
 
-public struct DismissableView: View {
+public struct DismissableView<Content: View>: View {
     
+    var content: () -> Content
     let onRightSide: Bool
     let didDismiss: () -> ()
     
-    public init(onRightSide: Bool = false, didDismiss: @escaping () -> ()) {
+    public init(
+        onRightSide: Bool = false,
+        didDismiss: @escaping () -> (),
+        @ViewBuilder content: @escaping () -> Content
+    ) {
         self.onRightSide = onRightSide
         self.didDismiss = didDismiss
+        self.content = content
     }
     
     public var body: some View {
+        ZStack {
+            content()
+            buttonLayer
+        }
+    }
+    
+    var buttonLayer: some View {
         VStack {
             Spacer()
             HStack {
@@ -28,7 +41,6 @@ public struct DismissableView: View {
             }
             .padding(.horizontal, 20)
         }
-        .background(.green)
     }
 }
 
@@ -88,8 +100,8 @@ public struct DismissButtonLabel: View {
 
 struct DismissableViewPreview: View {
     var body: some View {
-        DismissableView(onRightSide: true) {
-            
+        DismissableView(onRightSide: true, didDismiss: { }) {
+            Text("Hello")
         }
     }
 }
