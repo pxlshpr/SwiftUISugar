@@ -39,9 +39,11 @@ extension SearchableView {
     //MARK: - Events
     
     func appeared() {
-//        if focusOnAppear {
-//            focusOnSearchTextField()
-//        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            withAnimation {
+                hasAppeared = true
+            }
+        }
     }
     
     func isFocusedChanged(to newValue: Bool) {

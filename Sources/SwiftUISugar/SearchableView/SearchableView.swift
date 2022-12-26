@@ -34,6 +34,8 @@ public struct SearchableView<Content: View>: View {
     @State var hasFocusedOnAppear: Bool
     @State var hasCompletedFocusedOnAppearAnimation: Bool
 
+    @State var hasAppeared: Bool = false
+    
     let keyboardDidShow = NotificationCenter.default.publisher(for: UIWindow.keyboardDidShowNotification)
     /**
      - Parameters:

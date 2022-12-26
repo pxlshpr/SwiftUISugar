@@ -108,6 +108,7 @@ extension SearchableView {
             }
             if shouldShowButtonsLayer {
                 buttonsLayer
+                    .transition(.opacity)
             }
         }
         .onWillResignActive {
@@ -134,7 +135,7 @@ extension SearchableView {
 
     
     var shouldShowButtonsLayer: Bool {
-        didDismiss != nil || showKeyboardDismiss
+        hasAppeared && (didDismiss != nil || showKeyboardDismiss)
     }
     
     var buttonsLayer: some View {
@@ -147,6 +148,7 @@ extension SearchableView {
                     } label: {
                         DismissButtonLabel()
                     }
+                    .transition(.opacity)
                 }
                 Spacer()
                 if isFocused, showKeyboardDismiss {
@@ -155,6 +157,7 @@ extension SearchableView {
                     } label: {
                         DismissButtonLabel(forKeyboard: true)
                     }
+                    .transition(.opacity)
                 }
             }
             .padding(.horizontal, 20)
