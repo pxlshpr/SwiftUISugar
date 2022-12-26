@@ -20,6 +20,7 @@ public struct DismissableView<Content: View>: View {
         ZStack {
             content()
                 .safeAreaInset(edge: .bottom) { safeAreaBottomInset }
+                .edgesIgnoringSafeArea(.bottom)
             buttonLayer
         }
     }
@@ -45,7 +46,7 @@ public struct DismissableView<Content: View>: View {
     }
     
     var safeAreaBottomInset: some View {
-        Spacer().frame(height: 37.0 + 5.0)
+        Spacer().frame(height: 37.0 + 5.0 + 20.0)
     }
 
 }
@@ -107,7 +108,11 @@ public struct DismissButtonLabel: View {
 struct DismissableViewPreview: View {
     var body: some View {
         DismissableView(onRightSide: true, didDismiss: { }) {
-            Text("Hello")
+            List {
+                ForEach(0...40, id: \.self) {
+                    Text("\($0)")
+                }
+            }
         }
     }
 }
