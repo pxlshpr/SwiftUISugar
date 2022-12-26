@@ -158,7 +158,7 @@ extension SearchableView {
                 }
             }
             .padding(.horizontal, 20)
-            .padding(.bottom, isFocused ? 70 : 0)
+            .padding(.bottom, isFocused ? 70 : (isExpanded ? 70 : 0))
         }
     }
     

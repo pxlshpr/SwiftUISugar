@@ -19,6 +19,7 @@ public struct DismissableView<Content: View>: View {
     public var body: some View {
         ZStack {
             content()
+                .safeAreaInset(edge: .bottom) { safeAreaBottomInset }
             buttonLayer
         }
     }
@@ -42,6 +43,11 @@ public struct DismissableView<Content: View>: View {
             .padding(.horizontal, 20)
         }
     }
+    
+    var safeAreaBottomInset: some View {
+        Spacer().frame(height: 37.0 + 5.0)
+    }
+
 }
 
 public struct DismissButtonLabel: View {
