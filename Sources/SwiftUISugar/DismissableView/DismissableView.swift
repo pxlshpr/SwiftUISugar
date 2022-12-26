@@ -89,7 +89,7 @@ public struct DismissButtonLabel: View {
         Image(systemName: "keyboard.chevron.compact.down")
             .imageScale(.medium)
             .fontWeight(.medium)
-            .foregroundColor(Color(.label))
+            .foregroundColor(Color(.secondaryLabel))
             .frame(width: 37, height: 37)
             .background(
                 Circle()
