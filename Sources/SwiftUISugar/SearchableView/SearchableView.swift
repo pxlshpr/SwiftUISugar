@@ -16,16 +16,17 @@ public struct SearchableView<Content: View>: View {
 
     //MARK: Internal
     @Environment(\.colorScheme) var colorScheme
-    
+    @Environment(\.dismiss) var dismiss
+
     @FocusState var isFocused: Bool
     @State var isFocusedForAnimation: Bool
 
     @Binding var isHidden: Bool
     let focusOnAppear: Bool
     let showKeyboardDismiss: Bool
+    let showDismiss: Bool
     let promptSuffix: String
 
-    let didDismiss: (() -> ())?
     let didSubmit: SearchSubmitHandler?
     
     /// Used to save state when moving to background
@@ -48,7 +49,7 @@ public struct SearchableView<Content: View>: View {
         focusOnAppear: Bool = false,
         isHidden: Binding<Bool> = .constant(false),
         showKeyboardDismiss: Bool = false,
-        didDismiss: (() -> ())? = nil,
+        showDismiss: Bool = false,
         didSubmit: SearchSubmitHandler? = nil,
         @ViewBuilder content: @escaping () -> Content)
     {
@@ -61,7 +62,7 @@ public struct SearchableView<Content: View>: View {
         self.externalIsFocused = focused
         self.focusOnAppear = focusOnAppear
         self.showKeyboardDismiss = showKeyboardDismiss
-        self.didDismiss = didDismiss
+        self.showDismiss = showDismiss
         self.didSubmit = didSubmit
         self.buttonViews = []
         self.content = content
@@ -79,7 +80,7 @@ public struct SearchableView<Content: View>: View {
         focusOnAppear: Bool = false,
         isHidden: Binding<Bool> = .constant(false),
         showKeyboardDismiss: Bool = false,
-        didDismiss: (() -> ())? = nil,
+        showDismiss: Bool = false,
         didSubmit: SearchSubmitHandler? = nil,
         @ViewBuilder buttonViews: @escaping () -> TupleView<Views>,
         @ViewBuilder content: @escaping () -> Content)
@@ -93,7 +94,7 @@ public struct SearchableView<Content: View>: View {
         self.externalIsFocused = focused
         self.focusOnAppear = focusOnAppear
         self.showKeyboardDismiss = showKeyboardDismiss
-        self.didDismiss = didDismiss
+        self.showDismiss = showDismiss
         self.didSubmit = didSubmit
         self.buttonViews = buttonViews().getViews
         self.content = content

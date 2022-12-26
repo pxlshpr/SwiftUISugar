@@ -1,18 +1,18 @@
 import SwiftUI
+import SwiftHaptics
 
 public struct DismissableView<Content: View>: View {
     
+    @Environment(\.dismiss) var dismiss
+    
     var content: () -> Content
     let onRightSide: Bool
-    let didDismiss: () -> ()
     
     public init(
         onRightSide: Bool = false,
-        didDismiss: @escaping () -> (),
         @ViewBuilder content: @escaping () -> Content
     ) {
         self.onRightSide = onRightSide
-        self.didDismiss = didDismiss
         self.content = content
     }
     
@@ -33,7 +33,8 @@ public struct DismissableView<Content: View>: View {
                     Spacer()
                 }
                 Button {
-                    didDismiss()
+                    Haptics.feedback(style: .soft)
+                    dismiss()
                 } label: {
                     DismissButtonLabel()
                 }
@@ -100,7 +101,7 @@ public struct DismissButtonLabel: View {
 
 struct DismissableViewPreview: View {
     var body: some View {
-        DismissableView(onRightSide: true, didDismiss: { }) {
+        DismissableView(onRightSide: true) {
             List {
                 ForEach(0...40, id: \.self) {
                     Text("\($0)")

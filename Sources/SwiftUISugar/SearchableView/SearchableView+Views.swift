@@ -1,5 +1,6 @@
 import SwiftUI
 import Introspect
+import SwiftHaptics
 
 extension SearchableView {
     
@@ -138,16 +139,17 @@ extension SearchableView {
         if focusOnAppear {
             guard hasAppeared else { return false }
         }
-        return didDismiss != nil || showKeyboardDismiss
+        return showDismiss || showKeyboardDismiss
     }
     
     var buttonsLayer: some View {
         VStack {
             Spacer()
             HStack {
-                if let didDismiss {
+                if showDismiss {
                     Button {
-                        didDismiss()
+                        Haptics.feedback(style: .soft)
+                        dismiss()
                     } label: {
                         DismissButtonLabel()
                     }
@@ -156,6 +158,7 @@ extension SearchableView {
                 Spacer()
                 if isFocused, showKeyboardDismiss {
                     Button {
+                        Haptics.feedback(style: .soft)
                         resignFocusOfSearchTextField()
                     } label: {
                         DismissButtonLabel(forKeyboard: true)
