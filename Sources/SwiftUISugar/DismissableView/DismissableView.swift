@@ -1,20 +1,29 @@
 import SwiftUI
 
 struct DismissableView: View {
+    
+    let onRightSide: Bool
+    let didDismiss: () -> ()
+    
+    init(onRightSide: Bool = false, didDismiss: @escaping () -> ()) {
+        self.onRightSide = onRightSide
+        self.didDismiss = didDismiss
+    }
+    
     var body: some View {
         VStack {
             Spacer()
             HStack {
+                if onRightSide {
+                    Spacer()
+                }
                 Button {
-                    
+                    didDismiss()
                 } label: {
                     DismissButtonLabel()
                 }
-                Spacer()
-                Button {
-                    
-                } label: {
-                    DismissButtonLabel(forKeyboard: true)
+                if !onRightSide {
+                    Spacer()
                 }
             }
             .padding(.horizontal, 20)
@@ -79,7 +88,9 @@ public struct DismissButtonLabel: View {
 
 struct DismissableViewPreview: View {
     var body: some View {
-        DismissableView()
+        DismissableView(onRightSide: true) {
+            
+        }
     }
 }
 
