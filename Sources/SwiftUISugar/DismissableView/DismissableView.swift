@@ -1,16 +1,16 @@
 import SwiftUI
 
-struct DismissableView: View {
+public struct DismissableView: View {
     
     let onRightSide: Bool
     let didDismiss: () -> ()
     
-    init(onRightSide: Bool = false, didDismiss: @escaping () -> ()) {
+    public init(onRightSide: Bool = false, didDismiss: @escaping () -> ()) {
         self.onRightSide = onRightSide
         self.didDismiss = didDismiss
     }
     
-    var body: some View {
+    public var body: some View {
         VStack {
             Spacer()
             HStack {
