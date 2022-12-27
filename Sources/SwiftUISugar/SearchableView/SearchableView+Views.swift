@@ -144,7 +144,19 @@ extension SearchableView {
     }
     
     var buttonsLayer: some View {
-        VStack {
+        var bottomPadding: CGFloat {
+            guard !isFocused else {
+                return 70
+            }
+            if isExpanded {
+                return 70
+            } else {
+                return isInTabView ? 70 : 0
+            }
+//            isFocused ? 70 : (isExpanded ? 70 : 0)
+        }
+        
+        return VStack {
             Spacer()
             HStack {
                 if showDismiss {
@@ -168,7 +180,7 @@ extension SearchableView {
                 }
             }
             .padding(.horizontal, 20)
-            .padding(.bottom, isFocused ? 70 : (isExpanded ? 70 : 0))
+            .padding(.bottom, bottomPadding)
         }
     }
     
