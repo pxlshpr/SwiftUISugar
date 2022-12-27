@@ -76,9 +76,11 @@ extension SearchableView {
         ZStack {
             content()
                 .frame(width: UIScreen.main.bounds.width) //TODO: Remove this as `.main` will be deprecated
+//                .safeAreaInset(edge: .bottom) { Spacer().frame(height: 600) }
+//                .edgesIgnoringSafeArea(.bottom)
                 .safeAreaInset(edge: .bottom) { safeAreaBottomInset }
                 .edgesIgnoringSafeArea(.bottom)
-//                .interactiveDismissDisabled(isFocused)
+            
 //            if !isHidden {
                 searchLayer
 //                    .zIndex(10)
