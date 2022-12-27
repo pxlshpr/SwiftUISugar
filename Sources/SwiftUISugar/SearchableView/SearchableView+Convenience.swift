@@ -15,7 +15,7 @@ extension SearchableView {
     
     var shadowColor: Color {
         guard !isExpanded else { return .clear }
-        return Color(.black).opacity(colorScheme == .light ? 0.2 : 0.2)
+        return Color(.black).opacity(0.2)
     }
 
     var expandedTextFieldColor: Color {
