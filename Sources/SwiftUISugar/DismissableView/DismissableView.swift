@@ -7,12 +7,15 @@ public struct DismissableView<Content: View>: View {
     
     var content: () -> Content
     let onRightSide: Bool
+    let isInTabView: Bool
     
     public init(
         onRightSide: Bool = false,
+        isInTabView: Bool = false,
         @ViewBuilder content: @escaping () -> Content
     ) {
         self.onRightSide = onRightSide
+        self.isInTabView = isInTabView
         self.content = content
     }
     
@@ -43,6 +46,7 @@ public struct DismissableView<Content: View>: View {
                 }
             }
             .padding(.horizontal, 20)
+            .padding(.bottom, isInTabView ? 5 : 0)
         }
     }
     
@@ -101,7 +105,7 @@ public struct DismissButtonLabel: View {
 
 struct DismissableViewPreview: View {
     var body: some View {
-        DismissableView(onRightSide: true) {
+        DismissableView(isInTabView: true) {
             List {
                 ForEach(0...40, id: \.self) {
                     Text("\($0)")
@@ -113,6 +117,8 @@ struct DismissableViewPreview: View {
 
 struct DismissableView_Previews: PreviewProvider {
     static var previews: some View {
-        DismissableViewPreview()
+        TabView {
+            DismissableViewPreview()
+        }
     }
 }
