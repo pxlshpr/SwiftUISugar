@@ -19,7 +19,12 @@ extension SearchableView {
     
     var bottomPadding: CGFloat {
         guard hasCompletedFocusedOnAppearAnimation else { return 0 }
-        return isFocused ? 0 : 30
+//        return isFocused ? 0 : 30
+        if isFocused {
+            return 0
+        } else {
+            return isInTabView ? 95 : 30
+        }
     }
     
     var ignoredSafeAreaEdges: Edge.Set {
@@ -151,7 +156,8 @@ extension SearchableView {
             if isExpanded {
                 return 70
             } else {
-                return isInTabView ? 70 : 0
+                return 0
+//                return isInTabView ? 65 : 0
             }
 //            isFocused ? 70 : (isExpanded ? 70 : 0)
         }
