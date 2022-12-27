@@ -81,7 +81,7 @@ extension SearchableView {
         let OffsetWhileFocused = 366.0
 //        let OffsetWhileFocused = 366.0
         let OffsetWhileShrunken = 80.0 /// Previously 0.0
-        let OffsetWhileExpandedAndNotFocused = isInTabView ? 100.0 : 105.0
+        let OffsetWhileExpandedAndNotFocused = 105.0
         
         if isFocused {
             return OffsetWhileFocused
