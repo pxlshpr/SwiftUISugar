@@ -23,7 +23,7 @@ extension SearchableView {
         if isFocused {
             return 0
         } else {
-            return isInTabView ? 95 : 30
+            return isInTabView ? 88 : 30
         }
     }
     
