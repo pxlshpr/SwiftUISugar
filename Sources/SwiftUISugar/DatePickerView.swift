@@ -23,6 +23,19 @@ public struct DatePickerView: View {
             }
             .navigationTitle(title)
             .navigationBarTitleDisplayMode(.inline)
+            .toolbar { trailingContent }
+        }
+    }
+    
+    var trailingContent: some ToolbarContent {
+        ToolbarItem(placement: .navigationBarTrailing) {
+            if date.startOfDay != Date().startOfDay {
+                Button("Today") {
+                    Haptics.feedback(style: .soft)
+                    didPickDate(Date().startOfDay)
+                    dismiss()
+                }
+            }
         }
     }
     
