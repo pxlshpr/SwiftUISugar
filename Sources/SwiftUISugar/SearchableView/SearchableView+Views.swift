@@ -151,7 +151,11 @@ extension SearchableView {
         if focusOnAppear {
             guard hasAppeared else { return false }
         }
-        return showDismiss || showKeyboardDismiss
+        return shouldShowDismissButton || showKeyboardDismiss
+    }
+    
+    var shouldShowDismissButton: Bool {
+        showDismiss || didTapDismiss != nil
     }
     
     var buttonsLayer: some View {
@@ -171,10 +175,14 @@ extension SearchableView {
         return VStack {
             Spacer()
             HStack {
-                if showDismiss {
+                if shouldShowDismissButton {
                     Button {
-                        Haptics.feedback(style: .soft)
-                        dismiss()
+                        if let didTapDismiss {
+                            didTapDismiss()
+                        } else {
+                            Haptics.feedback(style: .soft)
+                            dismiss()
+                        }
                     } label: {
                         DismissButtonLabel()
                     }

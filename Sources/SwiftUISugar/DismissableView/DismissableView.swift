@@ -8,15 +8,18 @@ public struct DismissableView<Content: View>: View {
     var content: () -> Content
     let onRightSide: Bool
     let isInTabView: Bool
+    let didTapDismiss: (() -> ())?
     
     public init(
         onRightSide: Bool = false,
         isInTabView: Bool = false,
+        didTapDismiss: (() -> ())? = nil,
         @ViewBuilder content: @escaping () -> Content
     ) {
         self.onRightSide = onRightSide
         self.isInTabView = isInTabView
         self.content = content
+        self.didTapDismiss = didTapDismiss
     }
     
     public var body: some View {
@@ -36,8 +39,12 @@ public struct DismissableView<Content: View>: View {
                     Spacer()
                 }
                 Button {
-                    Haptics.feedback(style: .soft)
-                    dismiss()
+                    if let didTapDismiss {
+                        didTapDismiss()
+                    } else {
+                        Haptics.feedback(style: .soft)
+                        dismiss()
+                    }
                 } label: {
                     DismissButtonLabel()
                 }
