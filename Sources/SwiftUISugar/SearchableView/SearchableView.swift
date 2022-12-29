@@ -44,6 +44,8 @@ public struct SearchableView<Content: View>: View {
     @State var hasAppeared: Bool = false
     @State var hasAppearedDelayed: Bool = false
 
+    @Binding var shouldShowToday: Bool
+
     let keyboardDidShow = NotificationCenter.default.publisher(for: UIWindow.keyboardDidShowNotification)
     /**
      - Parameters:
@@ -60,11 +62,13 @@ public struct SearchableView<Content: View>: View {
         didTapDismiss: (() -> ())? = nil,
         didPageBack: (() -> ())? = nil,
         didTapToday: (() -> ())? = nil,
+        shouldShowToday: Binding<Bool> = .constant(false),
         didPageForward: (() -> ())? = nil,
         isInTabView: Bool = false,
         didSubmit: SearchSubmitHandler? = nil,
         @ViewBuilder content: @escaping () -> Content)
     {
+        _shouldShowToday = shouldShowToday
         _searchText = searchText
         _isHidden = isHidden
         _isFocusedForAnimation = State(initialValue: focusOnAppear)
@@ -101,12 +105,14 @@ public struct SearchableView<Content: View>: View {
         didTapDismiss: (() -> ())? = nil,
         didPageBack: (() -> ())? = nil,
         didTapToday: (() -> ())? = nil,
+        shouldShowToday: Binding<Bool> = .constant(false),
         didPageForward: (() -> ())? = nil,
         isInTabView: Bool = false,
         didSubmit: SearchSubmitHandler? = nil,
         @ViewBuilder buttonViews: @escaping () -> TupleView<Views>,
         @ViewBuilder content: @escaping () -> Content)
     {
+        _shouldShowToday = shouldShowToday
         _searchText = searchText
         _isHidden = isHidden
         _isFocusedForAnimation = State(initialValue: focusOnAppear)

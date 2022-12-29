@@ -220,14 +220,30 @@ extension SearchableView {
                     bottomAccessoryButtonLabel("chevron.left")
                 }
             }
+            
             if let didTapToday {
                 Button {
                     didTapToday()
                 } label: {
 //                    bottomAccessoryButtonLabel("circle.circle.fill")
-                    bottomAccessoryButtonLabel(text: "Today")
+//                    bottomAccessoryButtonLabel(text: "Today")
+                    Text("Today")
+                        .textCase(.uppercase)
+                        .font(.system(size: 14, weight: .semibold, design: .rounded))
+                        .foregroundColor(Color(.secondaryLabel).opacity(shouldShowToday ? 1 : 0.2))
+                        .frame(height: 38)
+                        .padding(.horizontal, 10)
+                        .background(
+                            RoundedRectangle(cornerRadius: 19, style: .continuous)
+                                .foregroundStyle(.thinMaterial)
+                                .shadow(color: Color(.black).opacity(0.2), radius: 3, x: 0, y: 3)
+                        )
+
                 }
+//                .opacity(shouldShowToday ? 1 : 0.5)
+                .disabled(!shouldShowToday)
             }
+            
             if let didPageForward {
                 Button {
                     didPageForward()
