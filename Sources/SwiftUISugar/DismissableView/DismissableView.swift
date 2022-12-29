@@ -73,35 +73,16 @@ public struct DismissableView<Content: View>: View {
                 Button {
                     didPageBack()
                 } label: {
-                    Image(systemName: "chevron.left")
-                        .imageScale(.medium)
-                        .fontWeight(.medium)
-                        .foregroundColor(Color(.secondaryLabel))
-                        .frame(width: 37, height: 37)
-                        .background(
-                            Circle()
-                                .foregroundStyle(.thinMaterial)
-                                .shadow(color: Color(.black).opacity(0.2), radius: 3, x: 0, y: 3)
-                        )
+                    bottomAccessoryButtonLabel("chevron.left")
                 }
             }
             if let didPageForward {
                 Button {
                     didPageForward()
                 } label: {
-                    Image(systemName: "chevron.right")
-                        .imageScale(.medium)
-                        .fontWeight(.medium)
-                        .foregroundColor(Color(.secondaryLabel))
-                        .frame(width: 37, height: 37)
-                        .background(
-                            Circle()
-                                .foregroundStyle(.thinMaterial)
-                                .shadow(color: Color(.black).opacity(0.2), radius: 3, x: 0, y: 3)
-                        )
+                    bottomAccessoryButtonLabel("chevron.right")
                 }
             }
-
         }
     }
     
@@ -145,18 +126,23 @@ public struct DismissButtonLabel: View {
     }
     
     var keyboardButton: some View {
-        Image(systemName: "keyboard.chevron.compact.down")
-            .imageScale(.medium)
-            .fontWeight(.medium)
-            .foregroundColor(Color(.secondaryLabel))
-            .frame(width: 37, height: 37)
-            .background(
-                Circle()
-                    .foregroundStyle(.thinMaterial)
-                    .shadow(color: Color(.black).opacity(0.2), radius: 3, x: 0, y: 3)
-            )
+        bottomAccessoryButtonLabel("keyboard.chevron.compact.down")
     }
 }
+
+func bottomAccessoryButtonLabel(_ systemImage: String) -> some View {
+    Image(systemName: systemImage)
+        .imageScale(.medium)
+        .fontWeight(.medium)
+        .foregroundColor(Color(.secondaryLabel))
+        .frame(width: 37, height: 37)
+        .background(
+            Circle()
+                .foregroundStyle(.thinMaterial)
+                .shadow(color: Color(.black).opacity(0.2), radius: 3, x: 0, y: 3)
+        )
+}
+
 
 struct DismissableViewPreview: View {
     var body: some View {

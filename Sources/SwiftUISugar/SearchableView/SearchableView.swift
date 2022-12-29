@@ -26,6 +26,8 @@ public struct SearchableView<Content: View>: View {
     let showKeyboardDismiss: Bool
     let showDismiss: Bool
     let didTapDismiss: (() -> ())?
+    let didPageBack: (() -> ())?
+    let didPageForward: (() -> ())?
 
     let promptSuffix: String
 
@@ -54,6 +56,8 @@ public struct SearchableView<Content: View>: View {
         showKeyboardDismiss: Bool = false,
         showDismiss: Bool = false,
         didTapDismiss: (() -> ())? = nil,
+        didPageBack: (() -> ())? = nil,
+        didPageForward: (() -> ())? = nil,
         isInTabView: Bool = false,
         didSubmit: SearchSubmitHandler? = nil,
         @ViewBuilder content: @escaping () -> Content)
@@ -69,6 +73,8 @@ public struct SearchableView<Content: View>: View {
         self.showKeyboardDismiss = showKeyboardDismiss
         self.showDismiss = showDismiss
         self.didTapDismiss = didTapDismiss
+        self.didPageBack = didPageBack
+        self.didPageForward = didPageForward
         self.isInTabView = isInTabView
         self.didSubmit = didSubmit
         self.buttonViews = []
@@ -89,6 +95,8 @@ public struct SearchableView<Content: View>: View {
         showKeyboardDismiss: Bool = false,
         showDismiss: Bool = false,
         didTapDismiss: (() -> ())? = nil,
+        didPageBack: (() -> ())? = nil,
+        didPageForward: (() -> ())? = nil,
         isInTabView: Bool = false,
         didSubmit: SearchSubmitHandler? = nil,
         @ViewBuilder buttonViews: @escaping () -> TupleView<Views>,
@@ -105,6 +113,8 @@ public struct SearchableView<Content: View>: View {
         self.showKeyboardDismiss = showKeyboardDismiss
         self.showDismiss = showDismiss
         self.didTapDismiss = didTapDismiss
+        self.didPageBack = didPageBack
+        self.didPageForward = didPageForward
         self.isInTabView = isInTabView
         self.didSubmit = didSubmit
         self.buttonViews = buttonViews().getViews

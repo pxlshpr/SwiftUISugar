@@ -189,14 +189,18 @@ extension SearchableView {
                     .transition(.opacity)
                 }
                 Spacer()
-                if isFocused, showKeyboardDismiss {
-                    Button {
-                        Haptics.feedback(style: .soft)
-                        resignFocusOfSearchTextField()
-                    } label: {
-                        DismissButtonLabel(forKeyboard: true)
+                if isFocused {
+                    if showKeyboardDismiss {
+                        Button {
+                            Haptics.feedback(style: .soft)
+                            resignFocusOfSearchTextField()
+                        } label: {
+                            DismissButtonLabel(forKeyboard: true)
+                        }
+                        .transition(.opacity)
                     }
-                    .transition(.opacity)
+                } else {
+                    optionalPagingButtons
                 }
             }
             .padding(.horizontal, 20)
@@ -204,6 +208,25 @@ extension SearchableView {
         }
     }
     
+    var optionalPagingButtons: some View {
+        HStack {
+            if let didPageBack {
+                Button {
+                    didPageBack()
+                } label: {
+                    bottomAccessoryButtonLabel("chevron.left")
+                }
+            }
+            if let didPageForward {
+                Button {
+                    didPageForward()
+                } label: {
+                    bottomAccessoryButtonLabel("chevron.right")
+                }
+            }
+        }
+    }
+
     var searchBar: some View {
         ZStack {
             if isExpanded {
