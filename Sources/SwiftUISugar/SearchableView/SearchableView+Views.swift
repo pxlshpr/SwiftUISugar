@@ -384,8 +384,26 @@ extension SearchableView {
             return compactWhenShrunken ? 0 : -shrunkenOffset
         }
         
+        var foregroundColor: Color {
+            guard !isExpanded else { return expandedTextFieldColor }
+            return compactWhenShrunken ? .clear : collapsedTextFieldColor
+        }
+        
+        @ViewBuilder
+        var background: some View {
+            if compactWhenShrunken && !isExpanded {
+                Color.clear
+                    .background(.ultraThinMaterial)
+                    .clipShape(Circle())
+            } else {
+                Color.clear
+            }
+        }
+        
         return RoundedRectangle(cornerRadius: isExpanded ? 15 : 20, style: .circular)
-            .foregroundColor(isExpanded ? expandedTextFieldColor : collapsedTextFieldColor)
+//            .foregroundColor(isExpanded ? expandedTextFieldColor : collapsedTextFieldColor)
+            .foregroundColor(foregroundColor)
+            .background(background)
             .frame(height: height)
             .frame(width: width)
             .offset(x: xOffset)
@@ -394,7 +412,8 @@ extension SearchableView {
 
     var searchIcon: some View {
         var color: Color {
-            isExpanded ? Color(.secondaryLabel) : .white
+            guard !isExpanded else { return Color(.secondaryLabel) }
+            return compactWhenShrunken ? Color(.secondaryLabel) : .white
         }
         
         var leadingPadding: CGFloat {

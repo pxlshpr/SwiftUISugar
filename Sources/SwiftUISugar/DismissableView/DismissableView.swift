@@ -146,7 +146,7 @@ public struct DismissButtonLabel: View {
         }
     }
     
-    var dismissButton: some View {
+    var dismissButton_legacy: some View {
         Image(systemName: "chevron.down")
             .imageScale(.medium)
             .fontWeight(.medium)
@@ -161,12 +161,16 @@ public struct DismissButtonLabel: View {
             )
     }
     
+    var dismissButton: some View {
+        bottomAccessoryButtonLabel("chevron.down")
+    }
+    
     var keyboardButton: some View {
         bottomAccessoryButtonLabel("keyboard.chevron.compact.down")
     }
 }
 
-func bottomAccessoryButtonLabel(_ systemImage: String) -> some View {
+func bottomAccessoryButtonLabel(_ systemImage: String, material: Material = .ultraThinMaterial) -> some View {
     Image(systemName: systemImage)
         .imageScale(.medium)
         .fontWeight(.medium)
@@ -174,12 +178,12 @@ func bottomAccessoryButtonLabel(_ systemImage: String) -> some View {
         .frame(width: 38, height: 38)
         .background(
             Circle()
-                .foregroundStyle(.thinMaterial)
+                .foregroundStyle(material)
                 .shadow(color: Color(.black).opacity(0.2), radius: 3, x: 0, y: 3)
         )
 }
 
-func bottomAccessoryButtonLabel(text: String) -> some View {
+func bottomAccessoryButtonLabel(text: String, material: Material = .ultraThinMaterial) -> some View {
     Text(text)
         .textCase(.uppercase)
         .font(.system(size: 14, weight: .semibold, design: .rounded))
@@ -188,7 +192,7 @@ func bottomAccessoryButtonLabel(text: String) -> some View {
         .padding(.horizontal, 10)
         .background(
             RoundedRectangle(cornerRadius: 19, style: .continuous)
-                .foregroundStyle(.thinMaterial)
+                .foregroundStyle(material)
                 .shadow(color: Color(.black).opacity(0.2), radius: 3, x: 0, y: 3)
         )
 }
