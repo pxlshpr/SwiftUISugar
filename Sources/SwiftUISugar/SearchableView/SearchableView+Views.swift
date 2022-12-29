@@ -235,7 +235,7 @@ extension SearchableView {
                         .padding(.horizontal, 10)
                         .background(
                             RoundedRectangle(cornerRadius: 19, style: .continuous)
-                                .foregroundStyle(.thinMaterial)
+                                .foregroundStyle(.ultraThinMaterial)
                                 .shadow(color: Color(.black).opacity(0.2), radius: 3, x: 0, y: 3)
                         )
 
