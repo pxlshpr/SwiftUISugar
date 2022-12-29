@@ -12,6 +12,7 @@ public struct DismissableView<Content: View>: View {
 
     let didPageBack: (() -> ())?
     let didTapToday: (() -> ())?
+    @Binding var shouldShowToday: Bool
     let didPageForward: (() -> ())?
 
     public init(
@@ -20,9 +21,11 @@ public struct DismissableView<Content: View>: View {
         didTapDismiss: (() -> ())? = nil,
         didPageBack: (() -> ())? = nil,
         didTapToday: (() -> ())? = nil,
+        shouldShowToday: Binding<Bool> = .constant(false),
         didPageForward: (() -> ())? = nil,
         @ViewBuilder content: @escaping () -> Content
     ) {
+        _shouldShowToday = shouldShowToday
         self.onRightSide = onRightSide
         self.isInTabView = isInTabView
         self.content = content
@@ -79,13 +82,14 @@ public struct DismissableView<Content: View>: View {
                     bottomAccessoryButtonLabel("chevron.left")
                 }
             }
-            if let didTapToday {
+            if let didTapToday, shouldShowToday {
                 Button {
                     didTapToday()
                 } label: {
 //                    bottomAccessoryButtonLabel("circle.circle.fill")
                     bottomAccessoryButtonLabel(text: "Today")
                 }
+                .transition(.scale)
             }
             if let didPageForward {
                 Button {
