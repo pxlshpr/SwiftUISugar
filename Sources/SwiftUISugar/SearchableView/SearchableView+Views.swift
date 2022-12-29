@@ -306,7 +306,7 @@ extension SearchableView {
                 return false
             }
         }
-        return compactWhenShrunken && !isFocused
+        return compactWhenShrunken && !isFocused && !isExpanded
     }
     
     //MARK: - Experimental
