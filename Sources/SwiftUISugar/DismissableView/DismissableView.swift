@@ -110,7 +110,7 @@ public struct DismissableView<Content: View>: View {
 
                 }
 //                .opacity(shouldShowToday ? 1 : 0.5)
-                .disabled(shouldShowToday)
+                .disabled(!shouldShowToday)
             }
             if let didPageForward {
                 Button {
