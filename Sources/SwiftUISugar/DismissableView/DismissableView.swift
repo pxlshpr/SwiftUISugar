@@ -15,6 +15,8 @@ public struct DismissableView<Content: View>: View {
     @Binding var shouldShowToday: Bool
     let didPageForward: (() -> ())?
 
+    @State var shouldShowTodayLocal: Bool
+
     public init(
         onRightSide: Bool = false,
         isInTabView: Bool = false,
@@ -26,6 +28,7 @@ public struct DismissableView<Content: View>: View {
         @ViewBuilder content: @escaping () -> Content
     ) {
         _shouldShowToday = shouldShowToday
+        _shouldShowTodayLocal = State(initialValue: shouldShowToday.wrappedValue)
         self.onRightSide = onRightSide
         self.isInTabView = isInTabView
         self.content = content
@@ -41,6 +44,11 @@ public struct DismissableView<Content: View>: View {
 //                .safeAreaInset(edge: .bottom) { safeAreaBottomInset }
 //                .edgesIgnoringSafeArea(.bottom)
             buttonLayer
+        }
+        .onChange(of: shouldShowToday) { newValue in
+            withAnimation {
+                shouldShowTodayLocal = newValue
+            }
         }
     }
     
@@ -82,7 +90,7 @@ public struct DismissableView<Content: View>: View {
                     bottomAccessoryButtonLabel("chevron.left")
                 }
             }
-            if let didTapToday, shouldShowToday {
+            if let didTapToday, shouldShowTodayLocal {
                 Button {
                     didTapToday()
                 } label: {
