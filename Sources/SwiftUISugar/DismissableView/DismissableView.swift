@@ -65,6 +65,7 @@ public struct DismissableView<Content: View>: View {
             .padding(.bottom, isInTabView ? 5 : 0)
         }
     }
+
     
     var optionalPagingButtons: some View {
         HStack {
