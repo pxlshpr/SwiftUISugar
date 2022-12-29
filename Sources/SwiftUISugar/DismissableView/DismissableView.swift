@@ -9,17 +9,24 @@ public struct DismissableView<Content: View>: View {
     let onRightSide: Bool
     let isInTabView: Bool
     let didTapDismiss: (() -> ())?
-    
+
+    let didPageBack: (() -> ())?
+    let didPageForward: (() -> ())?
+
     public init(
         onRightSide: Bool = false,
         isInTabView: Bool = false,
         didTapDismiss: (() -> ())? = nil,
+        didPageBack: (() -> ())? = nil,
+        didPageForward: (() -> ())? = nil,
         @ViewBuilder content: @escaping () -> Content
     ) {
         self.onRightSide = onRightSide
         self.isInTabView = isInTabView
         self.content = content
         self.didTapDismiss = didTapDismiss
+        self.didPageBack = didPageBack
+        self.didPageForward = didPageForward
     }
     
     public var body: some View {
@@ -36,6 +43,7 @@ public struct DismissableView<Content: View>: View {
             Spacer()
             HStack {
                 if onRightSide {
+                    optionalPagingButtons
                     Spacer()
                 }
                 Button {
@@ -50,10 +58,49 @@ public struct DismissableView<Content: View>: View {
                 }
                 if !onRightSide {
                     Spacer()
+                    optionalPagingButtons
                 }
             }
             .padding(.horizontal, 20)
             .padding(.bottom, isInTabView ? 5 : 0)
+        }
+    }
+    
+    var optionalPagingButtons: some View {
+        HStack {
+            if let didPageBack {
+                Button {
+                    didPageBack()
+                } label: {
+                    Image(systemName: "chevron.left")
+                        .imageScale(.medium)
+                        .fontWeight(.medium)
+                        .foregroundColor(Color(.secondaryLabel))
+                        .frame(width: 37, height: 37)
+                        .background(
+                            Circle()
+                                .foregroundStyle(.thinMaterial)
+                                .shadow(color: Color(.black).opacity(0.2), radius: 3, x: 0, y: 3)
+                        )
+                }
+            }
+            if let didPageForward {
+                Button {
+                    didPageForward()
+                } label: {
+                    Image(systemName: "chevron.right")
+                        .imageScale(.medium)
+                        .fontWeight(.medium)
+                        .foregroundColor(Color(.secondaryLabel))
+                        .frame(width: 37, height: 37)
+                        .background(
+                            Circle()
+                                .foregroundStyle(.thinMaterial)
+                                .shadow(color: Color(.black).opacity(0.2), radius: 3, x: 0, y: 3)
+                        )
+                }
+            }
+
         }
     }
     
