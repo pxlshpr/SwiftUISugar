@@ -11,6 +11,7 @@ public struct DismissableView<Content: View>: View {
     let didTapDismiss: (() -> ())?
 
     let didPageBack: (() -> ())?
+    let didTapToday: (() -> ())?
     let didPageForward: (() -> ())?
 
     public init(
@@ -18,6 +19,7 @@ public struct DismissableView<Content: View>: View {
         isInTabView: Bool = false,
         didTapDismiss: (() -> ())? = nil,
         didPageBack: (() -> ())? = nil,
+        didTapToday: (() -> ())? = nil,
         didPageForward: (() -> ())? = nil,
         @ViewBuilder content: @escaping () -> Content
     ) {
@@ -26,6 +28,7 @@ public struct DismissableView<Content: View>: View {
         self.content = content
         self.didTapDismiss = didTapDismiss
         self.didPageBack = didPageBack
+        self.didTapToday = didTapToday
         self.didPageForward = didPageForward
     }
     
@@ -76,6 +79,14 @@ public struct DismissableView<Content: View>: View {
                     bottomAccessoryButtonLabel("chevron.left")
                 }
             }
+            if let didTapToday {
+                Button {
+                    didTapToday()
+                } label: {
+//                    bottomAccessoryButtonLabel("circle.circle.fill")
+                    bottomAccessoryButtonLabel(text: "Today")
+                }
+            }
             if let didPageForward {
                 Button {
                     didPageForward()
@@ -87,7 +98,7 @@ public struct DismissableView<Content: View>: View {
     }
     
     var safeAreaBottomInset: some View {
-        Spacer().frame(height: 37.0 + 5.0 + 20.0)
+        Spacer().frame(height: 38.0 + 5.0 + 20.0)
     }
 
 }
@@ -116,7 +127,7 @@ public struct DismissButtonLabel: View {
             .fontWeight(.medium)
 //            .foregroundStyle(.thinMaterial)
             .foregroundColor(.white)
-            .frame(width: 37, height: 37)
+            .frame(width: 38, height: 38)
             .background(
                 Circle()
                     .foregroundColor(.accentColor)
@@ -135,7 +146,7 @@ func bottomAccessoryButtonLabel(_ systemImage: String) -> some View {
         .imageScale(.medium)
         .fontWeight(.medium)
         .foregroundColor(Color(.secondaryLabel))
-        .frame(width: 37, height: 37)
+        .frame(width: 38, height: 38)
         .background(
             Circle()
                 .foregroundStyle(.thinMaterial)
@@ -143,6 +154,19 @@ func bottomAccessoryButtonLabel(_ systemImage: String) -> some View {
         )
 }
 
+func bottomAccessoryButtonLabel(text: String) -> some View {
+    Text(text)
+        .textCase(.uppercase)
+        .font(.system(size: 14, weight: .semibold, design: .rounded))
+        .foregroundColor(Color(.secondaryLabel))
+        .frame(height: 38)
+        .padding(.horizontal, 10)
+        .background(
+            RoundedRectangle(cornerRadius: 19, style: .continuous)
+                .foregroundStyle(.thinMaterial)
+                .shadow(color: Color(.black).opacity(0.2), radius: 3, x: 0, y: 3)
+        )
+}
 
 struct DismissableViewPreview: View {
     var body: some View {
@@ -163,3 +187,4 @@ struct DismissableView_Previews: PreviewProvider {
         }
     }
 }
+

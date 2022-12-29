@@ -27,6 +27,7 @@ public struct SearchableView<Content: View>: View {
     let showDismiss: Bool
     let didTapDismiss: (() -> ())?
     let didPageBack: (() -> ())?
+    let didTapToday: (() -> ())?
     let didPageForward: (() -> ())?
 
     let promptSuffix: String
@@ -41,7 +42,8 @@ public struct SearchableView<Content: View>: View {
     @State var hasCompletedFocusedOnAppearAnimation: Bool
 
     @State var hasAppeared: Bool = false
-    
+    @State var hasAppearedDelayed: Bool = false
+
     let keyboardDidShow = NotificationCenter.default.publisher(for: UIWindow.keyboardDidShowNotification)
     /**
      - Parameters:
@@ -57,6 +59,7 @@ public struct SearchableView<Content: View>: View {
         showDismiss: Bool = false,
         didTapDismiss: (() -> ())? = nil,
         didPageBack: (() -> ())? = nil,
+        didTapToday: (() -> ())? = nil,
         didPageForward: (() -> ())? = nil,
         isInTabView: Bool = false,
         didSubmit: SearchSubmitHandler? = nil,
@@ -74,6 +77,7 @@ public struct SearchableView<Content: View>: View {
         self.showDismiss = showDismiss
         self.didTapDismiss = didTapDismiss
         self.didPageBack = didPageBack
+        self.didTapToday = didTapToday
         self.didPageForward = didPageForward
         self.isInTabView = isInTabView
         self.didSubmit = didSubmit
@@ -96,6 +100,7 @@ public struct SearchableView<Content: View>: View {
         showDismiss: Bool = false,
         didTapDismiss: (() -> ())? = nil,
         didPageBack: (() -> ())? = nil,
+        didTapToday: (() -> ())? = nil,
         didPageForward: (() -> ())? = nil,
         isInTabView: Bool = false,
         didSubmit: SearchSubmitHandler? = nil,
@@ -114,6 +119,7 @@ public struct SearchableView<Content: View>: View {
         self.showDismiss = showDismiss
         self.didTapDismiss = didTapDismiss
         self.didPageBack = didPageBack
+        self.didTapToday = didTapToday
         self.didPageForward = didPageForward
         self.isInTabView = isInTabView
         self.didSubmit = didSubmit

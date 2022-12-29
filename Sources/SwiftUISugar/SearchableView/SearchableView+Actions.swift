@@ -44,6 +44,9 @@ extension SearchableView {
                 hasAppeared = true
             }
         }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            hasAppearedDelayed = true
+        }
     }
     
     func isFocusedChanged(to newValue: Bool) {
