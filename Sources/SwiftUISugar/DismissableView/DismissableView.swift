@@ -90,14 +90,15 @@ public struct DismissableView<Content: View>: View {
                     bottomAccessoryButtonLabel("chevron.left")
                 }
             }
-            if let didTapToday, shouldShowTodayLocal {
+            if let didTapToday {
                 Button {
                     didTapToday()
                 } label: {
 //                    bottomAccessoryButtonLabel("circle.circle.fill")
                     bottomAccessoryButtonLabel(text: "Today")
                 }
-                .transition(.scale)
+                .opacity(shouldShowToday ? 1 : 0.5)
+                .disabled(shouldShowTodayLocal)
             }
             if let didPageForward {
                 Button {
