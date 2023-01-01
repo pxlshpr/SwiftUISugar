@@ -99,7 +99,7 @@ public struct FormSaveLayer: View {
         .buttonStyle(.borderless)
         .position(x: xPosition, y: yPosition)
         .disabled(saveIsDisabled)
-        .opacity(saveIsDisabled ? (colorScheme == .light ? 1.0 : 0.2) : 1)
+        .opacity(saveIsDisabled ? (colorScheme == .light ? 0.6 : 0.2) : 1)
     }
     
     var dismissButton: some View {
