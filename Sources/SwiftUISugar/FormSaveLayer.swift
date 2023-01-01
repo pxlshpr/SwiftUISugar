@@ -82,6 +82,7 @@ public struct FormSaveLayer: View {
         var shadowOpacity: CGFloat {
             collapsed ? 0.2 : 0
         }
+        
         return Button {
             tappedSave()
         } label: {
@@ -93,7 +94,7 @@ public struct FormSaveLayer: View {
                 RoundedRectangle(cornerRadius: buttonCornerRadius)
                     .foregroundStyle(Color.accentColor.gradient)
 //                    .foregroundColor(.accentColor)
-                    .shadow(color: Color(.black).opacity(shadowOpacity), radius: 3, x: 0, y: 3)
+                    .shadow(color: Color(.black).opacity(shadowOpacity), radius: shadowSize, x: 0, y: shadowSize)
             )
         }
         .buttonStyle(.borderless)
@@ -144,7 +145,7 @@ public struct FormSaveLayer: View {
             .background(
                 RoundedRectangle(cornerRadius: buttonCornerRadius)
                     .foregroundStyle(.ultraThinMaterial)
-                    .shadow(color: Color(.black).opacity(0.2), radius: 3, x: 0, y: 3)
+                    .shadow(color: Color(.black).opacity(0.2), radius: shadowSize, x: 0, y: shadowSize)
                     .opacity(collapsed ? 1 : 0)
             )
         }
@@ -185,7 +186,7 @@ public struct FormSaveLayer: View {
             .background(
                 RoundedRectangle(cornerRadius: 19)
                     .foregroundStyle(.ultraThinMaterial)
-                    .shadow(color: Color(.black).opacity(0.2), radius: 3, x: 0, y: 3)
+                    .shadow(color: Color(.black).opacity(0.2), radius: shadowSize, x: 0, y: shadowSize)
             )
         }
         
@@ -194,6 +195,11 @@ public struct FormSaveLayer: View {
         } label: {
             label
         }
+    }
+    
+    var shadowSize: CGFloat {
+//        3
+        2
     }
     
     @ViewBuilder
