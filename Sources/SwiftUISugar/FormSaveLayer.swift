@@ -87,7 +87,7 @@ public struct FormSaveLayer: View {
         } label: {
             Text("Save")
             .bold()
-            .foregroundColor(.white)
+            .foregroundColor((colorScheme == .light && saveIsDisabled) ? .black : .white)
             .frame(width: buttonWidth, height: buttonHeight)
             .background(
                 RoundedRectangle(cornerRadius: buttonCornerRadius)
@@ -99,7 +99,7 @@ public struct FormSaveLayer: View {
         .buttonStyle(.borderless)
         .position(x: xPosition, y: yPosition)
         .disabled(saveIsDisabled)
-        .opacity(saveIsDisabled ? (colorScheme == .light ? 0.6 : 0.2) : 1)
+        .opacity(saveIsDisabled ? (colorScheme == .light ? 0.2 : 0.2) : 1)
     }
     
     var dismissButton: some View {
