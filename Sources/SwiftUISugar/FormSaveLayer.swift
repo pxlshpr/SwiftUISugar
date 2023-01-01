@@ -89,7 +89,8 @@ public struct FormSaveLayer: View {
             .frame(width: buttonWidth, height: buttonHeight)
             .background(
                 RoundedRectangle(cornerRadius: buttonCornerRadius)
-                    .foregroundColor(.accentColor)
+                    .foregroundStyle(Color.accentColor.gradient)
+//                    .foregroundColor(.accentColor)
                     .shadow(color: Color(.black).opacity(shadowOpacity), radius: 3, x: 0, y: 3)
             )
         }
