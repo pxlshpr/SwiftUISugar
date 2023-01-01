@@ -2,6 +2,8 @@ import SwiftUI
 
 public struct FormSaveLayer: View {
     
+    @Environment(\.colorScheme) var colorScheme
+    
     @Binding var collapsedBinding: Bool
     @State var collapsed: Bool
     @Binding var saveIsDisabledBinding: Bool
@@ -97,7 +99,7 @@ public struct FormSaveLayer: View {
         .buttonStyle(.borderless)
         .position(x: xPosition, y: yPosition)
         .disabled(saveIsDisabled)
-        .opacity(saveIsDisabled ? 0.2 : 1)
+        .opacity(saveIsDisabled ? (colorScheme == .light ? 1.0 : 0.2) : 1)
     }
     
     var dismissButton: some View {
