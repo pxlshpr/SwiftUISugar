@@ -1,6 +1,8 @@
 import SwiftUI
 import SwiftHaptics
 
+let FormSaveLayerPreConfirmationDelay: DispatchTime = .now() + 0.01
+
 public struct FormSaveInfo {
     let title: String
     let tapHandler: (() -> ())?
@@ -271,7 +273,7 @@ public struct FormDualSaveLayer: View {
                 Haptics.warningFeedback()
                 if let preconfirmationAction {
                     preconfirmationAction()
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
+                    DispatchQueue.main.asyncAfter(deadline: FormSaveLayerPreConfirmationDelay) {
                         showingSaveConfirmation = true
                     }
                 } else {
@@ -361,7 +363,7 @@ public struct FormDualSaveLayer: View {
                 Haptics.warningFeedback()
                 if let preconfirmationAction {
                     preconfirmationAction()
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
+                    DispatchQueue.main.asyncAfter(deadline: FormSaveLayerPreConfirmationDelay) {
                         showingSaveSecondaryConfirmation = true
                     }
                 } else {
@@ -429,7 +431,7 @@ public struct FormDualSaveLayer: View {
                 Haptics.warningFeedback()
                 if let preconfirmationAction {
                     preconfirmationAction()
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
+                    DispatchQueue.main.asyncAfter(deadline: FormSaveLayerPreConfirmationDelay) {
                         showingCancelConfirmation = true
                     }
                 } else {
@@ -498,7 +500,7 @@ public struct FormDualSaveLayer: View {
                 Haptics.warningFeedback()
                 if let preconfirmationAction {
                     preconfirmationAction()
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
+                    DispatchQueue.main.asyncAfter(deadline: FormSaveLayerPreConfirmationDelay) {
                         showingDeleteConfirmation = true
                     }
                 } else {
@@ -691,7 +693,7 @@ public struct FormSaveLayer: View {
                 Haptics.warningFeedback()
                 if let preconfirmationAction {
                     preconfirmationAction()
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
+                    DispatchQueue.main.asyncAfter(deadline: FormSaveLayerPreConfirmationDelay) {
                         showingSaveConfirmation = true
                     }
                 } else {
@@ -771,7 +773,7 @@ public struct FormSaveLayer: View {
                 Haptics.warningFeedback()
                 if let preconfirmationAction {
                     preconfirmationAction()
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
+                    DispatchQueue.main.asyncAfter(deadline: FormSaveLayerPreConfirmationDelay) {
                         showingCancelConfirmation = true
                     }
                 } else {
@@ -934,7 +936,7 @@ public struct FormSaveLayer: View {
                 Haptics.warningFeedback()
                 if let preconfirmationAction {
                     preconfirmationAction()
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
+                    DispatchQueue.main.asyncAfter(deadline: FormSaveLayerPreConfirmationDelay) {
                         showingDeleteConfirmation = true
                     }
                 } else {
