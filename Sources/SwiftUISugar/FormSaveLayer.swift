@@ -6,21 +6,21 @@ public struct FormSaveInfo {
     let badge: Int?
     let systemImage: String?
     
-    init(title: String, badge: Int, tapHandler: (() -> ())? = nil) {
+    public init(title: String, badge: Int, tapHandler: (() -> ())? = nil) {
         self.title = title
         self.tapHandler = tapHandler
         self.badge = badge
         self.systemImage = nil
     }
     
-    init(title: String, systemImage: String, tapHandler: (() -> ())? = nil) {
+    public init(title: String, systemImage: String, tapHandler: (() -> ())? = nil) {
         self.title = title
         self.tapHandler = tapHandler
         self.badge = nil
         self.systemImage = systemImage
     }
 
-    init(title: String, tapHandler: (() -> ())? = nil) {
+    public init(title: String, tapHandler: (() -> ())? = nil) {
         self.title = title
         self.tapHandler = tapHandler
         self.badge = nil
