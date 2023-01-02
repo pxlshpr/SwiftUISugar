@@ -28,6 +28,24 @@ public struct FormSaveInfo {
     }
 }
 
+public struct FormConfirmableAction {
+    let handler: () -> ()
+    let shouldConfirm: Bool
+    let message: String?
+    let buttonTitle: String?
+    
+    public init(
+        shouldConfirm: Bool = false,
+        message: String? = nil,
+        buttonTitle: String? = nil,
+        handler: @escaping () -> ()
+    ) {
+        self.handler = handler
+        self.shouldConfirm = shouldConfirm
+        self.message = message
+        self.buttonTitle = buttonTitle
+    }
+}
 
 //MARK: - 2️⃣ FormDualSaveLayer
 /// This has two actions, primary and secondary
@@ -45,22 +63,30 @@ public struct FormDualSaveLayer: View {
     let saveTitle: String
     let saveSecondaryTitle: String
 
-    let tappedCancel: () -> ()
-    let tappedSave: () -> ()
-    let tappedSaveSecondary: () -> ()
-    let tappedDelete: (() -> ())?
-    
+//    let tappedCancel: () -> ()
+//    let tappedSave: () -> ()
+//    let tappedSaveSecondary: () -> ()
+//    let tappedDelete: (() -> ())?
+
+    let cancelAction: FormConfirmableAction
+    let saveSecondaryAction: FormConfirmableAction
+    let saveAction: FormConfirmableAction
+    let deleteAction: FormConfirmableAction?
+    @State var showingDeleteConfirmation = false
+    @State var showingCancelConfirmation = false
+    @State var showingSaveConfirmation = false
+    @State var showingSaveSecondaryConfirmation = false
+
     public init(
         saveIsDisabled: Binding<Bool>,
         saveSecondaryIsDisabled: Binding<Bool>,
         saveTitle: String,
         saveSecondaryTitle: String,
         info: Binding<FormSaveInfo?> = .constant(nil),
-        tappedInfo: (() -> ())? = nil,
-        tappedCancel: @escaping () -> (),
-        tappedSave: @escaping () -> (),
-        tappedSaveSecondary: @escaping () -> (),
-        tappedDelete: (() -> ())? = nil
+        cancelAction: FormConfirmableAction,
+        saveAction: FormConfirmableAction,
+        saveSecondaryAction: FormConfirmableAction,
+        deleteAction: FormConfirmableAction? = nil
     ) {
         _saveIsDisabledBinding = saveIsDisabled
         _saveIsDisabled = State(initialValue: saveIsDisabled.wrappedValue)
@@ -73,11 +99,11 @@ public struct FormDualSaveLayer: View {
         
         _info = info
         
-        self.tappedSave = tappedSave
-        self.tappedSaveSecondary = tappedSaveSecondary
         
-        self.tappedCancel = tappedCancel
-        self.tappedDelete = tappedDelete
+        self.cancelAction = cancelAction
+        self.saveAction = saveAction
+        self.saveSecondaryAction = saveSecondaryAction
+        self.deleteAction = deleteAction
     }
     
     public var body: some View {
@@ -207,6 +233,17 @@ public struct FormDualSaveLayer: View {
     
     //MARK: Save
     var saveButton: some View {
+        var confirmationActions: some View {
+            Button(saveAction.buttonTitle ?? "Save", role: .destructive) {
+                saveAction.handler()
+                cancelAction.handler()
+            }
+        }
+
+        var confirmationMessage: some View {
+            Text(saveAction.message ?? "Are you sure?")
+        }
+
         var buttonWidth: CGFloat {
             UIScreen.main.bounds.width - (horizontalPadding * 2)
         }
@@ -224,7 +261,11 @@ public struct FormDualSaveLayer: View {
         }
         
         return Button {
-            tappedSave()
+            if saveAction.shouldConfirm {
+                showingSaveConfirmation = true
+            } else {
+                saveAction.handler()
+            }
         } label: {
             Text(saveTitle)
                 .bold()
@@ -241,11 +282,28 @@ public struct FormDualSaveLayer: View {
         .position(x: xPosition, y: yPosition)
         .disabled(saveIsDisabled)
         .opacity(saveIsDisabled ? (colorScheme == .light ? 0.2 : 0.2) : 1)
+        .confirmationDialog(
+            "",
+            isPresented: $showingSaveConfirmation,
+            actions: { confirmationActions },
+            message: { confirmationMessage }
+        )
     }
     
     //MARK: Save (Secondary)
     
     var saveSecondaryButton: some View {
+        var confirmationActions: some View {
+            Button(saveSecondaryAction.buttonTitle ?? "Save", role: .destructive) {
+                saveSecondaryAction.handler()
+                cancelAction.handler()
+            }
+        }
+
+        var confirmationMessage: some View {
+            Text(saveSecondaryAction.message ?? "Are you sure?")
+        }
+
         var image: some View {
             Image(systemName: "chevron.down")
                 .imageScale(.medium)
@@ -285,18 +343,38 @@ public struct FormDualSaveLayer: View {
         }
         
         return Button {
-            tappedSaveSecondary()
+            if saveSecondaryAction.shouldConfirm {
+                showingSaveSecondaryConfirmation = true
+            } else {
+                saveSecondaryAction.handler()
+            }
         } label: {
             label
         }
         .disabled(saveSecondaryIsDisabled)
         .opacity(saveSecondaryIsDisabled ? (colorScheme == .light ? 0.2 : 0.2) : 1)
         .position(x: xPosition, y: yPosition)
+        .confirmationDialog(
+            "",
+            isPresented: $showingSaveSecondaryConfirmation,
+            actions: { confirmationActions },
+            message: { confirmationMessage }
+        )
     }
     
     //MARK: Dismiss
 
     var dismissButton: some View {
+        var confirmationActions: some View {
+            Button(cancelAction.buttonTitle ?? "Cancel", role: .destructive) {
+                cancelAction.handler()
+            }
+        }
+
+        var confirmationMessage: some View {
+            Text(cancelAction.message ?? "Are you sure?")
+        }
+
         var image: some View {
             Image(systemName: "chevron.down")
                 .imageScale(.medium)
@@ -321,10 +399,20 @@ public struct FormDualSaveLayer: View {
                     .foregroundStyle(.ultraThinMaterial)
                     .shadow(color: Color(.black).opacity(0.2), radius: shadowSize, x: 0, y: shadowSize)
             )
+            .confirmationDialog(
+                "",
+                isPresented: $showingCancelConfirmation,
+                actions: { confirmationActions },
+                message: { confirmationMessage }
+            )
         }
         
         return Button {
-            tappedCancel()
+            if cancelAction.shouldConfirm {
+                showingCancelConfirmation = true
+            } else {
+                cancelAction.handler()
+            }
         } label: {
             label
         }
@@ -342,13 +430,16 @@ public struct FormDualSaveLayer: View {
 //    }
 //
     //MARK: Delete
-    func deleteButton(_ action: @escaping () -> ()) -> some View {
-        var xPosition: CGFloat {
-            UIScreen.main.bounds.width / 2.0
+    func deleteButton(_ action: FormConfirmableAction) -> some View {
+        var confirmationActions: some View {
+            Button(action.buttonTitle ?? "Delete", role: .destructive) {
+                action.handler()
+                cancelAction.handler()
+            }
         }
-        
-        var yPosition: CGFloat {
-            (52.0/2.0) + 16.0 + 52 + 8
+
+        var confirmationMessage: some View {
+            Text(action.message ?? "Are you sure?")
         }
         
         var label: some View {
@@ -369,10 +460,20 @@ public struct FormDualSaveLayer: View {
                     .foregroundStyle(.ultraThinMaterial)
                     .shadow(color: Color(.black).opacity(0.2), radius: shadowSize, x: 0, y: shadowSize)
             )
+            .confirmationDialog(
+                "",
+                isPresented: $showingDeleteConfirmation,
+                actions: { confirmationActions },
+                message: { confirmationMessage }
+            )
         }
         
         return Button {
-            action()
+            if action.shouldConfirm {
+                showingDeleteConfirmation = true
+            } else {
+                action.handler()
+            }
         } label: {
             label
         }
@@ -386,8 +487,8 @@ public struct FormDualSaveLayer: View {
                 infoButton(info)
             }
             Spacer()
-            if let tappedDelete {
-                deleteButton(tappedDelete)
+            if let deleteAction {
+                deleteButton(deleteAction)
             }
         }
         .frame(maxWidth: .infinity)
@@ -409,18 +510,20 @@ public struct FormSaveLayer: View {
     @State var collapsed: Bool
     @State var saveIsDisabled: Bool
     
-    let tappedCancel: () -> ()
-    let tappedSave: () -> ()
-    let tappedDelete: (() -> ())?
+    let cancelAction: FormConfirmableAction
+    let saveAction: FormConfirmableAction
+    let deleteAction: FormConfirmableAction?
+    @State var showingDeleteConfirmation = false
+    @State var showingCancelConfirmation = false
+    @State var showingSaveConfirmation = false
     
     public init(
         collapsed: Binding<Bool>,
         saveIsDisabled: Binding<Bool>,
         info: Binding<FormSaveInfo?> = .constant(nil),
-        tappedInfo: (() -> ())? = nil,
-        tappedCancel: @escaping () -> (),
-        tappedSave: @escaping () -> (),
-        tappedDelete: (() -> ())? = nil
+        cancelAction: FormConfirmableAction,
+        saveAction: FormConfirmableAction,
+        deleteAction: FormConfirmableAction? = nil
     ) {
         _collapsedBinding = collapsed
         _saveIsDisabledBinding = saveIsDisabled
@@ -429,9 +532,9 @@ public struct FormSaveLayer: View {
         
         _info = info
 
-        self.tappedSave = tappedSave
-        self.tappedCancel = tappedCancel
-        self.tappedDelete = tappedDelete
+        self.cancelAction = cancelAction
+        self.saveAction = saveAction
+        self.deleteAction = deleteAction
     }
     
     public var body: some View {
@@ -514,6 +617,17 @@ public struct FormSaveLayer: View {
     //MARK: Save
     
     var saveButton: some View {
+        var confirmationActions: some View {
+            Button(saveAction.buttonTitle ?? "Save", role: .destructive) {
+                saveAction.handler()
+                cancelAction.handler()
+            }
+        }
+
+        var confirmationMessage: some View {
+            Text(saveAction.message ?? "Are you sure?")
+        }
+
         var buttonWidth: CGFloat {
             collapsed ? 100 : UIScreen.main.bounds.width - (horizontalPadding * 2.0)
         }
@@ -535,7 +649,11 @@ public struct FormSaveLayer: View {
         }
         
         return Button {
-            tappedSave()
+            if saveAction.shouldConfirm {
+                showingSaveConfirmation = true
+            } else {
+                saveAction.handler()
+            }
         } label: {
             Text("Save")
                 .bold()
@@ -552,11 +670,27 @@ public struct FormSaveLayer: View {
         .position(x: xPosition, y: yPosition)
         .disabled(saveIsDisabled)
         .opacity(saveIsDisabled ? (colorScheme == .light ? 0.2 : 0.2) : 1)
+        .confirmationDialog(
+            "",
+            isPresented: $showingSaveConfirmation,
+            actions: { confirmationActions },
+            message: { confirmationMessage }
+        )
     }
     
     //MARK: Dismiss
 
     var dismissButton: some View {
+        var confirmationActions: some View {
+            Button(cancelAction.buttonTitle ?? "Cancel", role: .destructive) {
+                cancelAction.handler()
+            }
+        }
+
+        var confirmationMessage: some View {
+            Text(cancelAction.message ?? "Are you sure?")
+        }
+
         var image: some View {
             Image(systemName: "chevron.down")
                 .imageScale(.medium)
@@ -606,14 +740,23 @@ public struct FormSaveLayer: View {
 //                    .opacity(collapsed ? 1 : 0)
                     .opacity(1)
             )
+            .confirmationDialog(
+                "",
+                isPresented: $showingCancelConfirmation,
+                actions: { confirmationActions },
+                message: { confirmationMessage }
+            )
         }
         
         return Button {
-            tappedCancel()
+            if cancelAction.shouldConfirm {
+                showingCancelConfirmation = true
+            } else {
+                cancelAction.handler()
+            }
         } label: {
             label
         }
-//        .position(x: xPosition, y: yPosition)
     }
     
     @ViewBuilder
@@ -722,19 +865,18 @@ public struct FormSaveLayer: View {
         105
     }
     
-    func deleteButton(_ action: @escaping () -> ()) -> some View {
-//        var xPosition: CGFloat {
-//            collapsed
-//            ? (38.0 / 2.0) + 20.0
-//            : UIScreen.main.bounds.width / 2.0
-//        }
-//
-//        var yPosition: CGFloat {
-//            collapsed
-//            ? (38.0 / 2.0) + 16.0
-//            : (52.0/2.0) + 16.0 + 52 + 8
-//        }
-        
+    func deleteButton(_ action: FormConfirmableAction) -> some View {
+        var confirmationActions: some View {
+            Button(action.buttonTitle ?? "Delete", role: .destructive) {
+                action.handler()
+                cancelAction.handler()
+            }
+        }
+
+        var confirmationMessage: some View {
+            Text(action.message ?? "Are you sure?")
+        }
+
         var label: some View {
             HStack {
 //                Image(systemName: "trash")
@@ -753,10 +895,20 @@ public struct FormSaveLayer: View {
                     .foregroundStyle(.ultraThinMaterial)
                     .shadow(color: Color(.black).opacity(0.2), radius: shadowSize, x: 0, y: shadowSize)
             )
+            .confirmationDialog(
+                "",
+                isPresented: $showingDeleteConfirmation,
+                actions: { confirmationActions },
+                message: { confirmationMessage }
+            )
         }
         
         return Button {
-            action()
+            if action.shouldConfirm {
+                showingDeleteConfirmation = true
+            } else {
+                action.handler()
+            }
         } label: {
             label
         }
@@ -764,10 +916,10 @@ public struct FormSaveLayer: View {
     
     @ViewBuilder
     var deleteButtonLayer: some View {
-        if let tappedDelete {
+        if let deleteAction {
             HStack {
                 Spacer()
-                deleteButton(tappedDelete)
+                deleteButton(deleteAction)
             }
             .frame(maxWidth: .infinity)
             .padding(.horizontal, horizontalPadding)
@@ -792,11 +944,41 @@ struct FormSaveLayerPreview: View {
                     return nil
                 }
                 return FormSaveInfo(
-                    title: "Quantity Required",
-                    systemImage: "exclamationmark.triangle.fill"
+                    title: "No Quantity",
+                    systemImage: "questionmark"
                 )
             },
             set: { _ in }
+        )
+    }
+    
+    var cancelAction: FormConfirmableAction {
+        FormConfirmableAction(
+            shouldConfirm: true,
+            message: "Are you sure you wanna cancel?",
+            handler: {
+                let feedbackGenerator = UIImpactFeedbackGenerator(style: .soft)
+                feedbackGenerator.impactOccurred()
+                dismiss()
+            }
+        )
+    }
+    
+    var saveAction: FormConfirmableAction {
+        FormConfirmableAction(
+            shouldConfirm: true,
+            message: "Are you sure you wanna save?",
+            handler: {
+            }
+        )
+    }
+    
+    var deleteAction: FormConfirmableAction {
+        FormConfirmableAction(
+            shouldConfirm: true,
+            message: "Are you sure you wanna delete?",
+            handler: {
+            }
         )
     }
     
@@ -815,16 +997,11 @@ struct FormSaveLayerPreview: View {
             FormSaveLayer(
                 collapsed: $collapsed,
                 saveIsDisabled: $saveIsDisabled,
-                info: infoBinding
-            ) {
-                let feedbackGenerator = UIImpactFeedbackGenerator(style: .soft)
-                feedbackGenerator.impactOccurred()
-                dismiss()
-            } tappedSave: {
-                print("save")
-            } tappedDelete: {
-                print("delete")
-            }
+                info: infoBinding,
+                cancelAction: cancelAction,
+                saveAction: saveAction,
+                deleteAction: deleteAction
+            )
         }
     }
 }
@@ -910,10 +1087,15 @@ struct FormDualSaveLayerPreview: View {
             }
         }
         
-        var tappedDelete: (() -> ())? {
+        var tappedDelete: FormConfirmableAction? {
             switch self {
             case .edit, .editPublic:
-                return { }
+                return FormConfirmableAction(
+                    shouldConfirm: true,
+                    message: "Are you sure you wanna delete?",
+                    handler: {
+                    }
+                )
             default:
                 return nil
             }
@@ -992,7 +1174,7 @@ struct FormDualSaveLayerPreview: View {
     var infoBinding: Binding<FormSaveInfo?> {
         Binding<FormSaveInfo?>(
             get: {
-                guard saveIsDisabled, let title = state.infoTitle else {
+                guard let title = state.infoTitle else {
                     return nil
                 }
 
@@ -1014,17 +1196,30 @@ struct FormDualSaveLayerPreview: View {
         )
     }
 
+    var cancelAction: FormConfirmableAction {
+        FormConfirmableAction(
+            shouldConfirm: true,
+            message: "Are you sure you wanna cancel?",
+            handler: {
+                let feedbackGenerator = UIImpactFeedbackGenerator(style: .soft)
+                feedbackGenerator.impactOccurred()
+                dismiss()
+            }
+        )
+    }
+    
+    var saveAction: FormConfirmableAction {
+        FormConfirmableAction(
+            shouldConfirm: true,
+            message: "Are you sure you wanna save?",
+            handler: {
+            }
+        )
+    }
+    
     var body: some View {
         ZStack {
             VStack {
-//                Toggle(isOn: $saveIsDisabled) {
-//                    Text("Disable Save")
-//                }
-//                .toggleStyle(.button)
-//                Toggle(isOn: $saveSecondaryIsDisabled) {
-//                    Text("Disable Save Secondary")
-//                }
-//                .toggleStyle(.button)
                 Picker("", selection: $state) {
                     ForEach(IncompleteState.allCases, id: \.self) {
                         Text($0.description).tag($0)
@@ -1040,17 +1235,10 @@ struct FormDualSaveLayerPreview: View {
                 saveTitle: state.saveTitle,
                 saveSecondaryTitle: state.saveSecondaryTitle,
                 info: infoBinding,
-//                infoTitle: state.infoTitle,
-//                infoBadge: state.infoBadge,
-//                infoSystemImage: state.infoSystemImage,
-                tappedCancel: {
-                    let feedbackGenerator = UIImpactFeedbackGenerator(style: .soft)
-                    feedbackGenerator.impactOccurred()
-                    dismiss()
-                },
-                tappedSave: {},
-                tappedSaveSecondary: {},
-                tappedDelete: state.tappedDelete
+                cancelAction: cancelAction,
+                saveAction: saveAction,
+                saveSecondaryAction: saveAction,
+                deleteAction: state.tappedDelete
             )
         }
     }
