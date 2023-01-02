@@ -280,7 +280,14 @@ public struct FormDualSaveLayer: View {
                     showingSaveConfirmation = true
                 }
             } else {
-                saveAction.handler()
+                if let preconfirmationAction {
+                    preconfirmationAction()
+                    DispatchQueue.main.asyncAfter(deadline: FormSaveLayerPreConfirmationDelay) {
+                        saveAction.handler()
+                    }
+                } else {
+                    saveAction.handler()
+                }
             }
         } label: {
             Text(saveTitle)
@@ -370,7 +377,14 @@ public struct FormDualSaveLayer: View {
                     showingSaveSecondaryConfirmation = true
                 }
             } else {
-                saveSecondaryAction.handler()
+                if let preconfirmationAction {
+                    preconfirmationAction()
+                    DispatchQueue.main.asyncAfter(deadline: FormSaveLayerPreConfirmationDelay) {
+                        saveAction.handler()
+                    }
+                } else {
+                    saveSecondaryAction.handler()
+                }
             }
         } label: {
             label
@@ -700,7 +714,14 @@ public struct FormSaveLayer: View {
                     showingSaveConfirmation = true
                 }
             } else {
-                saveAction.handler()
+                if let preconfirmationAction {
+                    preconfirmationAction()
+                    DispatchQueue.main.asyncAfter(deadline: FormSaveLayerPreConfirmationDelay) {
+                        saveAction.handler()
+                    }
+                } else {
+                    saveAction.handler()
+                }
             }
         } label: {
             Text("Save")
