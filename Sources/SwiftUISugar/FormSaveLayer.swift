@@ -37,7 +37,7 @@ public struct FormDualSaveLayer: View {
     
     @Binding var saveIsDisabledBinding: Bool
     @Binding var saveSecondaryIsDisabledBinding: Bool
-    var info: Binding<FormSaveInfo>?
+    @Binding var info: FormSaveInfo?
     
     @State var saveIsDisabled: Bool
     @State var saveSecondaryIsDisabled: Bool
@@ -55,7 +55,7 @@ public struct FormDualSaveLayer: View {
         saveSecondaryIsDisabled: Binding<Bool>,
         saveTitle: String,
         saveSecondaryTitle: String,
-        info: Binding<FormSaveInfo>? = nil,
+        info: Binding<FormSaveInfo?> = .constant(nil),
         tappedInfo: (() -> ())? = nil,
         tappedCancel: @escaping () -> (),
         tappedSave: @escaping () -> (),
@@ -71,7 +71,7 @@ public struct FormDualSaveLayer: View {
         self.saveTitle = saveTitle
         self.saveSecondaryTitle = saveSecondaryTitle
         
-        self.info = info
+        _info = info
         
         self.tappedSave = tappedSave
         self.tappedSaveSecondary = tappedSaveSecondary
@@ -383,7 +383,7 @@ public struct FormDualSaveLayer: View {
         HStack {
             dismissButton
             if let info {
-                infoButton(info.wrappedValue)
+                infoButton(info)
             }
             Spacer()
             if let tappedDelete {
@@ -404,7 +404,7 @@ public struct FormSaveLayer: View {
     
     @Binding var collapsedBinding: Bool
     @Binding var saveIsDisabledBinding: Bool
-    var info: Binding<FormSaveInfo>?
+    @Binding var info: FormSaveInfo?
 
     @State var collapsed: Bool
     @State var saveIsDisabled: Bool
@@ -416,7 +416,7 @@ public struct FormSaveLayer: View {
     public init(
         collapsed: Binding<Bool>,
         saveIsDisabled: Binding<Bool>,
-        info: Binding<FormSaveInfo>? = nil,
+        info: Binding<FormSaveInfo?> = .constant(nil),
         tappedInfo: (() -> ())? = nil,
         tappedCancel: @escaping () -> (),
         tappedSave: @escaping () -> (),
@@ -427,7 +427,7 @@ public struct FormSaveLayer: View {
         _collapsed = State(initialValue: collapsed.wrappedValue)
         _saveIsDisabled = State(initialValue: saveIsDisabled.wrappedValue)
         
-        self.info = info
+        _info = info
 
         self.tappedSave = tappedSave
         self.tappedCancel = tappedCancel
@@ -706,7 +706,7 @@ public struct FormSaveLayer: View {
         return HStack {
 //            dismissButton
             if let info, !collapsed {
-                infoButton(info.wrappedValue)
+                infoButton(info)
                     .transition(.scale.combined(with: .move(edge: .bottom)).combined(with: .opacity))
             }
             Spacer()
@@ -785,13 +785,13 @@ struct FormSaveLayerPreview: View {
     @State var collapsed: Bool = false
     @State var saveIsDisabled: Bool = true
 
-    var infoBinding: Binding<FormSaveInfo>? {
-        guard saveIsDisabled else {
-            return nil
-        }
-        return Binding<FormSaveInfo>(
+    var infoBinding: Binding<FormSaveInfo?> {
+        Binding<FormSaveInfo?>(
             get: {
-                FormSaveInfo(
+                guard saveIsDisabled else {
+                    return nil
+                }
+                return FormSaveInfo(
                     title: "Quantity Required",
                     systemImage: "exclamationmark.triangle.fill"
                 )
@@ -989,12 +989,13 @@ struct FormDualSaveLayerPreview: View {
     
     @State var state: IncompleteState = .none
     
-    var infoBinding: Binding<FormSaveInfo>? {
-        guard saveIsDisabled, let title = state.infoTitle else {
-            return nil
-        }
-        return Binding<FormSaveInfo>(
+    var infoBinding: Binding<FormSaveInfo?> {
+        Binding<FormSaveInfo?>(
             get: {
+                guard saveIsDisabled, let title = state.infoTitle else {
+                    return nil
+                }
+
                 if let badge = state.infoBadge {
                     return FormSaveInfo(
                         title: title,
