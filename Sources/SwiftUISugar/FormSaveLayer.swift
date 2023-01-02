@@ -1,5 +1,34 @@
 import SwiftUI
 
+public struct FormSaveInfo {
+    let title: String
+    let tapHandler: (() -> ())?
+    let badge: Int?
+    let systemImage: String?
+    
+    init(title: String, badge: Int, tapHandler: (() -> ())? = nil) {
+        self.title = title
+        self.tapHandler = tapHandler
+        self.badge = badge
+        self.systemImage = nil
+    }
+    
+    init(title: String, systemImage: String, tapHandler: (() -> ())? = nil) {
+        self.title = title
+        self.tapHandler = tapHandler
+        self.badge = nil
+        self.systemImage = systemImage
+    }
+
+    init(title: String, tapHandler: (() -> ())? = nil) {
+        self.title = title
+        self.tapHandler = tapHandler
+        self.badge = nil
+        self.systemImage = nil
+    }
+}
+
+
 //MARK: - 2️⃣ FormDualSaveLayer
 /// This has two actions, primary and secondary
 public struct FormDualSaveLayer: View {
@@ -7,17 +36,14 @@ public struct FormDualSaveLayer: View {
     @Environment(\.colorScheme) var colorScheme
     
     @Binding var saveIsDisabledBinding: Bool
-    @State var saveIsDisabled: Bool
     @Binding var saveSecondaryIsDisabledBinding: Bool
+    var info: Binding<FormSaveInfo>?
+    
+    @State var saveIsDisabled: Bool
     @State var saveSecondaryIsDisabled: Bool
 
     let saveTitle: String
     let saveSecondaryTitle: String
-
-    let infoTitle: String?
-    let infoBadge: Int?
-    let infoSystemImage: String?
-    let tappedInfo: (() -> ())?
 
     let tappedCancel: () -> ()
     let tappedSave: () -> ()
@@ -29,9 +55,7 @@ public struct FormDualSaveLayer: View {
         saveSecondaryIsDisabled: Binding<Bool>,
         saveTitle: String,
         saveSecondaryTitle: String,
-        infoTitle: String? = nil,
-        infoBadge: Int? = nil,
-        infoSystemImage: String? = nil,
+        info: Binding<FormSaveInfo>? = nil,
         tappedInfo: (() -> ())? = nil,
         tappedCancel: @escaping () -> (),
         tappedSave: @escaping () -> (),
@@ -47,10 +71,7 @@ public struct FormDualSaveLayer: View {
         self.saveTitle = saveTitle
         self.saveSecondaryTitle = saveSecondaryTitle
         
-        self.infoTitle = infoTitle
-        self.infoBadge = infoBadge
-        self.infoSystemImage = infoSystemImage
-        self.tappedInfo = tappedInfo
+        self.info = info
         
         self.tappedSave = tappedSave
         self.tappedSaveSecondary = tappedSaveSecondary
@@ -118,7 +139,7 @@ public struct FormDualSaveLayer: View {
     }
     
     //MARK: Info
-    func infoButton(_ infoTitle: String) -> some View {
+    func infoButton(_ info: FormSaveInfo) -> some View {
         var xPosition: CGFloat {
             UIScreen.main.bounds.width / 2.0
         }
@@ -127,27 +148,35 @@ public struct FormDualSaveLayer: View {
             (52.0/2.0) + 16.0 + 52 + 8
         }
         
+        var shadowOpacity: CGFloat {
+            0.2
+//            info.tapHandler == nil ? 0 : 0.2
+        }
+        
+        var titleColor: Color {
+            info.tapHandler == nil ? Color(.tertiaryLabel) : .secondary
+        }
+        
         var label: some View {
             HStack {
-                if let infoSystemImage {
-                    Image(systemName: infoSystemImage)
+                if let systemImage = info.systemImage {
+                    Image(systemName: systemImage)
                         .symbolRenderingMode(.multicolor)
                         .imageScale(.medium)
                         .fontWeight(.medium)
                 }
-                if let infoBadge {
-                    Text("\(infoBadge)")
+                if let badge = info.badge {
+                    Text("\(badge)")
                         .foregroundColor(Color(.secondaryLabel))
                         .font(.system(size: 14, weight: .bold, design: .rounded))
-//                        .padding(7)
                         .frame(width: 25, height: 25)
                         .background(
                             Circle()
                                 .foregroundColor(Color(.secondarySystemFill))
                         )
                 }
-                Text(infoTitle)
-                    .foregroundColor(.secondary)
+                Text(info.title)
+                    .foregroundColor(titleColor)
                     .padding(.trailing, 3)
             }
             .padding(.horizontal, 12)
@@ -155,14 +184,24 @@ public struct FormDualSaveLayer: View {
             .background(
                 RoundedRectangle(cornerRadius: 19)
                     .foregroundStyle(.ultraThinMaterial)
-                    .shadow(color: Color(.black).opacity(0.2), radius: shadowSize, x: 0, y: shadowSize)
+                    .shadow(color: Color(.black).opacity(shadowOpacity), radius: shadowSize, x: 0, y: shadowSize)
             )
         }
         
-        return Button {
-            tappedInfo?()
-        } label: {
-            label
+        func button(_ tapHandler: @escaping () -> ()) -> some View {
+            Button {
+                tapHandler()
+            } label: {
+                label
+            }
+        }
+        
+        return Group {
+            if let tapHandler = info.tapHandler {
+                button(tapHandler)
+            } else {
+                label
+            }
         }
     }
     
@@ -343,8 +382,8 @@ public struct FormDualSaveLayer: View {
     var topButtonsLayer: some View {
         HStack {
             dismissButton
-            if let infoTitle {
-                infoButton(infoTitle)
+            if let info {
+                infoButton(info.wrappedValue)
             }
             Spacer()
             if let tappedDelete {
@@ -364,15 +403,12 @@ public struct FormSaveLayer: View {
     @Environment(\.colorScheme) var colorScheme
     
     @Binding var collapsedBinding: Bool
-    @State var collapsed: Bool
     @Binding var saveIsDisabledBinding: Bool
+    var info: Binding<FormSaveInfo>?
+
+    @State var collapsed: Bool
     @State var saveIsDisabled: Bool
     
-    let infoTitle: String?
-    let infoBadge: Int?
-    let infoSystemImage: String?
-    let tappedInfo: (() -> ())?
-
     let tappedCancel: () -> ()
     let tappedSave: () -> ()
     let tappedDelete: (() -> ())?
@@ -380,9 +416,7 @@ public struct FormSaveLayer: View {
     public init(
         collapsed: Binding<Bool>,
         saveIsDisabled: Binding<Bool>,
-        infoTitle: String? = nil,
-        infoBadge: Int? = nil,
-        infoSystemImage: String? = nil,
+        info: Binding<FormSaveInfo>? = nil,
         tappedInfo: (() -> ())? = nil,
         tappedCancel: @escaping () -> (),
         tappedSave: @escaping () -> (),
@@ -393,10 +427,7 @@ public struct FormSaveLayer: View {
         _collapsed = State(initialValue: collapsed.wrappedValue)
         _saveIsDisabled = State(initialValue: saveIsDisabled.wrappedValue)
         
-        self.infoTitle = infoTitle
-        self.infoBadge = infoBadge
-        self.infoSystemImage = infoSystemImage
-        self.tappedInfo = tappedInfo
+        self.info = info
 
         self.tappedSave = tappedSave
         self.tappedCancel = tappedCancel
@@ -597,7 +628,7 @@ public struct FormSaveLayer: View {
     }
 
     //MARK: Info
-    func infoButton(_ infoTitle: String) -> some View {
+    func infoButton(_ info: FormSaveInfo) -> some View {
         var xPosition: CGFloat {
             UIScreen.main.bounds.width / 2.0
         }
@@ -606,27 +637,35 @@ public struct FormSaveLayer: View {
             (52.0/2.0) + 16.0 + 52 + 8
         }
         
+        var shadowOpacity: CGFloat {
+            0.2
+//            info.tapHandler == nil ? 0 : 0.2
+        }
+        
+        var titleColor: Color {
+            info.tapHandler == nil ? Color(.tertiaryLabel) : .secondary
+        }
+        
         var label: some View {
             HStack {
-                if let infoSystemImage {
-                    Image(systemName: infoSystemImage)
+                if let systemImage = info.systemImage {
+                    Image(systemName: systemImage)
                         .symbolRenderingMode(.multicolor)
                         .imageScale(.medium)
                         .fontWeight(.medium)
                 }
-                if let infoBadge {
-                    Text("\(infoBadge)")
+                if let badge = info.badge {
+                    Text("\(badge)")
                         .foregroundColor(Color(.secondaryLabel))
                         .font(.system(size: 14, weight: .bold, design: .rounded))
-//                        .padding(7)
                         .frame(width: 25, height: 25)
                         .background(
                             Circle()
                                 .foregroundColor(Color(.secondarySystemFill))
                         )
                 }
-                Text(infoTitle)
-                    .foregroundColor(.secondary)
+                Text(info.title)
+                    .foregroundColor(titleColor)
                     .padding(.trailing, 3)
             }
             .padding(.horizontal, 12)
@@ -634,14 +673,24 @@ public struct FormSaveLayer: View {
             .background(
                 RoundedRectangle(cornerRadius: 19)
                     .foregroundStyle(.ultraThinMaterial)
-                    .shadow(color: Color(.black).opacity(0.2), radius: shadowSize, x: 0, y: shadowSize)
+                    .shadow(color: Color(.black).opacity(shadowOpacity), radius: shadowSize, x: 0, y: shadowSize)
             )
         }
         
-        return Button {
-            tappedInfo?()
-        } label: {
-            label
+        func button(_ tapHandler: @escaping () -> ()) -> some View {
+            Button {
+                tapHandler()
+            } label: {
+                label
+            }
+        }
+        
+        return Group {
+            if let tapHandler = info.tapHandler {
+                button(tapHandler)
+            } else {
+                label
+            }
         }
     }
     
@@ -656,8 +705,8 @@ public struct FormSaveLayer: View {
 
         return HStack {
 //            dismissButton
-            if let infoTitle, !collapsed {
-                infoButton(infoTitle)
+            if let info, !collapsed {
+                infoButton(info.wrappedValue)
                     .transition(.scale.combined(with: .move(edge: .bottom)).combined(with: .opacity))
             }
             Spacer()
@@ -734,8 +783,23 @@ struct FormSaveLayerPreview: View {
 
     @Environment(\.dismiss) var dismiss
     @State var collapsed: Bool = false
-    @State var saveIsDisabled: Bool = false
+    @State var saveIsDisabled: Bool = true
 
+    var infoBinding: Binding<FormSaveInfo>? {
+        guard saveIsDisabled else {
+            return nil
+        }
+        return Binding<FormSaveInfo>(
+            get: {
+                FormSaveInfo(
+                    title: "Quantity Required",
+                    systemImage: "exclamationmark.triangle.fill"
+                )
+            },
+            set: { _ in }
+        )
+    }
+    
     var body: some View {
         ZStack {
             VStack {
@@ -751,9 +815,7 @@ struct FormSaveLayerPreview: View {
             FormSaveLayer(
                 collapsed: $collapsed,
                 saveIsDisabled: $saveIsDisabled,
-                infoTitle: saveIsDisabled ? "Quantity Required" : nil,
-                infoBadge: nil,
-                infoSystemImage: saveIsDisabled ? "exclamationmark.triangle.fill" : nil
+                info: infoBinding
             ) {
                 let feedbackGenerator = UIImpactFeedbackGenerator(style: .soft)
                 feedbackGenerator.impactOccurred()
@@ -927,6 +989,30 @@ struct FormDualSaveLayerPreview: View {
     
     @State var state: IncompleteState = .none
     
+    var infoBinding: Binding<FormSaveInfo>? {
+        guard saveIsDisabled, let title = state.infoTitle else {
+            return nil
+        }
+        return Binding<FormSaveInfo>(
+            get: {
+                if let badge = state.infoBadge {
+                    return FormSaveInfo(
+                        title: title,
+                        badge: badge
+                    )
+                } else if let systemImage = state.infoSystemImage {
+                    return FormSaveInfo(
+                        title: title,
+                        systemImage: systemImage
+                    )
+                } else {
+                    return FormSaveInfo(title: title)
+                }
+            },
+            set: { _ in }
+        )
+    }
+
     var body: some View {
         ZStack {
             VStack {
@@ -952,9 +1038,10 @@ struct FormDualSaveLayerPreview: View {
                 saveSecondaryIsDisabled: Binding<Bool>(get: { state.saveSecondaryIsDisabled }, set: { _ in }),
                 saveTitle: state.saveTitle,
                 saveSecondaryTitle: state.saveSecondaryTitle,
-                infoTitle: state.infoTitle,
-                infoBadge: state.infoBadge,
-                infoSystemImage: state.infoSystemImage,
+                info: infoBinding,
+//                infoTitle: state.infoTitle,
+//                infoBadge: state.infoBadge,
+//                infoSystemImage: state.infoSystemImage,
                 tappedCancel: {
                     let feedbackGenerator = UIImpactFeedbackGenerator(style: .soft)
                     feedbackGenerator.impactOccurred()
