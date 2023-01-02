@@ -267,7 +267,14 @@ public struct FormDualSaveLayer: View {
         
         return Button {
             if saveAction.shouldConfirm {
-                showingSaveConfirmation = true
+                if let preconfirmationAction {
+                    preconfirmationAction()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
+                        showingSaveConfirmation = true
+                    }
+                } else {
+                    showingSaveConfirmation = true
+                }
             } else {
                 saveAction.handler()
             }
@@ -349,7 +356,14 @@ public struct FormDualSaveLayer: View {
         
         return Button {
             if saveSecondaryAction.shouldConfirm {
-                showingSaveSecondaryConfirmation = true
+                if let preconfirmationAction {
+                    preconfirmationAction()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
+                        showingSaveSecondaryConfirmation = true
+                    }
+                } else {
+                    showingSaveSecondaryConfirmation = true
+                }
             } else {
                 saveSecondaryAction.handler()
             }
@@ -409,7 +423,14 @@ public struct FormDualSaveLayer: View {
         
         return Button {
             if cancelAction.shouldConfirm {
-                showingCancelConfirmation = true
+                if let preconfirmationAction {
+                    preconfirmationAction()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
+                        showingCancelConfirmation = true
+                    }
+                } else {
+                    showingCancelConfirmation = true
+                }
             } else {
                 cancelAction.handler()
             }
@@ -470,7 +491,14 @@ public struct FormDualSaveLayer: View {
         
         return Button {
             if action.shouldConfirm {
-                showingDeleteConfirmation = true
+                if let preconfirmationAction {
+                    preconfirmationAction()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
+                        showingDeleteConfirmation = true
+                    }
+                } else {
+                    showingDeleteConfirmation = true
+                }
             } else {
                 action.handler()
             }
@@ -655,7 +683,14 @@ public struct FormSaveLayer: View {
         
         return Button {
             if saveAction.shouldConfirm {
-                showingSaveConfirmation = true
+                if let preconfirmationAction {
+                    preconfirmationAction()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
+                        showingSaveConfirmation = true
+                    }
+                } else {
+                    showingSaveConfirmation = true
+                }
             } else {
                 saveAction.handler()
             }
@@ -889,7 +924,14 @@ public struct FormSaveLayer: View {
         
         return Button {
             if action.shouldConfirm {
-                showingDeleteConfirmation = true
+                if let preconfirmationAction {
+                    preconfirmationAction()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
+                        showingDeleteConfirmation = true
+                    }
+                } else {
+                    showingDeleteConfirmation = true
+                }
             } else {
                 action.handler()
             }
