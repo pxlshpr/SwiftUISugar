@@ -728,7 +728,8 @@ public struct FormSaveLayer: View {
         return Button {
             if cancelAction.shouldConfirm {
                 if let preconfirmationAction {
-                    preconfirmationAction()                    
+                    preconfirmationAction()
+                    showingCancelConfirmation = true
                 } else {
                     showingCancelConfirmation = true
                 }
