@@ -677,7 +677,7 @@ public struct FormSaveLayer: View {
 
     var dismissButton: some View {
         var confirmationActions: some View {
-            Button(cancelAction.buttonTitle ?? "Cancel", role: .destructive) {
+            Button(cancelAction.buttonTitle ?? "Close without saving", role: .destructive) {
                 cancelAction.handler()
             }
         }
@@ -693,40 +693,12 @@ public struct FormSaveLayer: View {
                 .foregroundColor(Color(.secondaryLabel))
         }
         
-        var text: some View {
-            Text("Cancel")
-                .foregroundColor(.secondary)
-        }
-        
         var buttonWidth: CGFloat {
-//            collapsed ? 38 : UIScreen.main.bounds.width - 60
             38
         }
         
-        var xPosition: CGFloat {
-//            collapsed
-//            ? (38.0 / 2.0) + 20.0
-//            : UIScreen.main.bounds.width / 2.0
-            (38.0 / 2.0) + 20.0
-        }
-        
-        var yPosition: CGFloat {
-//            collapsed
-//            ? (38.0 / 2.0) + 16.0
-//            : (52.0/2.0) + 16.0 + 52 + 8
-            (38.0 / 2.0) + 16.0
-//            -(52.0/2.0) + 16.0 + 52 + 8
-        }
-        
         var label: some View {
-            HStack {
-//                if collapsed {
-                    image
-//                }
-//                if !collapsed {
-//                    text
-//                }
-            }
+            image
             .frame(width: buttonWidth, height: 38)
             .background(
                 RoundedRectangle(cornerRadius: 19)
