@@ -729,7 +729,7 @@ public struct FormSaveLayer: View {
             if cancelAction.shouldConfirm {
                 if let preconfirmationAction {
                     preconfirmationAction()
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
                         showingCancelConfirmation = true
                     }
                 } else {
