@@ -77,17 +77,22 @@ public struct FormDualSaveLayer: View {
     @State var showingSaveConfirmation = false
     @State var showingSaveSecondaryConfirmation = false
 
+    let preconfirmationAction: (() -> ())?
+    
     public init(
         saveIsDisabled: Binding<Bool>,
         saveSecondaryIsDisabled: Binding<Bool>,
         saveTitle: String,
         saveSecondaryTitle: String,
         info: Binding<FormSaveInfo?> = .constant(nil),
+        preconfirmationAction: (() -> ())? = nil,
         cancelAction: FormConfirmableAction,
         saveAction: FormConfirmableAction,
         saveSecondaryAction: FormConfirmableAction,
         deleteAction: FormConfirmableAction? = nil
     ) {
+        self.preconfirmationAction = preconfirmationAction
+        
         _saveIsDisabledBinding = saveIsDisabled
         _saveIsDisabled = State(initialValue: saveIsDisabled.wrappedValue)
 
@@ -512,14 +517,19 @@ public struct FormSaveLayer: View {
     @State var showingCancelConfirmation = false
     @State var showingSaveConfirmation = false
     
+    let preconfirmationAction: (() -> ())?
+    
     public init(
         collapsed: Binding<Bool>,
         saveIsDisabled: Binding<Bool>,
         info: Binding<FormSaveInfo?> = .constant(nil),
+        preconfirmationAction: (() -> ())? = nil,
         cancelAction: FormConfirmableAction,
         saveAction: FormConfirmableAction,
         deleteAction: FormConfirmableAction? = nil
     ) {
+        self.preconfirmationAction = preconfirmationAction
+        
         _collapsedBinding = collapsed
         _saveIsDisabledBinding = saveIsDisabled
         _collapsed = State(initialValue: collapsed.wrappedValue)
@@ -717,7 +727,11 @@ public struct FormSaveLayer: View {
         
         return Button {
             if cancelAction.shouldConfirm {
-                showingCancelConfirmation = true
+                if let preconfirmationAction {
+                    preconfirmationAction()                    
+                } else {
+                    showingCancelConfirmation = true
+                }
             } else {
                 cancelAction.handler()
             }
