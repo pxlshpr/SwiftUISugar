@@ -1,4 +1,5 @@
 import SwiftUI
+import SwiftHaptics
 
 public struct FormSaveInfo {
     let title: String
@@ -267,6 +268,7 @@ public struct FormDualSaveLayer: View {
         
         return Button {
             if saveAction.shouldConfirm {
+                Haptics.warningFeedback()
                 if let preconfirmationAction {
                     preconfirmationAction()
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
@@ -356,6 +358,7 @@ public struct FormDualSaveLayer: View {
         
         return Button {
             if saveSecondaryAction.shouldConfirm {
+                Haptics.warningFeedback()
                 if let preconfirmationAction {
                     preconfirmationAction()
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
@@ -423,6 +426,7 @@ public struct FormDualSaveLayer: View {
         
         return Button {
             if cancelAction.shouldConfirm {
+                Haptics.warningFeedback()
                 if let preconfirmationAction {
                     preconfirmationAction()
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
@@ -491,6 +495,7 @@ public struct FormDualSaveLayer: View {
         
         return Button {
             if action.shouldConfirm {
+                Haptics.warningFeedback()
                 if let preconfirmationAction {
                     preconfirmationAction()
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
@@ -683,6 +688,7 @@ public struct FormSaveLayer: View {
         
         return Button {
             if saveAction.shouldConfirm {
+                Haptics.warningFeedback()
                 if let preconfirmationAction {
                     preconfirmationAction()
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
@@ -762,6 +768,7 @@ public struct FormSaveLayer: View {
         
         return Button {
             if cancelAction.shouldConfirm {
+                Haptics.warningFeedback()
                 if let preconfirmationAction {
                     preconfirmationAction()
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
@@ -924,6 +931,7 @@ public struct FormSaveLayer: View {
         
         return Button {
             if action.shouldConfirm {
+                Haptics.warningFeedback()
                 if let preconfirmationAction {
                     preconfirmationAction()
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
