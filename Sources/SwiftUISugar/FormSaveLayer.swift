@@ -366,7 +366,7 @@ public struct FormDualSaveLayer: View {
 
     var dismissButton: some View {
         var confirmationActions: some View {
-            Button(cancelAction.buttonTitle ?? "Cancel", role: .destructive) {
+            Button(cancelAction.buttonTitle ?? "Close without saving", role: .destructive) {
                 cancelAction.handler()
             }
         }
@@ -380,11 +380,6 @@ public struct FormDualSaveLayer: View {
                 .imageScale(.medium)
                 .fontWeight(.medium)
                 .foregroundColor(Color(.secondaryLabel))
-        }
-        
-        var text: some View {
-            Text("Cancel")
-                .foregroundColor(.secondary)
         }
         
         var buttonWidth: CGFloat {
