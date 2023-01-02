@@ -17,6 +17,7 @@ public struct FormDualSaveLayer: View {
     let infoTitle: String?
     let infoBadge: Int?
     let infoSystemImage: String?
+    let tappedInfo: (() -> ())?
 
     let tappedCancel: () -> ()
     let tappedSave: () -> ()
@@ -31,6 +32,7 @@ public struct FormDualSaveLayer: View {
         infoTitle: String? = nil,
         infoBadge: Int? = nil,
         infoSystemImage: String? = nil,
+        tappedInfo: (() -> ())? = nil,
         tappedCancel: @escaping () -> (),
         tappedSave: @escaping () -> (),
         tappedSaveSecondary: @escaping () -> (),
@@ -48,6 +50,7 @@ public struct FormDualSaveLayer: View {
         self.infoTitle = infoTitle
         self.infoBadge = infoBadge
         self.infoSystemImage = infoSystemImage
+        self.tappedInfo = tappedInfo
         
         self.tappedSave = tappedSave
         self.tappedSaveSecondary = tappedSaveSecondary
@@ -157,7 +160,7 @@ public struct FormDualSaveLayer: View {
         }
         
         return Button {
-//            action()
+            tappedInfo?()
         } label: {
             label
         }
@@ -368,6 +371,7 @@ public struct FormSaveLayer: View {
     let infoTitle: String?
     let infoBadge: Int?
     let infoSystemImage: String?
+    let tappedInfo: (() -> ())?
 
     let tappedCancel: () -> ()
     let tappedSave: () -> ()
@@ -379,6 +383,7 @@ public struct FormSaveLayer: View {
         infoTitle: String? = nil,
         infoBadge: Int? = nil,
         infoSystemImage: String? = nil,
+        tappedInfo: (() -> ())? = nil,
         tappedCancel: @escaping () -> (),
         tappedSave: @escaping () -> (),
         tappedDelete: (() -> ())? = nil
@@ -391,6 +396,7 @@ public struct FormSaveLayer: View {
         self.infoTitle = infoTitle
         self.infoBadge = infoBadge
         self.infoSystemImage = infoSystemImage
+        self.tappedInfo = tappedInfo
 
         self.tappedSave = tappedSave
         self.tappedCancel = tappedCancel
@@ -633,7 +639,7 @@ public struct FormSaveLayer: View {
         }
         
         return Button {
-//            action()
+            tappedInfo?()
         } label: {
             label
         }
