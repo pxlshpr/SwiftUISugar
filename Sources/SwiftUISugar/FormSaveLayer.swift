@@ -452,7 +452,14 @@ public struct FormDualSaveLayer: View {
                     showingCancelConfirmation = true
                 }
             } else {
-                cancelAction.handler()
+                if let preconfirmationAction {
+                    preconfirmationAction()
+                    DispatchQueue.main.asyncAfter(deadline: FormSaveLayerPreConfirmationDelay) {
+                        cancelAction.handler()
+                    }
+                } else {
+                    cancelAction.handler()
+                }
             }
         } label: {
             label
@@ -521,7 +528,14 @@ public struct FormDualSaveLayer: View {
                     showingDeleteConfirmation = true
                 }
             } else {
-                action.handler()
+                if let preconfirmationAction {
+                    preconfirmationAction()
+                    DispatchQueue.main.asyncAfter(deadline: FormSaveLayerPreConfirmationDelay) {
+                        action.handler()
+                    }
+                } else {
+                    action.handler()
+                }
             }
         } label: {
             label
@@ -801,7 +815,14 @@ public struct FormSaveLayer: View {
                     showingCancelConfirmation = true
                 }
             } else {
-                cancelAction.handler()
+                if let preconfirmationAction {
+                    preconfirmationAction()
+                    DispatchQueue.main.asyncAfter(deadline: FormSaveLayerPreConfirmationDelay) {
+                        cancelAction.handler()
+                    }
+                } else {
+                    cancelAction.handler()
+                }
             }
         } label: {
             label
@@ -964,7 +985,14 @@ public struct FormSaveLayer: View {
                     showingDeleteConfirmation = true
                 }
             } else {
-                action.handler()
+                if let preconfirmationAction {
+                    preconfirmationAction()
+                    DispatchQueue.main.asyncAfter(deadline: FormSaveLayerPreConfirmationDelay) {
+                        action.handler()
+                    }
+                } else {
+                    action.handler()
+                }
             }
         } label: {
             label
