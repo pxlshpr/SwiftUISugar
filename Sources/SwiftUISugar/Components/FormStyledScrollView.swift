@@ -8,9 +8,12 @@ public struct FormStyledScrollView<Content: View>: View {
 //    let customBackgroundColor: Color?
     var content: () -> Content
     
-    public init(@ViewBuilder content: @escaping () -> Content) {
+    let showsIndicators: Bool
+    
+    public init(showsIndicators: Bool = false, @ViewBuilder content: @escaping () -> Content) {
 //        self.customBackgroundColor = backgroundColor
         self.content = content
+        self.showsIndicators = showsIndicators
     }
     
 //    var backgroundColor: Color {
@@ -22,7 +25,7 @@ public struct FormStyledScrollView<Content: View>: View {
 //    }
     
     public var body: some View {
-        ScrollView(showsIndicators: false) {
+        ScrollView(showsIndicators: showsIndicators) {
             content()
                 .frame(maxWidth: .infinity)
         }
