@@ -135,7 +135,7 @@ public struct DismissButtonLabel: View {
     @Environment(\.colorScheme) var colorScheme
     
     let forKeyboard: Bool
-    init(forKeyboard: Bool = false) {
+    public init(forKeyboard: Bool = false) {
         self.forKeyboard = forKeyboard
     }
     
