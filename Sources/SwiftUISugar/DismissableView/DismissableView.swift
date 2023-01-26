@@ -127,7 +127,6 @@ public struct DismissableView<Content: View>: View {
     var safeAreaBottomInset: some View {
         Spacer().frame(height: 38.0 + 5.0 + 20.0)
     }
-
 }
 
 public struct DismissButtonLabel: View {
