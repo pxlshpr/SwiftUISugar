@@ -11,8 +11,11 @@ public struct WebView: View {
     @State var hasAppeared: Bool = false
     @StateObject var vm = ViewModel()
     
-    public init(urlString: String) {
+    let title: String?
+    
+    public init(urlString: String, title: String? = nil) {
         _urlString = State(initialValue: urlString)
+        self.title = title
     }
     
     @ViewBuilder
@@ -20,7 +23,7 @@ public struct WebView: View {
         WebViewRepresentable(url: URL(string: urlString)!, delegate: vm)
             .transition(.opacity)
             .overlay(loadingOverlay)
-            .navigationBarTitle("Website")
+            .navigationBarTitle(title ?? "Website")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar { navigationTrailingContent }
             .toolbar { navigationLeadingContent }
