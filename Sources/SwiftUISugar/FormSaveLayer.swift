@@ -4,10 +4,10 @@ import SwiftHaptics
 let FormSaveLayerPreConfirmationDelay: DispatchTime = .now() + 0.01
 
 public struct FormSaveInfo {
-    let title: String
-    let tapHandler: (() -> ())?
-    let badge: Int?
-    let systemImage: String?
+    public let title: String
+    public let tapHandler: (() -> ())?
+    public let badge: Int?
+    public let systemImage: String?
     
     public init(title: String, badge: Int, tapHandler: (() -> ())? = nil) {
         self.title = title
@@ -32,10 +32,10 @@ public struct FormSaveInfo {
 }
 
 public struct FormConfirmableAction {
-    let handler: () -> ()
-    let shouldConfirm: Bool
-    let message: String?
-    let buttonTitle: String?
+    public let handler: () -> ()
+    public let shouldConfirm: Bool
+    public let message: String?
+    public let buttonTitle: String?
     
     public init(
         shouldConfirm: Bool = false,
