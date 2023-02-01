@@ -3,10 +3,10 @@ import SwiftUI
 
 public struct K {
     public struct FormStyledSection {
-        public static let horizontalInset: CGFloat = 17
-        public static let verticalInset: CGFloat = 15
-        public static let horizontalPadding: CGFloat = 20
-        public static let verticalPadding: CGFloat = 10
+        public static let horizontalPadding: CGFloat = 17
+        public static let verticalPadding: CGFloat = 15
+        public static let horizontalOuterPadding: CGFloat = 20
+        public static let verticalOuterPadding: CGFloat = 10
     }
 }
 
@@ -17,26 +17,26 @@ public struct FormStyledSection<Header: View, Footer: View, Content: View>: View
     var header: Header?
     var footer: Footer?
     var content: () -> Content
-    var customVerticalInset: CGFloat?
-    var customHorizontalInset: CGFloat?
     var customVerticalPadding: CGFloat?
     var customHorizontalPadding: CGFloat?
+    var customVerticalOuterPadding: CGFloat?
+    var customHorizontalOuterPadding: CGFloat?
 
     public init(
         header: Header,
         footer: Footer,
-        horizontalInset: CGFloat? = nil,
-        verticalInset: CGFloat? = nil,
         horizontalPadding: CGFloat? = nil,
         verticalPadding: CGFloat? = nil,
+        horizontalOuterPadding: CGFloat? = nil,
+        verticalOuterPadding: CGFloat? = nil,
         @ViewBuilder content: @escaping () -> Content
     ) {
         self.header = header
         self.footer = footer
-        self.customVerticalInset = verticalInset
-        self.customHorizontalInset = horizontalInset
-        self.customHorizontalPadding = horizontalPadding
         self.customVerticalPadding = verticalPadding
+        self.customHorizontalPadding = horizontalPadding
+        self.customHorizontalOuterPadding = horizontalOuterPadding
+        self.customVerticalOuterPadding = verticalOuterPadding
         self.content = content
     }
 
@@ -114,11 +114,11 @@ public struct FormStyledSection<Header: View, Footer: View, Content: View>: View
     }
     
     var horizontalPadding: CGFloat {
-        customHorizontalPadding ?? K.FormStyledSection.horizontalPadding
+        customHorizontalOuterPadding ?? K.FormStyledSection.horizontalOuterPadding
     }
     
     var verticalPadding: CGFloat {
-        customVerticalPadding ?? K.FormStyledSection.verticalPadding
+        customVerticalOuterPadding ?? K.FormStyledSection.verticalOuterPadding
     }
     
 //    var backgroundColor: Color {
@@ -130,8 +130,8 @@ public struct FormStyledSection<Header: View, Footer: View, Content: View>: View
         content()
 //            .background(.green)
             .frame(maxWidth: .infinity)
-            .padding(.horizontal, customHorizontalInset ?? K.FormStyledSection.horizontalInset)
-            .padding(.vertical, customVerticalInset ?? K.FormStyledSection.verticalInset)
+            .padding(.horizontal, customHorizontalPadding ?? K.FormStyledSection.horizontalPadding)
+            .padding(.vertical, customVerticalPadding ?? K.FormStyledSection.verticalPadding)
             .background(
                 RoundedRectangle(cornerRadius: 10)
                     .foregroundColor(formCellBackgroundColor(colorScheme: colorScheme))
@@ -151,8 +151,8 @@ extension FormStyledSection where Header == EmptyView {
     ) {
         self.header = nil
         self.footer = footer
-        self.customVerticalInset = verticalPadding
-        self.customHorizontalInset = horizontalPadding
+        self.customVerticalPadding = verticalPadding
+        self.customHorizontalPadding = horizontalPadding
         self.content = content
     }
 }
@@ -167,8 +167,8 @@ extension FormStyledSection where Footer == EmptyView {
     ) {
         self.header = header
         self.footer = nil
-        self.customVerticalInset = verticalPadding
-        self.customHorizontalInset = horizontalPadding
+        self.customVerticalPadding = verticalPadding
+        self.customHorizontalPadding = horizontalPadding
         self.content = content
     }
 }
@@ -183,8 +183,8 @@ extension FormStyledSection where Header == EmptyView, Footer == EmptyView {
     ) {
         self.header = nil
         self.footer = nil
-        self.customVerticalInset = verticalPadding
-        self.customHorizontalInset = horizontalPadding
+        self.customVerticalPadding = verticalPadding
+        self.customHorizontalPadding = horizontalPadding
         self.content = content
     }
 }
