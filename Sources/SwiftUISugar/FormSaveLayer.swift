@@ -34,20 +34,43 @@ public struct FormSaveInfo {
 public struct FormConfirmableAction {
     public let handler: () -> ()
     public let shouldConfirm: Bool
-    public let message: String?
-    public let buttonTitle: String?
+    public let confirmationMessage: String?
     
+    public let buttonTitle: String?
+    public let buttonImage: String?
+
+    public let isDisabled: Bool
+
     public init(
         shouldConfirm: Bool = false,
         message: String? = nil,
         buttonTitle: String? = nil,
+        isDisabled: Bool = false,
         handler: @escaping () -> ()
     ) {
         self.handler = handler
         self.shouldConfirm = shouldConfirm
-        self.message = message
+        self.confirmationMessage = message
         self.buttonTitle = buttonTitle
+        self.buttonImage = nil
+        self.isDisabled = isDisabled
     }
+    
+    public init(
+        shouldConfirm: Bool = false,
+        message: String? = nil,
+        buttonImage: String,
+        isDisabled: Bool = false,
+        handler: @escaping () -> ()
+    ) {
+        self.handler = handler
+        self.shouldConfirm = shouldConfirm
+        self.confirmationMessage = message
+        self.buttonTitle = nil
+        self.buttonImage = buttonImage
+        self.isDisabled = isDisabled
+    }
+
 }
 
 //MARK: - 2️⃣ FormDualSaveLayer
@@ -249,7 +272,7 @@ public struct FormDualSaveLayer: View {
         }
 
         var confirmationMessage: some View {
-            Text(saveAction.message ?? "Are you sure?")
+            Text(saveAction.confirmationMessage ?? "Are you sure?")
         }
 
         var buttonWidth: CGFloat {
@@ -324,7 +347,7 @@ public struct FormDualSaveLayer: View {
         }
 
         var confirmationMessage: some View {
-            Text(saveSecondaryAction.message ?? "Are you sure?")
+            Text(saveSecondaryAction.confirmationMessage ?? "Are you sure?")
         }
 
         var image: some View {
@@ -410,7 +433,7 @@ public struct FormDualSaveLayer: View {
         }
 
         var confirmationMessage: some View {
-            Text(cancelAction.message ?? "Are you sure?")
+            Text(cancelAction.confirmationMessage ?? "Are you sure?")
         }
 
         var image: some View {
@@ -487,7 +510,7 @@ public struct FormDualSaveLayer: View {
         }
 
         var confirmationMessage: some View {
-            Text(action.message ?? "Are you sure?")
+            Text(action.confirmationMessage ?? "Are you sure?")
         }
         
         var label: some View {
@@ -693,7 +716,7 @@ public struct FormSaveLayer: View {
         }
 
         var confirmationMessage: some View {
-            Text(saveAction.message ?? "Are you sure?")
+            Text(saveAction.confirmationMessage ?? "Are you sure?")
         }
 
         var buttonWidth: CGFloat {
@@ -771,7 +794,7 @@ public struct FormSaveLayer: View {
         }
 
         var confirmationMessage: some View {
-            Text(cancelAction.message ?? "Are you sure?")
+            Text(cancelAction.confirmationMessage ?? "Are you sure?")
         }
 
         var image: some View {
@@ -944,7 +967,7 @@ public struct FormSaveLayer: View {
         }
 
         var confirmationMessage: some View {
-            Text(action.message ?? "Are you sure?")
+            Text(action.confirmationMessage ?? "Are you sure?")
         }
 
         var label: some View {

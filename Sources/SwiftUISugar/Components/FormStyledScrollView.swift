@@ -27,34 +27,6 @@ public struct FormStyledScrollView<Content: View>: View {
     }
 }
 
-public struct FormStyledVStack<Content: View>: View {
-    
-    var content: () -> Content
-    let customVerticalSpacing: CGFloat?
-
-    public init(customVerticalSpacing: CGFloat? = nil, @ViewBuilder content: @escaping () -> Content) {
-        self.content = content
-        self.customVerticalSpacing = customVerticalSpacing
-    }
-    
-    public var body: some View {
-        GeometryReader { proxy in
-            VStack(spacing: customVerticalSpacing ?? K.FormStyledScrollView.verticalSpacing) {
-                content()
-                    .frame(maxWidth: .infinity)
-                    .frame(maxHeight: .infinity)
-            }
-            .background(
-                FormBackground()
-                    .edgesIgnoringSafeArea(.all) /// requireds to cover the area that would be covered by the keyboard during its dismissal animation
-            )
-            /// This ensures that the it takes up the entire height and aligns to the top, which
-            /// - removes the need for bottom spacers
-            /// - ensures the contents stick to the top while dismissing (it otherwise centers vertically)
-            .frame(height: proxy.size.height, alignment: .top)
-        }
-    }
-}
 
 public struct FormBackground: View {
     @Environment(\.colorScheme) var colorScheme

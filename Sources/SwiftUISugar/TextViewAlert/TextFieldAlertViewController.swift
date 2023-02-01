@@ -11,9 +11,9 @@ public class TextFieldAlertViewController: UIViewController {
     ///   - message: to be used as optional message of the UIAlertController
     ///   - text: binding for the text typed into the UITextField
     ///   - isPresented: binding to be set to false when the alert is dismissed (`Done` button tapped)
-    init(title: String, message: String?, actions: [UIAlertAction]? = nil, text: Binding<String?>, isPresented: Binding<Bool>?) {
+    init(title: String, confirmationMessage: String?, actions: [UIAlertAction]? = nil, text: Binding<String?>, isPresented: Binding<Bool>?) {
         self.alertTitle = title
-        self.message = message
+        self.confirmationMessage = confirmationMessage
         self.actions = actions
         self._text = text
         self.isPresented = isPresented
@@ -26,7 +26,7 @@ public class TextFieldAlertViewController: UIViewController {
     
     // MARK: - Dependencies
     private let alertTitle: String
-    private let message: String?
+    private let confirmationMessage: String?
     private let actions: [UIAlertAction]?
     @Binding private var text: String?
     private var isPresented: Binding<Bool>?
@@ -43,7 +43,7 @@ public class TextFieldAlertViewController: UIViewController {
     private func presentAlertController() {
         guard subscription == nil else { return } // present only once
         
-        let vc = UIAlertController(title: alertTitle, message: message, preferredStyle: .alert)
+        let vc = UIAlertController(title: alertTitle, message: confirmationMessage, preferredStyle: .alert)
         
         /// Add a textField and create a subscription to update the `text` binding
         vc.addTextField { [weak self] textField in
