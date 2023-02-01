@@ -41,6 +41,7 @@ public struct FormStyledVStack<Content: View>: View {
         VStack(spacing: customVerticalSpacing ?? K.FormStyledScrollView.verticalSpacing) {
             content()
                 .frame(maxWidth: .infinity)
+                .frame(maxHeight: .infinity)
         }
         .background(
             FormBackground()
