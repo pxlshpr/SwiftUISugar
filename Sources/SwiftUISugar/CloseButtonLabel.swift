@@ -15,11 +15,14 @@ public struct CloseButtonLabel: View {
     
     @Environment(\.colorScheme) var colorScheme
     
-    public init() { }
+    let fontSize: CGFloat
+    public init(forNavigationBar: Bool = false) {
+        self.fontSize = forNavigationBar ? 24 : 30
+    }
     
     public var body: some View {
         Image(systemName: "xmark.circle.fill")
-            .font(.system(size: 30))
+            .font(.system(size: fontSize))
             .symbolRenderingMode(.palette)
             .foregroundStyle(
                 Color(hex: colorScheme == .light ? "838388" : "A0A0A8"),      /// 'x' symbol
