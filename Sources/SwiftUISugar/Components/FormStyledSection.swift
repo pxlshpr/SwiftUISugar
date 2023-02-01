@@ -147,12 +147,16 @@ extension FormStyledSection where Header == EmptyView {
         footer: Footer,
         horizontalPadding: CGFloat? = nil,
         verticalPadding: CGFloat? = nil,
+        horizontalOuterPadding: CGFloat? = nil,
+        verticalOuterPadding: CGFloat? = nil,
         @ViewBuilder content: @escaping () -> Content
     ) {
         self.header = nil
         self.footer = footer
         self.customVerticalPadding = verticalPadding
         self.customHorizontalPadding = horizontalPadding
+        self.customHorizontalOuterPadding = horizontalOuterPadding
+        self.customVerticalOuterPadding = verticalOuterPadding
         self.content = content
     }
 }
@@ -163,12 +167,16 @@ extension FormStyledSection where Footer == EmptyView {
         header: Header,
         horizontalPadding: CGFloat? = nil,
         verticalPadding: CGFloat? = nil,
+        horizontalOuterPadding: CGFloat? = nil,
+        verticalOuterPadding: CGFloat? = nil,
         @ViewBuilder content: @escaping () -> Content
     ) {
         self.header = header
         self.footer = nil
         self.customVerticalPadding = verticalPadding
         self.customHorizontalPadding = horizontalPadding
+        self.customHorizontalOuterPadding = horizontalOuterPadding
+        self.customVerticalOuterPadding = verticalOuterPadding
         self.content = content
     }
 }
@@ -179,12 +187,16 @@ extension FormStyledSection where Header == EmptyView, Footer == EmptyView {
     public init(
         horizontalPadding: CGFloat? = nil,
         verticalPadding: CGFloat? = nil,
+        horizontalOuterPadding: CGFloat? = nil,
+        verticalOuterPadding: CGFloat? = nil,
         @ViewBuilder content: @escaping () -> Content
     ) {
         self.header = nil
         self.footer = nil
         self.customVerticalPadding = verticalPadding
         self.customHorizontalPadding = horizontalPadding
+        self.customHorizontalOuterPadding = horizontalOuterPadding
+        self.customVerticalOuterPadding = verticalOuterPadding
         self.content = content
     }
 }
