@@ -14,6 +14,7 @@ public struct FormStyledScrollView<Content: View>: View {
     
     public var body: some View {
         ScrollView(showsIndicators: showsIndicators) {
+            
             LazyVStack {
                 content()
                     .frame(maxWidth: .infinity)
