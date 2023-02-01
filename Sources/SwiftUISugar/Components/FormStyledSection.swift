@@ -1,30 +1,42 @@
 #if canImport(UIKit)
 import SwiftUI
 
-let DefaultHorizontalPadding: CGFloat = 17
-let DefaultVerticalPadding: CGFloat = 15
+public struct K {
+    public struct FormStyledSection {
+        public static let horizontalInset: CGFloat = 17
+        public static let verticalInset: CGFloat = 15
+        public static let horizontalPadding: CGFloat = 20
+        public static let verticalPadding: CGFloat = 10
+    }
+}
 
 public struct FormStyledSection<Header: View, Footer: View, Content: View>: View {
-    
+
     @Environment(\.colorScheme) var colorScheme
     
     var header: Header?
     var footer: Footer?
     var content: () -> Content
-    var verticalPadding: CGFloat?
-    var horizontalPadding: CGFloat?
+    var customVerticalInset: CGFloat?
+    var customHorizontalInset: CGFloat?
+    var customVerticalPadding: CGFloat?
+    var customHorizontalPadding: CGFloat?
 
     public init(
         header: Header,
         footer: Footer,
+        horizontalInset: CGFloat? = nil,
+        verticalInset: CGFloat? = nil,
         horizontalPadding: CGFloat? = nil,
         verticalPadding: CGFloat? = nil,
         @ViewBuilder content: @escaping () -> Content
     ) {
         self.header = header
         self.footer = footer
-        self.verticalPadding = verticalPadding
-        self.horizontalPadding = horizontalPadding
+        self.customVerticalInset = verticalInset
+        self.customHorizontalInset = horizontalInset
+        self.customHorizontalPadding = horizontalPadding
+        self.customVerticalPadding = verticalPadding
         self.content = content
     }
 
@@ -49,36 +61,36 @@ public struct FormStyledSection<Header: View, Footer: View, Content: View>: View
             headerView(for: header)
             contentView
             footerView(for: footer)
-//                .padding(.bottom, 10)
+                .padding(.bottom, verticalPadding)
         }
-        .padding(.horizontal, 20)
-//        .padding(.top, 10)
+        .padding(.horizontal, horizontalPadding)
+        .padding(.top, verticalPadding)
     }
     
     func withFooterOnly(_ footer: Footer) -> some View {
         VStack(spacing: 7) {
             contentView
             footerView(for: footer)
-//                .padding(.bottom, 10)
+                .padding(.bottom, verticalPadding)
         }
-        .padding(.horizontal, 20)
-//        .padding(.top, 10)
+        .padding(.horizontal, horizontalPadding)
+        .padding(.top, verticalPadding)
     }
     
     func withHeaderOnly(_ header: Header) -> some View {
         VStack(spacing: 7) {
             headerView(for: header)
             contentView
-//                .padding(.bottom, 10)
+                .padding(.bottom, verticalPadding)
         }
-        .padding(.horizontal, 20)
-//        .padding(.top, 10)
+        .padding(.horizontal, horizontalPadding)
+        .padding(.top, verticalPadding)
     }
 
     var withoutHeaderOrFooter: some View {
         contentView
-            .padding(.horizontal, 20)
-//            .padding(.vertical, 10)
+            .padding(.horizontal, horizontalPadding)
+            .padding(.vertical, verticalPadding)
     }
     
     //MARK: - Components
@@ -89,7 +101,7 @@ public struct FormStyledSection<Header: View, Footer: View, Content: View>: View
             .foregroundColor(Color(.secondaryLabel))
             .font(.footnote)
             .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(.horizontal, 20)
+            .padding(.horizontal, horizontalPadding)
     }
     
     func headerView(for header: Header) -> some View {
@@ -98,7 +110,15 @@ public struct FormStyledSection<Header: View, Footer: View, Content: View>: View
             .font(.footnote)
             .textCase(.uppercase)
             .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(.horizontal, 20)
+            .padding(.horizontal, horizontalPadding)
+    }
+    
+    var horizontalPadding: CGFloat {
+        customHorizontalPadding ?? K.FormStyledSection.horizontalPadding
+    }
+    
+    var verticalPadding: CGFloat {
+        customVerticalPadding ?? K.FormStyledSection.verticalPadding
     }
     
 //    var backgroundColor: Color {
@@ -110,8 +130,8 @@ public struct FormStyledSection<Header: View, Footer: View, Content: View>: View
         content()
 //            .background(.green)
             .frame(maxWidth: .infinity)
-            .padding(.horizontal, horizontalPadding ?? DefaultHorizontalPadding)
-            .padding(.vertical, verticalPadding ?? DefaultVerticalPadding)
+            .padding(.horizontal, customHorizontalInset ?? K.FormStyledSection.horizontalInset)
+            .padding(.vertical, customVerticalInset ?? K.FormStyledSection.verticalInset)
             .background(
                 RoundedRectangle(cornerRadius: 10)
                     .foregroundColor(formCellBackgroundColor(colorScheme: colorScheme))
@@ -131,8 +151,8 @@ extension FormStyledSection where Header == EmptyView {
     ) {
         self.header = nil
         self.footer = footer
-        self.verticalPadding = verticalPadding
-        self.horizontalPadding = horizontalPadding
+        self.customVerticalInset = verticalPadding
+        self.customHorizontalInset = horizontalPadding
         self.content = content
     }
 }
@@ -147,8 +167,8 @@ extension FormStyledSection where Footer == EmptyView {
     ) {
         self.header = header
         self.footer = nil
-        self.verticalPadding = verticalPadding
-        self.horizontalPadding = horizontalPadding
+        self.customVerticalInset = verticalPadding
+        self.customHorizontalInset = horizontalPadding
         self.content = content
     }
 }
@@ -163,8 +183,8 @@ extension FormStyledSection where Header == EmptyView, Footer == EmptyView {
     ) {
         self.header = nil
         self.footer = nil
-        self.verticalPadding = verticalPadding
-        self.horizontalPadding = horizontalPadding
+        self.customVerticalInset = verticalPadding
+        self.customHorizontalInset = horizontalPadding
         self.content = content
     }
 }

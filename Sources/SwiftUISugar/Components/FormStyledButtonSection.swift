@@ -16,8 +16,8 @@ public struct FormStyledButtonSection<Header: View, Footer: View, Content: View>
         FormStyledSection(
             header: header,
             footer: footer,
-            horizontalPadding: 0,
-            verticalPadding: 0,
+            horizontalInset: 0,
+            verticalInset: 0,
             content: content
         )
     }
