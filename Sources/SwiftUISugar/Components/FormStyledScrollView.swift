@@ -27,6 +27,28 @@ public struct FormStyledScrollView<Content: View>: View {
     }
 }
 
+public struct FormStyledVStack<Content: View>: View {
+    
+    var content: () -> Content
+    let customVerticalSpacing: CGFloat?
+
+    public init(customVerticalSpacing: CGFloat? = nil, @ViewBuilder content: @escaping () -> Content) {
+        self.content = content
+        self.customVerticalSpacing = customVerticalSpacing
+    }
+    
+    public var body: some View {
+        VStack(spacing: customVerticalSpacing ?? K.FormStyledScrollView.verticalSpacing) {
+            content()
+                .frame(maxWidth: .infinity)
+        }
+        .background(
+            FormBackground()
+                .edgesIgnoringSafeArea(.all) /// requireds to cover the area that would be covered by the keyboard during its dismissal animation
+        )
+    }
+}
+
 public struct FormBackground: View {
     @Environment(\.colorScheme) var colorScheme
     public init() { }
