@@ -38,15 +38,20 @@ public struct FormStyledVStack<Content: View>: View {
     }
     
     public var body: some View {
-        VStack(spacing: customVerticalSpacing ?? K.FormStyledScrollView.verticalSpacing) {
-            content()
-                .frame(maxWidth: .infinity)
-                .frame(maxHeight: .infinity)
+        GeometryReader { proxy in
+            VStack(spacing: customVerticalSpacing ?? K.FormStyledScrollView.verticalSpacing) {
+                content()
+                    .frame(maxWidth: .infinity)
+            }
+            .background(
+                FormBackground()
+                    .edgesIgnoringSafeArea(.all) /// requireds to cover the area that would be covered by the keyboard during its dismissal animation
+            )
+            /// This ensures that the it takes up the entire height and aligns to the top, which
+            /// - removes the need for bottom spacers
+            /// - ensures the contents stick to the top while dismissing (it otherwise centers vertically)
+            .frame(height: proxy.size.height, alignment: .top)
         }
-        .background(
-            FormBackground()
-                .edgesIgnoringSafeArea(.all) /// requireds to cover the area that would be covered by the keyboard during its dismissal animation
-        )
     }
 }
 
