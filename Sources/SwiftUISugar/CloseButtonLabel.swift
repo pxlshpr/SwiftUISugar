@@ -19,7 +19,7 @@ public struct CloseButtonLabel: View {
     
     public var body: some View {
         Image(systemName: "xmark.circle.fill")
-            .font(.system(size: 25))
+            .font(.system(size: 30))
             .symbolRenderingMode(.palette)
             .foregroundStyle(
                 Color(hex: colorScheme == .light ? "838388" : "A0A0A8"),      /// 'x' symbol

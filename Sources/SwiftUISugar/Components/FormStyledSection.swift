@@ -49,36 +49,36 @@ public struct FormStyledSection<Header: View, Footer: View, Content: View>: View
             headerView(for: header)
             contentView
             footerView(for: footer)
-                .padding(.bottom, 10)
+//                .padding(.bottom, 10)
         }
         .padding(.horizontal, 20)
-        .padding(.top, 10)
+//        .padding(.top, 10)
     }
     
     func withFooterOnly(_ footer: Footer) -> some View {
         VStack(spacing: 7) {
             contentView
             footerView(for: footer)
-                .padding(.bottom, 10)
+//                .padding(.bottom, 10)
         }
         .padding(.horizontal, 20)
-        .padding(.top, 10)
+//        .padding(.top, 10)
     }
     
     func withHeaderOnly(_ header: Header) -> some View {
         VStack(spacing: 7) {
             headerView(for: header)
             contentView
-                .padding(.bottom, 10)
+//                .padding(.bottom, 10)
         }
         .padding(.horizontal, 20)
-        .padding(.top, 10)
+//        .padding(.top, 10)
     }
 
     var withoutHeaderOrFooter: some View {
         contentView
             .padding(.horizontal, 20)
-            .padding(.vertical, 10)
+//            .padding(.vertical, 10)
     }
     
     //MARK: - Components
