@@ -11,6 +11,24 @@ public var closeButtonLabel: some View {
         )
 }
 
+public struct CloseButtonLabel: View {
+    
+    @Environment(\.colorScheme) var colorScheme
+    
+    public init() { }
+    
+    public var body: some View {
+        Image(systemName: "xmark.circle.fill")
+            .font(.system(size: 25))
+            .symbolRenderingMode(.palette)
+            .foregroundStyle(
+                Color(hex: colorScheme == .light ? "838388" : "A0A0A8"),      /// 'x' symbol
+//                Color(hex: colorScheme == .light ? "EEEEEF" : "313135") /// background
+                Color(.quaternaryLabel).opacity(0.5)
+            )
+    }
+}
+
 public var navigationLinkArrow: some View {
     Image(systemName: "chevron.right")
         .imageScale(.small)
