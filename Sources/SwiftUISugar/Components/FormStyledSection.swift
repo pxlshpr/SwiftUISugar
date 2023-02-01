@@ -8,6 +8,10 @@ public struct K {
         public static let horizontalOuterPadding: CGFloat = 20
         public static let verticalOuterPadding: CGFloat = 10
     }
+    
+    public struct FormStyledScrollView {
+        public static let verticalSpacing: CGFloat = 8
+    }
 }
 
 public struct FormStyledSection<Header: View, Footer: View, Content: View>: View {

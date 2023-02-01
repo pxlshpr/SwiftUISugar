@@ -4,18 +4,18 @@ import SwiftUI
 public struct FormStyledScrollView<Content: View>: View {
     
     var content: () -> Content
-    
     let showsIndicators: Bool
-    
-    public init(showsIndicators: Bool = false, @ViewBuilder content: @escaping () -> Content) {
+    let customVerticalSpacing: CGFloat?
+
+    public init(showsIndicators: Bool = false, customVerticalSpacing: CGFloat? = nil, @ViewBuilder content: @escaping () -> Content) {
         self.content = content
         self.showsIndicators = showsIndicators
+        self.customVerticalSpacing = customVerticalSpacing
     }
     
     public var body: some View {
         ScrollView(showsIndicators: showsIndicators) {
-            
-            LazyVStack {
+            LazyVStack(spacing: customVerticalSpacing ?? K.FormStyledScrollView.verticalSpacing) {
                 content()
                     .frame(maxWidth: .infinity)
             }
