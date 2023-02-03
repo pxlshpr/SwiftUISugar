@@ -14,11 +14,26 @@ public extension View {
         )
         .onPreferenceChange(SizePreferenceKey.self, perform: onChange)
     }
+    
+    func readSafeAreaInsets(onChange: @escaping (EdgeInsets) -> Void) -> some View {
+        background(
+            GeometryReader { geometryProxy in
+                Color.clear
+                    .preference(key: InsetsPreferenceKey.self, value: geometryProxy.safeAreaInsets)
+            }
+        )
+        .onPreferenceChange(InsetsPreferenceKey.self, perform: onChange)
+    }
 }
 
 private struct SizePreferenceKey: PreferenceKey {
     static var defaultValue: CGSize = .zero
     static func reduce(value: inout CGSize, nextValue: () -> CGSize) {}
+}
+
+private struct InsetsPreferenceKey: PreferenceKey {
+    static var defaultValue: EdgeInsets = .init()
+    static func reduce(value: inout EdgeInsets, nextValue: () -> EdgeInsets) {}
 }
 
 struct RoundedCorner: Shape {
