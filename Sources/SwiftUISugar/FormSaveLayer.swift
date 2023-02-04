@@ -589,11 +589,13 @@ public struct FormSaveLayer: View {
     @State var showingCancelConfirmation = false
     @State var showingSaveConfirmation = false
     
+    let saveTitle: String
     let preconfirmationAction: (() -> ())?
     
     public init(
         collapsed: Binding<Bool>,
         saveIsDisabled: Binding<Bool>,
+        saveTitle: String = "Save",
         info: Binding<FormSaveInfo?> = .constant(nil),
         preconfirmationAction: (() -> ())? = nil,
         cancelAction: FormConfirmableAction,
@@ -608,6 +610,8 @@ public struct FormSaveLayer: View {
         _saveIsDisabled = State(initialValue: saveIsDisabled.wrappedValue)
         
         _info = info
+        
+        self.saveTitle = saveTitle
 
         self.cancelAction = cancelAction
         self.saveAction = saveAction
@@ -747,7 +751,7 @@ public struct FormSaveLayer: View {
                 }
             }
         } label: {
-            Text("Save")
+            Text(saveTitle)
                 .bold()
                 .foregroundColor((colorScheme == .light && saveIsDisabled) ? .black : .white)
                 .frame(width: buttonWidth, height: buttonHeight)
