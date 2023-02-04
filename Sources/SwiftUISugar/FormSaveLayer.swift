@@ -34,43 +34,29 @@ public struct FormSaveInfo {
 public struct FormConfirmableAction {
     public let handler: () -> ()
     public let shouldConfirm: Bool
-    public let confirmationMessage: String?
     
-    public let buttonTitle: String?
+    public let confirmationMessage: String?
+    public let confirmationButtonTitle: String?
+    
     public let buttonImage: String?
 
     public let isDisabled: Bool
 
     public init(
         shouldConfirm: Bool = false,
-        message: String? = nil,
-        buttonTitle: String? = nil,
+        confirmationMessage: String? = nil,
+        confirmationButtonTitle: String? = nil,
         isDisabled: Bool = false,
+        buttonImage: String? = nil,
         handler: @escaping () -> ()
     ) {
         self.handler = handler
         self.shouldConfirm = shouldConfirm
-        self.confirmationMessage = message
-        self.buttonTitle = buttonTitle
-        self.buttonImage = nil
-        self.isDisabled = isDisabled
-    }
-    
-    public init(
-        shouldConfirm: Bool = false,
-        message: String? = nil,
-        buttonImage: String,
-        isDisabled: Bool = false,
-        handler: @escaping () -> ()
-    ) {
-        self.handler = handler
-        self.shouldConfirm = shouldConfirm
-        self.confirmationMessage = message
-        self.buttonTitle = nil
+        self.confirmationMessage = confirmationMessage
+        self.confirmationButtonTitle = confirmationButtonTitle
         self.buttonImage = buttonImage
         self.isDisabled = isDisabled
     }
-
 }
 
 //MARK: - 2️⃣ FormDualSaveLayer
@@ -265,7 +251,7 @@ public struct FormDualSaveLayer: View {
     //MARK: Save
     var saveButton: some View {
         var confirmationActions: some View {
-            Button(saveAction.buttonTitle ?? "Save", role: .destructive) {
+            Button(saveAction.confirmationButtonTitle ?? "Save", role: .destructive) {
                 saveAction.handler()
                 cancelAction.handler()
             }
@@ -340,7 +326,7 @@ public struct FormDualSaveLayer: View {
     
     var saveSecondaryButton: some View {
         var confirmationActions: some View {
-            Button(saveSecondaryAction.buttonTitle ?? "Save", role: .destructive) {
+            Button(saveSecondaryAction.confirmationButtonTitle ?? "Save", role: .destructive) {
                 saveSecondaryAction.handler()
                 cancelAction.handler()
             }
@@ -427,7 +413,7 @@ public struct FormDualSaveLayer: View {
 
     var dismissButton: some View {
         var confirmationActions: some View {
-            Button(cancelAction.buttonTitle ?? "Close without saving", role: .destructive) {
+            Button(cancelAction.confirmationButtonTitle ?? "Close without saving", role: .destructive) {
                 cancelAction.handler()
             }
         }
@@ -503,7 +489,7 @@ public struct FormDualSaveLayer: View {
     //MARK: Delete
     func deleteButton(_ action: FormConfirmableAction) -> some View {
         var confirmationActions: some View {
-            Button(action.buttonTitle ?? "Delete", role: .destructive) {
+            Button(action.confirmationButtonTitle ?? "Delete", role: .destructive) {
                 action.handler()
                 cancelAction.handler()
             }
@@ -709,7 +695,7 @@ public struct FormSaveLayer: View {
     
     var saveButton: some View {
         var confirmationActions: some View {
-            Button(saveAction.buttonTitle ?? "Save", role: .destructive) {
+            Button(saveAction.confirmationButtonTitle ?? "Save", role: .destructive) {
                 saveAction.handler()
                 cancelAction.handler()
             }
@@ -788,7 +774,7 @@ public struct FormSaveLayer: View {
 
     var dismissButton: some View {
         var confirmationActions: some View {
-            Button(cancelAction.buttonTitle ?? "Close without saving", role: .destructive) {
+            Button(cancelAction.confirmationButtonTitle ?? "Close without saving", role: .destructive) {
                 cancelAction.handler()
             }
         }
@@ -960,7 +946,7 @@ public struct FormSaveLayer: View {
     
     func deleteButton(_ action: FormConfirmableAction) -> some View {
         var confirmationActions: some View {
-            Button(action.buttonTitle ?? "Delete", role: .destructive) {
+            Button(action.confirmationButtonTitle ?? "Delete", role: .destructive) {
                 action.handler()
                 cancelAction.handler()
             }
@@ -1063,7 +1049,7 @@ struct FormSaveLayerPreview: View {
     var cancelAction: FormConfirmableAction {
         FormConfirmableAction(
             shouldConfirm: true,
-            message: "Are you sure you wanna cancel?",
+            confirmationMessage: "Are you sure you wanna cancel?",
             handler: {
                 let feedbackGenerator = UIImpactFeedbackGenerator(style: .soft)
                 feedbackGenerator.impactOccurred()
@@ -1075,7 +1061,7 @@ struct FormSaveLayerPreview: View {
     var saveAction: FormConfirmableAction {
         FormConfirmableAction(
             shouldConfirm: true,
-            message: "Are you sure you wanna save?",
+            confirmationMessage: "Are you sure you wanna save?",
             handler: {
             }
         )
@@ -1084,7 +1070,7 @@ struct FormSaveLayerPreview: View {
     var deleteAction: FormConfirmableAction {
         FormConfirmableAction(
             shouldConfirm: true,
-            message: "Are you sure you wanna delete?",
+            confirmationMessage: "Are you sure you wanna delete?",
             handler: {
             }
         )
@@ -1200,7 +1186,7 @@ struct FormDualSaveLayerPreview: View {
             case .edit, .editPublic:
                 return FormConfirmableAction(
                     shouldConfirm: true,
-                    message: "Are you sure you wanna delete?",
+                    confirmationMessage: "Are you sure you wanna delete?",
                     handler: {
                     }
                 )
@@ -1307,7 +1293,7 @@ struct FormDualSaveLayerPreview: View {
     var cancelAction: FormConfirmableAction {
         FormConfirmableAction(
             shouldConfirm: true,
-            message: "Are you sure you wanna cancel?",
+            confirmationMessage: "Are you sure you wanna cancel?",
             handler: {
                 let feedbackGenerator = UIImpactFeedbackGenerator(style: .soft)
                 feedbackGenerator.impactOccurred()
@@ -1319,7 +1305,7 @@ struct FormDualSaveLayerPreview: View {
     var saveAction: FormConfirmableAction {
         FormConfirmableAction(
             shouldConfirm: true,
-            message: "Are you sure you wanna save?",
+            confirmationMessage: "Are you sure you wanna save?",
             handler: {
             }
         )

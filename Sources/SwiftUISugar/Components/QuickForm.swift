@@ -102,12 +102,12 @@ public struct QuickForm<Content: View>: View {
         } label: {
             Group {
                 if let buttonImage = saveAction.buttonImage {
-                    Image(systemName: "checkmark")
+                    Image(systemName: buttonImage)
                         .bold()
                         .foregroundColor(foregroundColor)
                         .frame(width: 38, height: 38)
                 } else {
-                    Text(saveAction.buttonTitle ?? "Save")
+                    Text(saveAction.confirmationButtonTitle ?? "Save")
                         .bold()
                         .foregroundColor(foregroundColor)
                         .frame(height: 38)
@@ -144,7 +144,7 @@ public struct QuickForm<Content: View>: View {
         var shadowSize: CGFloat { 2 }
 
         var confirmationActions: some View {
-            Button(action.buttonTitle ?? "Delete", role: .destructive) {
+            Button(action.confirmationButtonTitle ?? "Delete", role: .destructive) {
                 action.handler()
                 dismiss()
             }
@@ -190,7 +190,7 @@ public struct QuickForm<Content: View>: View {
                 if let imageName = action.buttonImage {
                     imageLabel(imageName)
                 } else {
-                    textLabel(action.buttonTitle ?? "Delete")
+                    textLabel(action.confirmationButtonTitle ?? "Delete")
                 }
             }
             .confirmationDialog(
