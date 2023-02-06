@@ -1,7 +1,7 @@
 #if canImport(UIKit)
 import SwiftUI
 import WebKit
-import ActivityIndicatorView
+//import ActivityIndicatorView
 
 public struct WebView: View {
 
@@ -14,7 +14,11 @@ public struct WebView: View {
     let title: String?
     
     public init(urlString: String, title: String? = nil) {
-        _urlString = State(initialValue: urlString)
+        if !(urlString.hasPrefix("http://")  || urlString.hasPrefix("https://")) {
+            _urlString = State(initialValue: "http://\(urlString)")
+        } else {
+            _urlString = State(initialValue: urlString)
+        }
         self.title = title
     }
     
@@ -33,7 +37,9 @@ public struct WebView: View {
     @ViewBuilder
     var loadingOverlay: some View {
         if !vm.hasStartedNavigating {
-            ActivityIndicatorView(isVisible: .constant(true), type: .scalingDots())
+            ProgressView()
+                .progressViewStyle(.circular)
+//            ActivityIndicatorView(isVisible: .constant(true), type: .scalingDots())
                     .foregroundColor(Color(.tertiaryLabel))
                     .frame(width: 70, height: 70)
                     .transition(.opacity)
@@ -50,8 +56,10 @@ public struct WebView: View {
     var navigationLeadingContent: some ToolbarContent {
         ToolbarItemGroup(placement: .navigationBarLeading) {
             if vm.isNavigating {
-                ActivityIndicatorView(isVisible: .constant(true), type: .opacityDots())
-                    .foregroundColor(.secondary)
+                ProgressView()
+                    .progressViewStyle(.circular)
+//                ActivityIndicatorView(isVisible: .constant(true), type: .opacityDots())
+//                    .foregroundColor(.secondary)
                     .frame(width: 20, height: 20)
 //                ProgressView()
 //                    .transition(.opacity)
