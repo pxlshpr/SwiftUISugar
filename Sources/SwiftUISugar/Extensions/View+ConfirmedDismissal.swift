@@ -7,8 +7,9 @@
 /// 1. Conditional view insertions/removals with `.transition` do not animate.
 ///     - Workaround is to manually carry out the transitions using simple `.animation` blockcs
 /// 2. A `.edgesIgnoringSafeAreaInset(.bottom)` modifier might be needed
-/// 
+///
 import SwiftUI
+import SwiftHaptics
 
 extension View {
     public func interactiveDismissDisabled(_ isDisabled: Bool = true, onAttemptToDismiss: (() -> Void)? = nil) -> some View {
@@ -17,6 +18,7 @@ extension View {
     
     public func interactiveDismissDisabled(_ isDisabled: Bool = true, attemptToDismiss: Binding<Bool>) -> some View {
         InteractiveDismissableView(view: self, isDisabled: isDisabled) {
+            Haptics.warningFeedback()
             attemptToDismiss.wrappedValue.toggle()
         }
     }
