@@ -7,6 +7,7 @@ public struct WebView: View {
 
     @State var urlString: String
 
+    @Environment(\.colorScheme) var colorScheme
     @Environment(\.dismiss) var dismiss
     @State var hasAppeared: Bool = false
     @StateObject var vm = ViewModel()
@@ -38,7 +39,7 @@ public struct WebView: View {
     var loadingOverlay: some View {
         if !vm.hasStartedNavigating {
             ActivityIndicatorView(isVisible: .constant(true), type: .scalingDots())
-                .foregroundColor(Color.gray)
+                .foregroundColor(colorScheme == .dark ? Color.gray : Color(.tertiaryLabel))
                 .frame(width: 70, height: 70)
                 .transition(.opacity)
         }
