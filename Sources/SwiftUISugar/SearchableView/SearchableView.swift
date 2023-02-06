@@ -38,15 +38,19 @@ public struct SearchableView<Content: View>: View {
     /// Used to save state when moving to background
     @State var isHidingSearchViewsInBackground: Bool = false
     
+    @State var hasAppearedDelayed: Bool = false
+    @State var hasAppeared: Bool = false
     @State var hasFocusedOnAppear: Bool
     @State var hasCompletedFocusedOnAppearAnimation: Bool
-
-    @State var hasAppeared: Bool = false
-    @State var hasAppearedDelayed: Bool = false
 
     @Binding var shouldShowToday: Bool
 
     let keyboardDidShow = NotificationCenter.default.publisher(for: UIWindow.keyboardDidShowNotification)
+    
+    let keyboardWillHide = NotificationCenter.default.publisher(for: UIResponder.keyboardWillHideNotification)
+    let keyboardDidHide = NotificationCenter.default.publisher(for: UIResponder.keyboardDidHideNotification)
+
+    @State var wasDismissing = false
     /**
      - Parameters:
         - promptSuffix: The suffix for the seach prompt. For instance, for `Search Foods`, this will only be `Foods`.

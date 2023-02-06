@@ -44,17 +44,22 @@ extension SearchableView {
     //MARK: TextField
     
     var textField: some View {
-        TextField("", text: $searchText)
-            .focused($isFocused)
-            .font(.system(size: 18))
-            .keyboardType(.alphabet)
-            .submitLabel(.search)
-            .autocorrectionDisabled()
-            .onSubmit(tappedSubmit)
-            .introspectTextField { uiTextField in
-//                DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) {
+        var content: some View {
+            TextField("", text: $searchText)
+                .font(.system(size: 18))
+                .keyboardType(.alphabet)
+                .submitLabel(.search)
+                .autocorrectionDisabled()
+                .onSubmit(tappedSubmit)
+                .focused($isFocused)
+                .introspectTextField { uiTextField in
+                    print("⌨️ introspectTextField – wasDismissing: \(wasDismissing)")
+    //                if wasDismissing {
+    //                    uiTextField.resignFirstResponder()
+    //                    wasDismissing = false
+    //                }
                     if !hasFocusedOnAppear && focusOnAppear {
-                        print("becoming first responder")
+                        print("⌨️ becoming first responder")
                         uiTextField.becomeFirstResponder()
                         hasFocusedOnAppear = true
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
@@ -63,32 +68,55 @@ extension SearchableView {
                             }
                         }
                     }
-//                }
-            }
+                }
+                .onReceive(keyboardWillHide) { notification in
+                    self.wasDismissing = true
+                    print("⌨️ keyboard will hide, isFocused is: \(isFocused)")
+                }
+        }
         
+        return Group {
+            if !wasDismissing {
+                content
+            }
+        }
     }
     
     var offset: CGFloat {
         hasCompletedFocusedOnAppearAnimation ? 0 : 70
     }
     
+    var contents_legacy: some View {
+//    var contents: some View {
+        GeometryReader { proxy in
+            ZStack {
+                content()
+                    .frame(width: UIScreen.main.bounds.width)
+                    .safeAreaInset(edge: .bottom) { safeAreaBottomInset }
+                    .edgesIgnoringSafeArea(.bottom)
+                searchLayer
+                    .opacity(opacity)
+                    .padding(.bottom, bottomPadding)
+                    .edgesIgnoringSafeArea(ignoredSafeAreaEdges)
+            }
+            .frame(height: proxy.size.height)
+        }
+    }
+    
     var contents: some View {
+//    var contents_legacy: some View {
         ZStack {
             content()
-                .frame(width: UIScreen.main.bounds.width) //TODO: Remove this as `.main` will be deprecated
+                .frame(width: UIScreen.main.bounds.width)
 //                .safeAreaInset(edge: .bottom) { Spacer().frame(height: 600) }
 //                .edgesIgnoringSafeArea(.bottom)
                 .safeAreaInset(edge: .bottom) { safeAreaBottomInset }
                 .edgesIgnoringSafeArea(.bottom)
             
-//            if !isHidden {
-                searchLayer
-//                    .zIndex(10)
-//                    .transition(.move(edge: .bottom))
-                    .opacity(opacity)
-                    .padding(.bottom, bottomPadding)
-                    .edgesIgnoringSafeArea(ignoredSafeAreaEdges)
-//            }
+            searchLayer
+                .opacity(opacity)
+                .padding(.bottom, bottomPadding)
+                .edgesIgnoringSafeArea(ignoredSafeAreaEdges)
         }
         .onAppear(perform: appeared)
         .onChange(of: externalIsFocused.wrappedValue, perform: externalIsFocusedChanged)
