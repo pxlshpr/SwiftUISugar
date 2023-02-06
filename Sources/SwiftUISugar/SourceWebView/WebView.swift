@@ -1,7 +1,7 @@
 #if canImport(UIKit)
 import SwiftUI
 import WebKit
-//import ActivityIndicatorView
+import ActivityIndicatorView
 
 public struct WebView: View {
 
@@ -37,12 +37,10 @@ public struct WebView: View {
     @ViewBuilder
     var loadingOverlay: some View {
         if !vm.hasStartedNavigating {
-            ProgressView()
-                .progressViewStyle(.circular)
-//            ActivityIndicatorView(isVisible: .constant(true), type: .scalingDots())
-                    .foregroundColor(Color(.tertiaryLabel))
-                    .frame(width: 70, height: 70)
-                    .transition(.opacity)
+            ActivityIndicatorView(isVisible: .constant(true), type: .scalingDots())
+                .foregroundColor(Color.gray)
+                .frame(width: 70, height: 70)
+                .transition(.opacity)
         }
     }
     func appeared() {
@@ -56,10 +54,8 @@ public struct WebView: View {
     var navigationLeadingContent: some ToolbarContent {
         ToolbarItemGroup(placement: .navigationBarLeading) {
             if vm.isNavigating {
-                ProgressView()
-                    .progressViewStyle(.circular)
-//                ActivityIndicatorView(isVisible: .constant(true), type: .opacityDots())
-//                    .foregroundColor(.secondary)
+                ActivityIndicatorView(isVisible: .constant(true), type: .opacityDots())
+                    .foregroundColor(.secondary)
                     .frame(width: 20, height: 20)
 //                ProgressView()
 //                    .transition(.opacity)
