@@ -3,6 +3,11 @@
 /// https://peterfriese.dev/posts/swiftui-confirmation-dialogs/#confirming-interactive-dismissal
 /// https://twitter.com/peterfriese/status/1464534470820868100?s=20&t=8N6tRIMQDm6nyfX9kFn7IA
 ///
+/// **WARNING:** Intricacies of using this:
+/// 1. Conditional view insertions/removals with `.transition` do not animate.
+///     - Workaround is to manually carry out the transitions using simple `.animation` blockcs
+/// 2. A `.edgesIgnoringSafeAreaInset(.bottom)` modifier might be needed
+/// 
 import SwiftUI
 
 extension View {
