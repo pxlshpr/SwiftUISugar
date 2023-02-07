@@ -225,7 +225,6 @@ extension SearchableView {
 //                    .padding(6)
             }
             .transition(.opacity)
-            .animation(.default, value: isFocused)
         }
     }
     
