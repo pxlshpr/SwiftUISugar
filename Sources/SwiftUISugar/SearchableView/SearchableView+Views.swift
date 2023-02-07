@@ -222,7 +222,7 @@ extension SearchableView {
             } label: {
                 Image(systemName: "keyboard.chevron.compact.down")
                     .foregroundColor(Color(.secondaryLabel))
-                    .padding(6)
+//                    .padding(6)
             }
             .transition(.opacity)
         }
