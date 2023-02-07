@@ -127,9 +127,9 @@ extension SearchableView {
         //TODO: Removing these temporarily
         .onWillResignActive {
             if isFocused {
-                withAnimation {
-                    isHidingSearchViewsInBackground = true
-                }
+//                withAnimation {
+//                    isHidingSearchViewsInBackground = true
+//                }
                 resignFocusOfSearchTextField()
             }
         }
