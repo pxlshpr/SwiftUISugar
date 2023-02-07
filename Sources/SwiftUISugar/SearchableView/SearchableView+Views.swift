@@ -130,7 +130,7 @@ extension SearchableView {
 //                withAnimation {
 //                    isHidingSearchViewsInBackground = true
 //                }
-                resignFocusOfSearchTextField()
+//                resignFocusOfSearchTextField()
             }
         }
 //        .onDidEnterBackground {
