@@ -125,14 +125,14 @@ extension SearchableView {
 //            }
         }
         //TODO: Removing these temporarily
-//        .onWillResignActive {
-//            if isFocused {
-//                withAnimation {
-//                    isHidingSearchViewsInBackground = true
-//                }
-//                resignFocusOfSearchTextField()
-//            }
-//        }
+        .onWillResignActive {
+            if isFocused {
+                withAnimation {
+                    isHidingSearchViewsInBackground = true
+                }
+                resignFocusOfSearchTextField()
+            }
+        }
 //        .onDidEnterBackground {
 //        }
 //        .onWillEnterForeground {
