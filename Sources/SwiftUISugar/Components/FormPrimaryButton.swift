@@ -23,7 +23,7 @@ public struct FormPrimaryButton: View {
                 .frame(maxWidth: .infinity)
                 .background(
                     RoundedRectangle(cornerRadius: 10)
-                        .foregroundColor(color)
+                        .foregroundStyle(color.gradient)
                 )
                 .padding(.horizontal)
                 .padding(.horizontal)
