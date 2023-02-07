@@ -124,26 +124,27 @@ extension SearchableView {
 //                    .transition(.opacity)
 //            }
         }
-        .onWillResignActive {
-            if isFocused {
-                withAnimation {
-                    isHidingSearchViewsInBackground = true
-                }
-                resignFocusOfSearchTextField()
-            }
-        }
-        .onDidEnterBackground {
-        }
-        .onWillEnterForeground {
-        }
-        .onDidBecomeActive {
-            if isHidingSearchViewsInBackground {
-                focusOnSearchTextField()
-                withAnimation {
-                    isHidingSearchViewsInBackground = false
-                }
-            }
-        }
+        //TODO: Removing these temporarily
+//        .onWillResignActive {
+//            if isFocused {
+//                withAnimation {
+//                    isHidingSearchViewsInBackground = true
+//                }
+//                resignFocusOfSearchTextField()
+//            }
+//        }
+//        .onDidEnterBackground {
+//        }
+//        .onWillEnterForeground {
+//        }
+//        .onDidBecomeActive {
+//            if isHidingSearchViewsInBackground {
+//                focusOnSearchTextField()
+//                withAnimation {
+//                    isHidingSearchViewsInBackground = false
+//                }
+//            }
+//        }
     }
 
     
