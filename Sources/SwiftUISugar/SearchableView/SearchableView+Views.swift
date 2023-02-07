@@ -119,10 +119,10 @@ extension SearchableView {
                 .zIndex(10)
                 .transition(.move(edge: .bottom))
             }
-            if shouldShowButtonsLayer {
-                buttonsLayer
-                    .transition(.opacity)
-            }
+//            if shouldShowButtonsLayer {
+//                buttonsLayer
+//                    .transition(.opacity)
+//            }
         }
         .onWillResignActive {
             if isFocused {
@@ -159,6 +159,7 @@ extension SearchableView {
 //        showDismiss || didTapDismiss != nil
 //    }
     
+    //TODO: Remove this
     var buttonsLayer: some View {
         var bottomPadding: CGFloat {
             guard !isFocused else {
@@ -212,14 +213,19 @@ extension SearchableView {
         }
     }
     
+    @ViewBuilder
     var keyboardDismissButton: some View {
-        Button {
-            Haptics.feedback(style: .soft)
-            resignFocusOfSearchTextField()
-        } label: {
-            DismissButtonLabel(forKeyboard: true)
+        if isFocused {
+            Button {
+                Haptics.feedback(style: .soft)
+                resignFocusOfSearchTextField()
+            } label: {
+                Image(systemName: "keyboard.chevron.compact.down")
+                    .foregroundColor(Color(.secondaryLabel))
+                    .padding(6)
+            }
+            .transition(.opacity)
         }
-        .transition(.opacity)
     }
     
     var optionalPagingButtons: some View {
