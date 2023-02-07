@@ -212,6 +212,16 @@ extension SearchableView {
         }
     }
     
+    var keyboardDismissButton: some View {
+        Button {
+            Haptics.feedback(style: .soft)
+            resignFocusOfSearchTextField()
+        } label: {
+            DismissButtonLabel(forKeyboard: true)
+        }
+        .transition(.opacity)
+    }
+    
     var optionalPagingButtons: some View {
         HStack {
             if let didPageBack {
@@ -329,6 +339,7 @@ extension SearchableView {
                 }
                 textFieldContents
                 accessoryViews
+                keyboardDismissButton
                 Spacer()
             }
             .padding(.horizontal, 12)
