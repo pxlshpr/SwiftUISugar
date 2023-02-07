@@ -24,8 +24,8 @@ public struct SearchableView<Content: View>: View {
     @Binding var isHidden: Bool
     let focusOnAppear: Bool
     let showKeyboardDismiss: Bool
-    let showDismiss: Bool
-    let didTapDismiss: (() -> ())?
+//    let showDismiss: Bool
+//    let didTapDismiss: (() -> ())?
     let didPageBack: (() -> ())?
     let didTapToday: (() -> ())?
     let didPageForward: (() -> ())?
@@ -46,11 +46,10 @@ public struct SearchableView<Content: View>: View {
     @Binding var shouldShowToday: Bool
 
     let keyboardDidShow = NotificationCenter.default.publisher(for: UIWindow.keyboardDidShowNotification)
-    
     let keyboardWillHide = NotificationCenter.default.publisher(for: UIResponder.keyboardWillHideNotification)
     let keyboardDidHide = NotificationCenter.default.publisher(for: UIResponder.keyboardDidHideNotification)
 
-    @State var wasDismissing = false
+//    @State var wasDismissing = false
     /**
      - Parameters:
         - promptSuffix: The suffix for the seach prompt. For instance, for `Search Foods`, this will only be `Foods`.
@@ -62,8 +61,8 @@ public struct SearchableView<Content: View>: View {
         focusOnAppear: Bool = false,
         isHidden: Binding<Bool> = .constant(false),
         showKeyboardDismiss: Bool = false,
-        showDismiss: Bool = false,
-        didTapDismiss: (() -> ())? = nil,
+//        showDismiss: Bool = false,
+//        didTapDismiss: (() -> ())? = nil,
         didPageBack: (() -> ())? = nil,
         didTapToday: (() -> ())? = nil,
         shouldShowToday: Binding<Bool> = .constant(false),
@@ -82,8 +81,8 @@ public struct SearchableView<Content: View>: View {
         self.externalIsFocused = focused
         self.focusOnAppear = focusOnAppear
         self.showKeyboardDismiss = showKeyboardDismiss
-        self.showDismiss = showDismiss
-        self.didTapDismiss = didTapDismiss
+//        self.showDismiss = showDismiss
+//        self.didTapDismiss = didTapDismiss
         self.didPageBack = didPageBack
         self.didTapToday = didTapToday
         self.didPageForward = didPageForward
@@ -105,8 +104,8 @@ public struct SearchableView<Content: View>: View {
         focusOnAppear: Bool = false,
         isHidden: Binding<Bool> = .constant(false),
         showKeyboardDismiss: Bool = false,
-        showDismiss: Bool = false,
-        didTapDismiss: (() -> ())? = nil,
+//        showDismiss: Bool = false,
+//        didTapDismiss: (() -> ())? = nil,
         didPageBack: (() -> ())? = nil,
         didTapToday: (() -> ())? = nil,
         shouldShowToday: Binding<Bool> = .constant(false),
@@ -126,8 +125,8 @@ public struct SearchableView<Content: View>: View {
         self.externalIsFocused = focused
         self.focusOnAppear = focusOnAppear
         self.showKeyboardDismiss = showKeyboardDismiss
-        self.showDismiss = showDismiss
-        self.didTapDismiss = didTapDismiss
+//        self.showDismiss = showDismiss
+//        self.didTapDismiss = didTapDismiss
         self.didPageBack = didPageBack
         self.didTapToday = didTapToday
         self.didPageForward = didPageForward
