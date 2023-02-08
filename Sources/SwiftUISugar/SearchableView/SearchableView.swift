@@ -21,6 +21,7 @@ public struct SearchableView<Content: View>: View {
     @FocusState var isFocused: Bool
     @State var isFocusedForAnimation: Bool
 
+    @State var showingKeyboardDismissButton: Bool
     @Binding var isHidden: Bool
     let focusOnAppear: Bool
     let showKeyboardDismiss: Bool
@@ -90,6 +91,8 @@ public struct SearchableView<Content: View>: View {
         self.didSubmit = didSubmit
         self.buttonViews = []
         self.content = content
+        
+        _showingKeyboardDismissButton = State(initialValue: focusOnAppear)
     }
 
     /**
@@ -134,5 +137,7 @@ public struct SearchableView<Content: View>: View {
         self.didSubmit = didSubmit
         self.buttonViews = buttonViews().getViews
         self.content = content
+        
+        _showingKeyboardDismissButton = State(initialValue: focusOnAppear)
     }
 }

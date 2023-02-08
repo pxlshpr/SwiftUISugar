@@ -53,6 +53,14 @@ extension SearchableView {
         externalIsFocused.wrappedValue = newValue
         withAnimation {
             isFocusedForAnimation = newValue
+            /// Animate when focusing only
+            if newValue {
+                showingKeyboardDismissButton = newValue
+            }
+        }
+        /// No animation when resigning focus
+        if !newValue {
+            showingKeyboardDismissButton = newValue
         }
     }
 

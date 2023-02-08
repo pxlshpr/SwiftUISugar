@@ -193,14 +193,14 @@ extension SearchableView {
 //                }
                 Spacer()
                 if isFocused {
-                    if showKeyboardDismiss {
+                    if showingKeyboardDismissButton {
                         Button {
                             Haptics.feedback(style: .soft)
                             resignFocusOfSearchTextField()
                         } label: {
                             DismissButtonLabel(forKeyboard: true)
                         }
-                        .transition(.opacity)
+                        .transition(.scale)
                     }
                 } else {
                     if shouldShowPagingButtons {
@@ -216,7 +216,7 @@ extension SearchableView {
     
     @ViewBuilder
     var keyboardDismissButton: some View {
-        if isFocused {
+        if showingKeyboardDismissButton {
             Button {
                 Haptics.feedback(style: .soft)
                 resignFocusOfSearchTextField()
@@ -225,7 +225,8 @@ extension SearchableView {
                     .foregroundColor(Color(.secondaryLabel))
 //                    .padding(6)
             }
-            .transition(.opacity)
+//            .transition(.scale.combined(with: .opacity))
+            .transition(.move(edge: .trailing).combined(with: .opacity))
         }
     }
     
