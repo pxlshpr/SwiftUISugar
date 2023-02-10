@@ -83,7 +83,7 @@ extension SearchableView {
             
 //            if !isHidden {
                 searchLayer
-//                    .zIndex(10)
+                    .zIndex(12)
 //                    .transition(.move(edge: .bottom))
                     .opacity(opacity)
                     .padding(.bottom, bottomPadding)
