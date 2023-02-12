@@ -50,6 +50,7 @@ public struct SearchableView<Content: View>: View {
     let keyboardWillHide = NotificationCenter.default.publisher(for: UIResponder.keyboardWillHideNotification)
     let keyboardDidHide = NotificationCenter.default.publisher(for: UIResponder.keyboardDidHideNotification)
 
+    let collapses: Bool
 //    @State var wasDismissing = false
     /**
      - Parameters:
@@ -62,6 +63,7 @@ public struct SearchableView<Content: View>: View {
         focusOnAppear: Bool = false,
         isHidden: Binding<Bool> = .constant(false),
         showKeyboardDismiss: Bool = false,
+        collapses: Bool = true,
 //        showDismiss: Bool = false,
 //        didTapDismiss: (() -> ())? = nil,
         didPageBack: (() -> ())? = nil,
@@ -93,6 +95,8 @@ public struct SearchableView<Content: View>: View {
         self.content = content
         
         _showingKeyboardDismissButton = State(initialValue: focusOnAppear)
+        
+        self.collapses = collapses
     }
 
     /**
@@ -107,8 +111,7 @@ public struct SearchableView<Content: View>: View {
         focusOnAppear: Bool = false,
         isHidden: Binding<Bool> = .constant(false),
         showKeyboardDismiss: Bool = false,
-//        showDismiss: Bool = false,
-//        didTapDismiss: (() -> ())? = nil,
+        collapses: Bool = true,
         didPageBack: (() -> ())? = nil,
         didTapToday: (() -> ())? = nil,
         shouldShowToday: Binding<Bool> = .constant(false),
@@ -139,5 +142,7 @@ public struct SearchableView<Content: View>: View {
         self.content = content
         
         _showingKeyboardDismissButton = State(initialValue: focusOnAppear)
+        
+        self.collapses = collapses
     }
 }

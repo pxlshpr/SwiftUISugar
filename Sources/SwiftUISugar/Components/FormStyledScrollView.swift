@@ -5,19 +5,39 @@ public struct FormStyledScrollView<Content: View>: View {
     
     var content: () -> Content
     let showsIndicators: Bool
+    let isLazy: Bool
     let customVerticalSpacing: CGFloat?
 
-    public init(showsIndicators: Bool = false, customVerticalSpacing: CGFloat? = nil, @ViewBuilder content: @escaping () -> Content) {
+    public init(showsIndicators: Bool = false, isLazy: Bool = true, customVerticalSpacing: CGFloat? = nil, @ViewBuilder content: @escaping () -> Content) {
         self.content = content
+        self.isLazy = isLazy
         self.showsIndicators = showsIndicators
         self.customVerticalSpacing = customVerticalSpacing
     }
     
     public var body: some View {
-        ScrollView(showsIndicators: showsIndicators) {
-            LazyVStack(spacing: customVerticalSpacing ?? K.FormStyledScrollView.verticalSpacing) {
+        var spacing: CGFloat {
+            customVerticalSpacing ?? K.FormStyledScrollView.verticalSpacing
+        }
+        
+        var vStack: some View {
+            VStack(spacing: spacing) {
                 content()
                     .frame(maxWidth: .infinity)
+            }
+        }
+        
+        var lazyVStack: some View {
+            LazyVStack(spacing: spacing) {
+                content()
+                    .frame(maxWidth: .infinity)
+            }
+        }
+        return ScrollView(showsIndicators: showsIndicators) {
+            if isLazy {
+                lazyVStack
+            } else {
+                vStack
             }
         }
         .background(

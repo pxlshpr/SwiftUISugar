@@ -7,8 +7,8 @@ extension SearchableView {
     }
     
     var isExpanded: Bool {
-//        return true
-        isFocusedForAnimation || !searchText.isEmpty
+        guard collapses else { return true }
+        return isFocusedForAnimation || !searchText.isEmpty
     }
     
     //MARK: Colors
