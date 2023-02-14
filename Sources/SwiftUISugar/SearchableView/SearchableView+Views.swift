@@ -54,7 +54,6 @@ extension SearchableView {
             .introspectTextField { uiTextField in
 //                DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) {
                     if !hasFocusedOnAppear && focusOnAppear {
-                        print("becoming first responder")
                         uiTextField.becomeFirstResponder()
                         hasFocusedOnAppear = true
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
@@ -97,7 +96,7 @@ extension SearchableView {
             withAnimation {
 //                hasCompletedFocusedOnAppearAnimation = true
             }
-//            print("keyboard did show")
+//            cprint("keyboard did show")
         }
     }
     

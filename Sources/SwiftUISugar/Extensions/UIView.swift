@@ -7,7 +7,7 @@ import UIKit
  So we could do something like:
  ```
  view.addTapGestureRecognizer {
-    print("image tapped")
+    cprint("image tapped")
  }
  ```
  
@@ -54,7 +54,8 @@ extension UIView {
         if let action = self.tapGestureRecognizerAction {
             action?(sender)
         } else {
-            print("no action")
+            /// No action
+//            print("no action")
         }
     }
 }

@@ -270,11 +270,8 @@ struct FormSaveLayerLegacyPreview: View {
                 collapsed: $collapsed,
                 saveIsDisabled: $saveIsDisabled
             ) {
-                print("cancel")
             } tappedSave: {
-                print("save")
             } tappedDelete: {
-                print("delete")
             }
         }
     }
