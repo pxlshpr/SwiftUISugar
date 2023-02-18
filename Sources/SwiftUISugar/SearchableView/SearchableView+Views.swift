@@ -74,20 +74,14 @@ extension SearchableView {
     var contents: some View {
         ZStack {
             content()
-                .frame(width: UIScreen.main.bounds.width) //TODO: Remove this as `.main` will be deprecated
-//                .safeAreaInset(edge: .bottom) { Spacer().frame(height: 600) }
-//                .edgesIgnoringSafeArea(.bottom)
+                .frame(width: UIScreen.main.bounds.width)
                 .safeAreaInset(edge: .bottom) { safeAreaBottomInset }
                 .edgesIgnoringSafeArea(.bottom)
-            
-//            if !isHidden {
-                searchLayer
-                    .zIndex(12)
-//                    .transition(.move(edge: .bottom))
-                    .opacity(opacity)
-                    .padding(.bottom, bottomPadding)
-                    .edgesIgnoringSafeArea(ignoredSafeAreaEdges)
-//            }
+            searchLayer
+                .zIndex(12)
+                .opacity(opacity)
+                .padding(.bottom, bottomPadding)
+                .edgesIgnoringSafeArea(ignoredSafeAreaEdges)
         }
         .onAppear(perform: appeared)
         .onChange(of: externalIsFocused.wrappedValue, perform: externalIsFocusedChanged)
