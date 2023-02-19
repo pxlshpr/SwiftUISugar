@@ -145,7 +145,7 @@ public struct FormStyledSection<Header: View, Footer: View, Content: View>: View
             return formCellBackgroundColor(colorScheme: colorScheme)
         }
     }
-    
+     
     var contentView: some View {
         content()
 //            .background(.green)
