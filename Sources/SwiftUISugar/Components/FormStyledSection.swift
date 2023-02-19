@@ -25,10 +25,13 @@ public struct FormStyledSection<Header: View, Footer: View, Content: View>: View
     var customHorizontalPadding: CGFloat?
     var customVerticalOuterPadding: CGFloat?
     var customHorizontalOuterPadding: CGFloat?
+    
+    let usesLightBackground: Bool
 
     public init(
         header: Header,
         footer: Footer,
+        usesLightBackground: Bool = false,
         horizontalPadding: CGFloat? = nil,
         verticalPadding: CGFloat? = nil,
         horizontalOuterPadding: CGFloat? = nil,
@@ -37,6 +40,7 @@ public struct FormStyledSection<Header: View, Footer: View, Content: View>: View
     ) {
         self.header = header
         self.footer = footer
+        self.usesLightBackground = usesLightBackground
         self.customVerticalPadding = verticalPadding
         self.customHorizontalPadding = horizontalPadding
         self.customHorizontalOuterPadding = horizontalOuterPadding
@@ -130,6 +134,18 @@ public struct FormStyledSection<Header: View, Footer: View, Content: View>: View
 //        colorScheme == .light ? Color(.secondarySystemGroupedBackground) : Color(hex: "2C2C2E")
 //    }
     
+    var foregroundColor: Color {
+        if usesLightBackground {
+            if colorScheme == .light {
+                return Color(.secondarySystemGroupedBackground)
+            } else {
+                return Color(hex: "232323")
+            }
+        } else {
+            return formCellBackgroundColor(colorScheme: colorScheme)
+        }
+    }
+    
     var contentView: some View {
         content()
 //            .background(.green)
@@ -138,9 +154,7 @@ public struct FormStyledSection<Header: View, Footer: View, Content: View>: View
             .padding(.vertical, customVerticalPadding ?? K.FormStyledSection.verticalPadding)
             .background(
                 RoundedRectangle(cornerRadius: 10)
-                    .foregroundColor(formCellBackgroundColor(colorScheme: colorScheme))
-//                    .foregroundStyle(FormCellBackgroundShapeStyle())
-//                    .foregroundColor(backgroundColor)
+                    .foregroundColor(foregroundColor)
             )
     }
 }
@@ -149,6 +163,7 @@ public struct FormStyledSection<Header: View, Footer: View, Content: View>: View
 extension FormStyledSection where Header == EmptyView {
     public init(
         footer: Footer,
+        usesLightBackground: Bool = false,
         horizontalPadding: CGFloat? = nil,
         verticalPadding: CGFloat? = nil,
         horizontalOuterPadding: CGFloat? = nil,
@@ -157,6 +172,7 @@ extension FormStyledSection where Header == EmptyView {
     ) {
         self.header = nil
         self.footer = footer
+        self.usesLightBackground = usesLightBackground
         self.customVerticalPadding = verticalPadding
         self.customHorizontalPadding = horizontalPadding
         self.customHorizontalOuterPadding = horizontalOuterPadding
@@ -169,6 +185,7 @@ extension FormStyledSection where Header == EmptyView {
 extension FormStyledSection where Footer == EmptyView {
     public init(
         header: Header,
+        usesLightBackground: Bool = false,
         horizontalPadding: CGFloat? = nil,
         verticalPadding: CGFloat? = nil,
         horizontalOuterPadding: CGFloat? = nil,
@@ -177,6 +194,7 @@ extension FormStyledSection where Footer == EmptyView {
     ) {
         self.header = header
         self.footer = nil
+        self.usesLightBackground = usesLightBackground
         self.customVerticalPadding = verticalPadding
         self.customHorizontalPadding = horizontalPadding
         self.customHorizontalOuterPadding = horizontalOuterPadding
@@ -189,6 +207,7 @@ extension FormStyledSection where Footer == EmptyView {
 /// Support optional header and footer
 extension FormStyledSection where Header == EmptyView, Footer == EmptyView {
     public init(
+        usesLightBackground: Bool = false,
         horizontalPadding: CGFloat? = nil,
         verticalPadding: CGFloat? = nil,
         horizontalOuterPadding: CGFloat? = nil,
@@ -197,6 +216,7 @@ extension FormStyledSection where Header == EmptyView, Footer == EmptyView {
     ) {
         self.header = nil
         self.footer = nil
+        self.usesLightBackground = usesLightBackground
         self.customVerticalPadding = verticalPadding
         self.customHorizontalPadding = horizontalPadding
         self.customHorizontalOuterPadding = horizontalOuterPadding
