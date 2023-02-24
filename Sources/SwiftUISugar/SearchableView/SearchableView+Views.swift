@@ -24,7 +24,7 @@ extension SearchableView {
             return 0
         } else {
             if isInTabView {
-                return isExpanded ? 83 : 88
+                return (isExpanded ? 83 : 88) + 5
             } else {
                 return 30
             }
