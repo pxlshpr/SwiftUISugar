@@ -9,6 +9,7 @@ public struct QuickForm<Content: View>: View {
 
     let title: String
     let titleFontStyle: Font.TextStyle
+    let confirmButtonForDismiss: Bool
     @Binding var info: FormSaveInfo?
     @Binding var saveAction: FormConfirmableAction?
     @Binding var deleteAction: FormConfirmableAction?
@@ -19,6 +20,7 @@ public struct QuickForm<Content: View>: View {
     public init(
         title: String,
         titleFontStyle: Font.TextStyle = .title2,
+        confirmButtonForDismiss: Bool = false,
         info: Binding<FormSaveInfo?> = .constant(nil),
         saveAction: Binding<FormConfirmableAction?> = .constant(nil),
         deleteAction: Binding<FormConfirmableAction?> = .constant(nil),
@@ -26,6 +28,7 @@ public struct QuickForm<Content: View>: View {
     ) {
         self.title = title
         self.titleFontStyle = titleFontStyle
+        self.confirmButtonForDismiss = confirmButtonForDismiss
         _info = info
         _saveAction = saveAction
         _deleteAction = deleteAction
@@ -61,7 +64,7 @@ public struct QuickForm<Content: View>: View {
                 .padding(.top, 5)
             Spacer()
             deleteButton
-            closeButton
+            dismissButton
         }
         .frame(height: 30)
         .padding(.leading, 20)
@@ -124,12 +127,34 @@ public struct QuickForm<Content: View>: View {
         .opacity(saveAction.isDisabled ? 0.2 : 1)
     }
 
-    var closeButton: some View {
+    var dismissButton: some View {
         Button {
             Haptics.feedback(style: .soft)
             dismiss()
         } label: {
-            CloseButtonLabel()
+            if confirmButtonForDismiss {
+//                CloseButtonLabel()
+//                Image(systemName: "checkmark")
+//                    .bold()
+//                    .font(.system(size: 20))
+//                    .foregroundColor(.white)
+////                    .frame(width: 38, height: 38)
+//                    .background(
+//                        Circle()
+//                            .foregroundStyle(Color.accentColor.gradient)
+//                    )
+                Image(systemName: "checkmark.circle.fill")
+                    .font(.system(size: 30))
+                    .symbolRenderingMode(.palette)
+                    .foregroundStyle(
+                        Color.white,
+                        Color.accentColor.gradient
+//                        Color(.quaternaryLabel)
+//                            .opacity(0.5)
+                    )
+            } else {
+                CloseButtonLabel()
+            }
         }
     }
 
