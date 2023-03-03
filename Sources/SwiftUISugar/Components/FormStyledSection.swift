@@ -27,11 +27,13 @@ public struct FormStyledSection<Header: View, Footer: View, Content: View>: View
     var customHorizontalOuterPadding: CGFloat?
     
     let usesLightBackground: Bool
-
+    let largeHeading: Bool
+    
     public init(
         header: Header,
         footer: Footer,
         usesLightBackground: Bool = false,
+        largeHeading: Bool = false,
         horizontalPadding: CGFloat? = nil,
         verticalPadding: CGFloat? = nil,
         horizontalOuterPadding: CGFloat? = nil,
@@ -40,6 +42,7 @@ public struct FormStyledSection<Header: View, Footer: View, Content: View>: View
     ) {
         self.header = header
         self.footer = footer
+        self.largeHeading = largeHeading
         self.usesLightBackground = usesLightBackground
         self.customVerticalPadding = verticalPadding
         self.customHorizontalPadding = horizontalPadding
@@ -113,12 +116,21 @@ public struct FormStyledSection<Header: View, Footer: View, Content: View>: View
     }
     
     func headerView(for header: Header) -> some View {
-        header
-            .foregroundColor(Color(.secondaryLabel))
-            .font(.footnote)
-            .textCase(.uppercase)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(.horizontal, horizontalPadding)
+        Group {
+            if largeHeading {
+                header
+                    .foregroundColor(.primary)
+                    .font(.title2)
+                    .bold()
+            } else {
+                header
+                    .foregroundColor(Color(.secondaryLabel))
+                    .font(.footnote)
+                    .textCase(.uppercase)
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(.horizontal, horizontalPadding)
     }
     
     var horizontalPadding: CGFloat {
@@ -164,6 +176,7 @@ extension FormStyledSection where Header == EmptyView {
     public init(
         footer: Footer,
         usesLightBackground: Bool = false,
+        largeHeading: Bool = false,
         horizontalPadding: CGFloat? = nil,
         verticalPadding: CGFloat? = nil,
         horizontalOuterPadding: CGFloat? = nil,
@@ -172,6 +185,7 @@ extension FormStyledSection where Header == EmptyView {
     ) {
         self.header = nil
         self.footer = footer
+        self.largeHeading = largeHeading
         self.usesLightBackground = usesLightBackground
         self.customVerticalPadding = verticalPadding
         self.customHorizontalPadding = horizontalPadding
@@ -186,6 +200,7 @@ extension FormStyledSection where Footer == EmptyView {
     public init(
         header: Header,
         usesLightBackground: Bool = false,
+        largeHeading: Bool = false,
         horizontalPadding: CGFloat? = nil,
         verticalPadding: CGFloat? = nil,
         horizontalOuterPadding: CGFloat? = nil,
@@ -194,6 +209,7 @@ extension FormStyledSection where Footer == EmptyView {
     ) {
         self.header = header
         self.footer = nil
+        self.largeHeading = largeHeading
         self.usesLightBackground = usesLightBackground
         self.customVerticalPadding = verticalPadding
         self.customHorizontalPadding = horizontalPadding
@@ -208,6 +224,7 @@ extension FormStyledSection where Footer == EmptyView {
 extension FormStyledSection where Header == EmptyView, Footer == EmptyView {
     public init(
         usesLightBackground: Bool = false,
+        largeHeading: Bool = false,
         horizontalPadding: CGFloat? = nil,
         verticalPadding: CGFloat? = nil,
         horizontalOuterPadding: CGFloat? = nil,
@@ -217,6 +234,7 @@ extension FormStyledSection where Header == EmptyView, Footer == EmptyView {
         self.header = nil
         self.footer = nil
         self.usesLightBackground = usesLightBackground
+        self.largeHeading = largeHeading
         self.customVerticalPadding = verticalPadding
         self.customHorizontalPadding = horizontalPadding
         self.customHorizontalOuterPadding = horizontalOuterPadding

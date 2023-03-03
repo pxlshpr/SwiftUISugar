@@ -106,7 +106,7 @@ public struct SearchableView<Content: View>: View {
      */
     public init<Views>(
         searchText: Binding<String>,
-        promptSuffix: String = "Search",
+        promptSuffix: String = "",
         focused: Binding<Bool> = .constant(true),
         focusOnAppear: Bool = false,
         isHidden: Binding<Bool> = .constant(false),
