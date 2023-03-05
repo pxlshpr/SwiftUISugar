@@ -65,11 +65,35 @@ public struct FormCellBackground: View {
 }
 
 public func formBackgroundColor(colorScheme: ColorScheme) -> Color {
-    return colorScheme == .dark ? Color(hex: "1C1C1E") : Color(.systemGroupedBackground)
+    colorScheme == .dark ? Color(hex: "1C1C1E") : Color(.systemGroupedBackground)
 }
 
 public func formCellBackgroundColor(colorScheme: ColorScheme) -> Color {
-    return colorScheme == .light ? Color(.secondarySystemGroupedBackground) : Color(hex: "2C2C2E")
+    colorScheme == .light ? Color(.secondarySystemGroupedBackground) : Color(hex: "2C2C2E")
+}
+
+public struct ListBackground: View {
+    @Environment(\.colorScheme) var colorScheme
+    public init() { }
+    public var body: some View {
+        listBackgroundColor(colorScheme: colorScheme)
+    }
+}
+
+public struct ListCellBackground: View {
+    @Environment(\.colorScheme) var colorScheme
+    public init() { }
+    public var body: some View {
+        listCellBackgroundColor(colorScheme: colorScheme)
+    }
+}
+
+public func listBackgroundColor(colorScheme: ColorScheme) -> Color {
+    colorScheme == .light ? Color(.systemGroupedBackground) : Color(hex: "191919")
+}
+
+public func listCellBackgroundColor(colorScheme: ColorScheme) -> Color {
+    colorScheme == .light ? Color(.secondarySystemGroupedBackground) : Color(hex: "232323")
 }
 
 #endif
