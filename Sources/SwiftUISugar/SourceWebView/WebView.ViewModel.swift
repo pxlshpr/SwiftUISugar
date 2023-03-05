@@ -2,7 +2,7 @@ import SwiftUI
 import WebKit
 
 extension WebView {
-    class ViewModel: NSObject, ObservableObject, WKNavigationDelegate {
+    class Model: NSObject, ObservableObject, WKNavigationDelegate {
         
         @Published var isNavigating = false
         @Published var hasStartedNavigating = false

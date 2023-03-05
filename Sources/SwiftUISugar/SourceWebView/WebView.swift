@@ -10,7 +10,7 @@ public struct WebView: View {
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.dismiss) var dismiss
     @State var hasAppeared: Bool = false
-    @StateObject var vm = ViewModel()
+    @StateObject var vm = Model()
     
     let title: String?
     
