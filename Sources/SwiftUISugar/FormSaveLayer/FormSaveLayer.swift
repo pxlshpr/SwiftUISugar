@@ -646,9 +646,11 @@ struct FormDualSaveLayerPreview: View {
             var Verb: String {
                 switch self {
                 case .editPublic:
-                    return "Resubmit"
+//                    return "Resubmit"
+                    return "Recontribute"
                 default:
-                    return "Submit"
+//                    return "Submit"
+                    return "Contribute"
                 }
             }
             
