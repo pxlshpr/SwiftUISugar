@@ -96,4 +96,16 @@ public func listCellBackgroundColor(colorScheme: ColorScheme) -> Color {
     colorScheme == .light ? Color(.secondarySystemGroupedBackground) : Color(hex: "232323")
 }
 
+public struct SecondaryAccent: View {
+    @Environment(\.colorScheme) var colorScheme
+    public init() { }
+    public var body: some View {
+        secondaryAccentColor(colorScheme: colorScheme)
+    }
+}
+
+public func secondaryAccentColor(colorScheme: ColorScheme) -> Color {
+    Color.accentColor.opacity(colorScheme == .dark ? 0.1 : 0.15)
+}
+
 #endif
