@@ -97,9 +97,9 @@ struct Toast: View {
 
         var scale: CGFloat {
             switch self {
-            case .small: return 0.5
-            case .normal: return 0.75
-            case .large: return 1
+            case .small: return 0.75
+            case .normal: return 1.0
+            case .large: return 1.5
             }
         }
     }
@@ -109,7 +109,7 @@ struct Toast: View {
     @State private var isPulsing = false
     @State private var scaleState: ScaleState = .normal
     @State private var pulseLength: TimeInterval = 0.7
-    @State private var pulseDelay: TimeInterval = 0
+    @State private var pulseDelay: TimeInterval = 0.15
     
     let info: ToastInfo
     
@@ -193,12 +193,12 @@ struct Toast: View {
             withAnimation(Animation.linear(duration: pulseLength * 0.25)) {
                 scaleState = .large
             }
-            DispatchQueue.main.asyncAfter(deadline: .now() + pulseLength * 0.25) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + (pulseLength * 0.25)) {
                 withAnimation(Animation.linear(duration: pulseLength * 0.5)) {
                     scaleState = .small
                 }
             }
-            DispatchQueue.main.asyncAfter(deadline: .now() + pulseLength * 0.75) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + (pulseLength * 0.75)) {
                 withAnimation(Animation.linear(duration: pulseLength * 0.25)) {
                     scaleState = .normal
                 }
