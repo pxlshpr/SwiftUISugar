@@ -9,10 +9,12 @@ public struct ToastStyle {
     let titleBottomColor: Color
     let messageColor: Color
     let backgroundColor: Color?
+    let pulsesImage: Bool
 
     public init(
         imageTopColor: Color,
         imageBottomColor: Color,
+        pulsesImage: Bool = true,
         titleTopColor: Color,
         titleBottomColor: Color,
         messageColor: Color = .primary,
@@ -20,16 +22,24 @@ public struct ToastStyle {
     ) {
         self.imageTopColor = imageTopColor
         self.imageBottomColor = imageBottomColor
+        self.pulsesImage = pulsesImage
         self.titleTopColor = titleTopColor
         self.titleBottomColor = titleBottomColor
         self.messageColor = messageColor
         self.backgroundColor = backgroundColor
     }
     
-    public init(imageColor: Color = .primary, titleColor: Color = .primary, messageColor: Color = .primary, backgroundColor: Color? = nil) {
+    public init(
+        imageColor: Color = .primary,
+        pulsesImage: Bool = true,
+        titleColor: Color = .primary,
+        messageColor: Color = .primary,
+        backgroundColor: Color? = nil
+    ) {
         self.init(
             imageTopColor: imageColor,
             imageBottomColor: imageColor,
+            pulsesImage: pulsesImage,
             titleTopColor: titleColor,
             titleBottomColor: titleColor,
             messageColor: messageColor,
@@ -37,9 +47,14 @@ public struct ToastStyle {
         )
     }
 
-    public init(foregroundColor: Color = .primary, backgroundColor: Color? = nil) {
+    public init(
+        foregroundColor: Color = .primary,
+        backgroundColor: Color? = nil,
+        pulsesImage: Bool = true
+    ) {
         self.init(
             imageColor: foregroundColor,
+            pulsesImage: pulsesImage,
             titleColor: foregroundColor,
             messageColor: foregroundColor,
             backgroundColor: backgroundColor
@@ -77,7 +92,24 @@ public struct ToastInfo {
 
 struct Toast: View {
     
+    enum ScaleState {
+        case small, normal, large
+
+        var scale: CGFloat {
+            switch self {
+            case .small: return 0.5
+            case .normal: return 0.75
+            case .large: return 1
+            }
+        }
+    }
+    
     @Environment(\.colorScheme) var colorScheme
+    
+    @State private var isPulsing = false
+    @State private var scaleState: ScaleState = .normal
+    @State private var pulseLength: TimeInterval = 0.7
+    @State private var pulseDelay: TimeInterval = 0
     
     let info: ToastInfo
     
@@ -128,6 +160,8 @@ struct Toast: View {
             if let systemImage = info.systemImage {
                 Image(systemName: systemImage)
                     .foregroundStyle(imageForeground)
+                    .imageScale(.large)
+                    .scaleEffect(scaleState.scale)
             }
             VStack(alignment: .leading) {
                 Text(info.title)
@@ -144,9 +178,43 @@ struct Toast: View {
         .padding(.vertical, 15)
         .background(
             background
-                .shadow(color: .black.opacity(colorScheme == .dark ? 0.3 : 0.3), radius: 3, y: 3)
+//                .shadow(color: .black.opacity(colorScheme == .dark ? 0.25 : 0.2), radius: 3, y: 3)
+                .shadow(radius: 5, y: 3)
         )
+        .onAppear {
+            if info.style.pulsesImage {
+                startAnimation()
+            }
+        }
     }
+    
+    func startAnimation() {
+            isPulsing = true
+            withAnimation(Animation.linear(duration: pulseLength * 0.25)) {
+                scaleState = .large
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + pulseLength * 0.25) {
+                withAnimation(Animation.linear(duration: pulseLength * 0.5)) {
+                    scaleState = .small
+                }
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + pulseLength * 0.75) {
+                withAnimation(Animation.linear(duration: pulseLength * 0.25)) {
+                    scaleState = .normal
+                }
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + pulseLength + pulseDelay) {
+                withAnimation {
+                    if isPulsing {
+                        startAnimation()
+                    }
+                }
+            }
+        }
+
+        func stopAnimation() {
+            isPulsing = false
+        }
 }
 
 public struct ToastLayer: View {
@@ -204,6 +272,9 @@ public struct ToastLayer: View {
     func hideToast() {
         withAnimation {
             isShowing = false
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            toastInfo = nil
         }
     }
 
