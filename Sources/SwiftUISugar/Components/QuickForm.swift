@@ -10,6 +10,7 @@ public struct QuickForm<Content: View>: View {
     let title: String
     let titleFontStyle: Font.TextStyle
     let confirmButtonForDismiss: Bool
+    let lighterBackground: Bool
     @Binding var info: FormSaveInfo?
     @Binding var saveAction: FormConfirmableAction?
     @Binding var deleteAction: FormConfirmableAction?
@@ -21,6 +22,7 @@ public struct QuickForm<Content: View>: View {
         title: String,
         titleFontStyle: Font.TextStyle = .title2,
         confirmButtonForDismiss: Bool = false,
+        lighterBackground: Bool = false,
         info: Binding<FormSaveInfo?> = .constant(nil),
         saveAction: Binding<FormConfirmableAction?> = .constant(nil),
         deleteAction: Binding<FormConfirmableAction?> = .constant(nil),
@@ -29,6 +31,7 @@ public struct QuickForm<Content: View>: View {
         self.title = title
         self.titleFontStyle = titleFontStyle
         self.confirmButtonForDismiss = confirmButtonForDismiss
+        self.lighterBackground = lighterBackground
         _info = info
         _saveAction = saveAction
         _deleteAction = deleteAction
@@ -46,12 +49,21 @@ public struct QuickForm<Content: View>: View {
                 Spacer()
             }
             .background(
-                FormBackground()
+                background
                     .edgesIgnoringSafeArea(.all) /// requireds to cover the area that would be covered by the keyboard during its dismissal animation
             )
             /// This ensures that the it takes up the entire height and aligns to the top, which
             /// - ensures the contents stick to the top while dismissing (it otherwise centers vertically)
             .frame(height: proxy.size.height, alignment: .top)
+        }
+    }
+    
+    @ViewBuilder
+    var background: some View {
+        if lighterBackground {
+            FormCellBackground()
+        } else {
+            FormBackground()
         }
     }
 
