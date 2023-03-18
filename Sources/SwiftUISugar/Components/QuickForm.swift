@@ -9,7 +9,7 @@ public struct QuickForm<Content: View>: View {
 
     let title: String
     let titleFontStyle: Font.TextStyle
-    let confirmButtonForDismiss: Bool
+    let saveInPlaceOfDismiss: Bool
     let lighterBackground: Bool
     @Binding var info: FormSaveInfo?
     @Binding var saveAction: FormConfirmableAction?
@@ -21,7 +21,7 @@ public struct QuickForm<Content: View>: View {
     public init(
         title: String,
         titleFontStyle: Font.TextStyle = .title2,
-        confirmButtonForDismiss: Bool = false,
+        saveInPlaceOfDismiss: Bool = false,
         lighterBackground: Bool = false,
         info: Binding<FormSaveInfo?> = .constant(nil),
         saveAction: Binding<FormConfirmableAction?> = .constant(nil),
@@ -30,7 +30,7 @@ public struct QuickForm<Content: View>: View {
     ) {
         self.title = title
         self.titleFontStyle = titleFontStyle
-        self.confirmButtonForDismiss = confirmButtonForDismiss
+        self.saveInPlaceOfDismiss = saveInPlaceOfDismiss
         self.lighterBackground = lighterBackground
         _info = info
         _saveAction = saveAction
@@ -76,7 +76,7 @@ public struct QuickForm<Content: View>: View {
                 .padding(.top, 5)
             Spacer()
             deleteButton
-            dismissButton
+            trailingButton
         }
         .frame(height: 30)
         .padding(.leading, 20)
@@ -98,7 +98,7 @@ public struct QuickForm<Content: View>: View {
 
     @ViewBuilder
     var saveButton: some View {
-        if let saveAction {
+        if let saveAction, !saveInPlaceOfDismiss {
             saveButton(saveAction)
         }
     }
@@ -139,34 +139,45 @@ public struct QuickForm<Content: View>: View {
         .opacity(saveAction.isDisabled ? 0.2 : 1)
     }
 
+    var saveAndDismissButton: some View {
+        
+        var isDisabled: Bool {
+            guard let saveAction else {
+                return false
+            }
+            return saveAction.isDisabled
+        }
+        
+        return Button {
+            Haptics.feedback(style: .soft)
+            dismiss()
+            if let saveAction {
+                saveAction.handler()
+            }
+        } label: {
+            Image(systemName: "checkmark.circle.fill")
+                .font(.system(size: 30))
+                .symbolRenderingMode(.palette)
+                .foregroundStyle(Color.white, Color.accentColor.gradient)
+                .disabled(isDisabled)
+        }
+    }
+    
     var dismissButton: some View {
         Button {
             Haptics.feedback(style: .soft)
             dismiss()
         } label: {
-            if confirmButtonForDismiss {
-//                CloseButtonLabel()
-//                Image(systemName: "checkmark")
-//                    .bold()
-//                    .font(.system(size: 20))
-//                    .foregroundColor(.white)
-////                    .frame(width: 38, height: 38)
-//                    .background(
-//                        Circle()
-//                            .foregroundStyle(Color.accentColor.gradient)
-//                    )
-                Image(systemName: "checkmark.circle.fill")
-                    .font(.system(size: 30))
-                    .symbolRenderingMode(.palette)
-                    .foregroundStyle(
-                        Color.white,
-                        Color.accentColor.gradient
-//                        Color(.quaternaryLabel)
-//                            .opacity(0.5)
-                    )
-            } else {
-                CloseButtonLabel()
-            }
+            CloseButtonLabel()
+        }
+    }
+
+    @ViewBuilder
+    var trailingButton: some View {
+        if saveInPlaceOfDismiss {
+            saveAndDismissButton
+        } else {
+            dismissButton
         }
     }
 
