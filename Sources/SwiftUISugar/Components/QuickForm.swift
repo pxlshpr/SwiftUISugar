@@ -9,7 +9,6 @@ public struct QuickForm<Content: View>: View {
 
     let title: String
     let titleFontStyle: Font.TextStyle
-    let saveInPlaceOfDismiss: Bool
     let lighterBackground: Bool
     @Binding var info: FormSaveInfo?
     @Binding var saveAction: FormConfirmableAction?
@@ -21,7 +20,6 @@ public struct QuickForm<Content: View>: View {
     public init(
         title: String,
         titleFontStyle: Font.TextStyle = .title2,
-        saveInPlaceOfDismiss: Bool = false,
         lighterBackground: Bool = false,
         info: Binding<FormSaveInfo?> = .constant(nil),
         saveAction: Binding<FormConfirmableAction?> = .constant(nil),
@@ -30,7 +28,6 @@ public struct QuickForm<Content: View>: View {
     ) {
         self.title = title
         self.titleFontStyle = titleFontStyle
-        self.saveInPlaceOfDismiss = saveInPlaceOfDismiss
         self.lighterBackground = lighterBackground
         _info = info
         _saveAction = saveAction
@@ -76,7 +73,8 @@ public struct QuickForm<Content: View>: View {
                 .padding(.top, 5)
             Spacer()
             deleteButton
-            trailingButton
+            optionalTopTrailingSaveButton
+            dismissButton
         }
         .frame(height: 30)
         .padding(.leading, 20)
@@ -84,9 +82,32 @@ public struct QuickForm<Content: View>: View {
         .padding(.top, 12)
         .padding(.bottom, 18)
     }
+    
+    @ViewBuilder
+    var optionalTopTrailingSaveButton: some View {
+        if let saveAction, saveAction.position == .topTrailing {
+            saveAndDismissButton(saveAction)
+        }
+    }
 
+    @ViewBuilder
     var saveRow: some View {
-        HStack {
+        if let saveAction, saveAction.shouldPlaceAtBottom {
+            saveRow(with: saveAction)
+        }
+    }
+    
+    func saveRow(with saveAction: FormConfirmableAction) -> some View {
+        @ViewBuilder
+        var saveButton: some View {
+            if saveAction.position == .bottomTrailing {
+                bottomTrailingSaveButton(saveAction)
+            } else {
+                bottomFilledSaveButton(saveAction)
+            }
+        }
+
+        return HStack {
             Spacer()
             saveButton
         }
@@ -94,16 +115,33 @@ public struct QuickForm<Content: View>: View {
         .padding(.top, 10)
     }
 
-    //MARK: - Buttons
+    func bottomFilledSaveButton(_ saveAction: FormConfirmableAction) -> some View {
+        var buttonHeight: CGFloat { 52 }
+        var buttonCornerRadius: CGFloat { 10 }
+        var shadowSize: CGFloat { 2 }
+        var saveIsDisabled: Bool { saveAction.isDisabled }
 
-    @ViewBuilder
-    var saveButton: some View {
-        if let saveAction, !saveInPlaceOfDismiss {
-            saveButton(saveAction)
+        return Button {
+            
+        } label: {
+            Text(saveAction.confirmationButtonTitle ?? "Save")
+                .bold()
+                .foregroundColor((colorScheme == .light && saveIsDisabled) ? .black : .white)
+                .frame(height: buttonHeight)
+                .background(
+                    RoundedRectangle(cornerRadius: buttonCornerRadius)
+                        .foregroundStyle(Color.accentColor.gradient)
+                        .shadow(color: Color(.black), radius: shadowSize, x: 0, y: shadowSize)
+                )
         }
+        .buttonStyle(.borderless)
+        .frame(maxWidth: .infinity)
+        .padding(.horizontal, 20)
+        .disabled(saveIsDisabled)
+        .opacity(saveIsDisabled ? (colorScheme == .light ? 0.2 : 0.2) : 1)
     }
     
-    func saveButton(_ saveAction: FormConfirmableAction) -> some View {
+    func bottomTrailingSaveButton(_ saveAction: FormConfirmableAction) -> some View {
         var foregroundColor: Color {
             (colorScheme == .light && saveAction.isDisabled)
             ? .black
@@ -139,28 +177,18 @@ public struct QuickForm<Content: View>: View {
         .opacity(saveAction.isDisabled ? 0.2 : 1)
     }
 
-    var saveAndDismissButton: some View {
-        
-        var isDisabled: Bool {
-            guard let saveAction else {
-                return false
-            }
-            return saveAction.isDisabled
-        }
-        
-        return Button {
+    func saveAndDismissButton(_ saveAction: FormConfirmableAction) -> some View {
+        Button {
             Haptics.feedback(style: .soft)
             dismiss()
-            if let saveAction {
-                saveAction.handler()
-            }
+            saveAction.handler()
         } label: {
             Image(systemName: "checkmark.circle.fill")
                 .font(.system(size: 30))
                 .symbolRenderingMode(.palette)
                 .foregroundStyle(Color.white, Color.accentColor.gradient)
-                .disabled(isDisabled)
         }
+        .disabled(saveAction.isDisabled)
     }
     
     var dismissButton: some View {
@@ -169,15 +197,6 @@ public struct QuickForm<Content: View>: View {
             dismiss()
         } label: {
             CloseButtonLabel()
-        }
-    }
-
-    @ViewBuilder
-    var trailingButton: some View {
-        if saveInPlaceOfDismiss {
-            saveAndDismissButton
-        } else {
-            dismissButton
         }
     }
 
