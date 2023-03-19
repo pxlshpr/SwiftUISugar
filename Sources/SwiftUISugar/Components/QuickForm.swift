@@ -108,7 +108,9 @@ public struct QuickForm<Content: View>: View {
         }
 
         return HStack {
-            Spacer()
+            if saveAction.position == .bottomTrailing {
+                Spacer()
+            }
             saveButton
         }
         .padding(.horizontal, 20)
@@ -122,12 +124,13 @@ public struct QuickForm<Content: View>: View {
         var saveIsDisabled: Bool { saveAction.isDisabled }
 
         return Button {
-            
+            tappedSave(saveAction)
         } label: {
             Text(saveAction.confirmationButtonTitle ?? "Save")
                 .bold()
                 .foregroundColor((colorScheme == .light && saveIsDisabled) ? .black : .white)
                 .frame(height: buttonHeight)
+                .frame(maxWidth: .infinity)
                 .background(
                     RoundedRectangle(cornerRadius: buttonCornerRadius)
                         .foregroundStyle(Color.accentColor.gradient)
@@ -135,10 +138,14 @@ public struct QuickForm<Content: View>: View {
                 )
         }
         .buttonStyle(.borderless)
-        .frame(maxWidth: .infinity)
-        .padding(.horizontal, 20)
         .disabled(saveIsDisabled)
         .opacity(saveIsDisabled ? (colorScheme == .light ? 0.2 : 0.2) : 1)
+    }
+    
+    func tappedSave(_ saveAction: FormConfirmableAction) {
+        Haptics.successFeedback()
+        saveAction.handler()
+        dismiss()
     }
     
     func bottomTrailingSaveButton(_ saveAction: FormConfirmableAction) -> some View {
@@ -149,9 +156,7 @@ public struct QuickForm<Content: View>: View {
         }
 
         return Button {
-            Haptics.successFeedback()
-            saveAction.handler()
-            dismiss()
+            tappedSave(saveAction)
         } label: {
             Group {
                 if let buttonImage = saveAction.buttonImage {
@@ -179,9 +184,7 @@ public struct QuickForm<Content: View>: View {
 
     func saveAndDismissButton(_ saveAction: FormConfirmableAction) -> some View {
         Button {
-            Haptics.feedback(style: .soft)
-            dismiss()
-            saveAction.handler()
+            tappedSave(saveAction)
         } label: {
             Image(systemName: "checkmark.circle.fill")
                 .font(.system(size: 30))
