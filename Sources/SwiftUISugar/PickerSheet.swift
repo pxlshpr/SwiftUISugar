@@ -27,19 +27,18 @@ public struct PickerSheet: View {
     
     let title: String
     let items: [PickerItem]
-    @Binding var pickedItem: PickerItem
-    
+    let pickedItem: PickerItem?
     let didPick: (PickerItem) -> ()
 
     public init(
         title: String,
         items: [PickerItem],
-        pickedItem: Binding<PickerItem>,
+        pickedItem: PickerItem? = nil,
         didPick: @escaping (PickerItem) -> Void)
     {
         self.title = title
         self.items = items
-        _pickedItem = pickedItem
+        self.pickedItem = pickedItem
         self.didPick = didPick
     }
     
@@ -51,15 +50,14 @@ public struct PickerSheet: View {
                 }
             }
         }
-        .presentationDetents([.height(500), .large])
+        .presentationDetents([.height(450), .large])
         .edgesIgnoringSafeArea(.bottom)
     }
     
     func cell(for item: PickerItem) -> some View {
         
         var isSelected: Bool {
-//            guard let pickedItem else { return false}
-            return pickedItem.id == item.id
+            pickedItem?.id == item.id
         }
         
         var label: some View {
@@ -127,14 +125,14 @@ public struct PickerSheet: View {
             }
             
             return HStack(spacing: 17) {
-                checkmark
+                image
                 VStack(alignment: .leading) {
                     title
                     detail
                     secondaryDetail
                 }
                 Spacer()
-                image
+                checkmark
             }
         }
         
