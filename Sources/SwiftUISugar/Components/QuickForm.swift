@@ -134,7 +134,6 @@ public struct QuickForm<Content: View>: View {
                 .background(
                     RoundedRectangle(cornerRadius: buttonCornerRadius)
                         .foregroundStyle(Color.accentColor.gradient)
-                        .shadow(color: Color(.black), radius: shadowSize, x: 0, y: shadowSize)
                 )
         }
         .buttonStyle(.borderless)
