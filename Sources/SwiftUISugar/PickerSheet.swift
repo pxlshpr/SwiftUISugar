@@ -85,6 +85,7 @@ public struct PickerSheet: View {
                         .background(
                             RoundedRectangle(cornerRadius: 7, style: .continuous)
                                 .foregroundColor(backgroundColor)
+                                .opacity(item.hasAccessoryTexts ? 1 : 0)
                         )
                 }
                 
@@ -196,6 +197,10 @@ public struct PickerItem: Identifiable {
         self.secondaryDetail = secondaryDetail
         self.systemImage = systemImage
         self.colorStyle = colorStyle ?? .plain
+    }
+    
+    var hasAccessoryTexts: Bool {
+        detail != nil || secondaryDetail != nil
     }
 }
 
