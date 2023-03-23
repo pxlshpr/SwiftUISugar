@@ -77,15 +77,23 @@ public struct PickerSheet: View {
             
             var title: some View {
                 var text: some View {
-                    Text(item.title)
+                    var backgroundOpacity: CGFloat {
+                        item.hasAccessoryTexts ? 1 : 0
+                    }
+                    
+                    var isBold: Bool {
+                        item.hasAccessoryTexts ? true : isSelected
+                    }
+                    
+                    return Text(item.title)
                         .font(.body)
-                        .bold()
+                        .bold(isBold)
                         .padding(.vertical, 5)
                         .padding(.horizontal, 7)
                         .background(
                             RoundedRectangle(cornerRadius: 7, style: .continuous)
                                 .foregroundColor(backgroundColor)
-                                .opacity(item.hasAccessoryTexts ? 1 : 0)
+                                .opacity(backgroundOpacity)
                         )
                 }
                 
@@ -197,6 +205,10 @@ public struct PickerItem: Identifiable {
         self.secondaryDetail = secondaryDetail
         self.systemImage = systemImage
         self.colorStyle = colorStyle ?? .plain
+    }
+    
+    public init(with int: Int) {
+        self.init(id: "\(int)", title: "\(int)")
     }
     
     var hasAccessoryTexts: Bool {
