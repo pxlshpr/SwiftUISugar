@@ -50,10 +50,12 @@ public struct PickerSheet: View {
                 isSelected ? .accentColor : .primary
             }
             
+            @ViewBuilder
             var checkmark: some View {
-                Image(systemName: "checkmark")
-                    .opacity(isSelected ? 1 : 0)
-                    .foregroundColor(isSelected ? .accentColor : .clear)
+                if isSelected {
+                    Image(systemName: "checkmark")
+                        .foregroundColor(isSelected ? .accentColor : .clear)
+                }
             }
             
             var backgroundColor: Color {
@@ -111,7 +113,7 @@ public struct PickerSheet: View {
                 if let detail = item.detail {
                     Text(detail)
                         .foregroundColor(detailColor)
-                        .font(.caption)
+                        .font(.callout)
                         .padding(.leading, 4)
                 }
             }
@@ -144,8 +146,10 @@ public struct PickerSheet: View {
                 image
                 VStack(alignment: .leading) {
                     title
-                    detail
-                    secondaryDetail
+                    VStack(alignment: .leading, spacing: 3) {
+                        detail
+                        secondaryDetail
+                    }
                 }
                 Spacer()
                 checkmark
