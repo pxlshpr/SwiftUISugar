@@ -399,9 +399,29 @@ extension SearchableView {
             return compactWhenShrunken ? 0 : -shrunkenOffset
         }
         
+        /// **Legacy** Stopped using this to hardcode in gradient until we figure out how to transition
+        /// from it to a solid color with an animation
         var foregroundColor: Color {
             guard !isExpanded else { return expandedTextFieldColor }
             return compactWhenShrunken ? .clear : collapsedTextFieldColor
+        }
+        
+        var linearGradient: LinearGradient {
+            var topColor: Color {
+                guard !isExpanded else { return expandedTextFieldColor }
+                return compactWhenShrunken ? .clear : Color(hex: "A484FF")
+            }
+            
+            var bottomColor: Color {
+                guard !isExpanded else { return expandedTextFieldColor }
+                return compactWhenShrunken ? .clear : Color(hex: "8460FF")
+            }
+            
+            return LinearGradient(
+                colors: [topColor, bottomColor],
+                startPoint: .top,
+                endPoint: .bottom
+            )
         }
         
         @ViewBuilder
@@ -416,8 +436,8 @@ extension SearchableView {
         }
         
         return RoundedRectangle(cornerRadius: isExpanded ? 15 : 20, style: .circular)
-//            .foregroundColor(isExpanded ? expandedTextFieldColor : collapsedTextFieldColor)
-            .foregroundColor(foregroundColor)
+//            .foregroundColor(foregroundColor)
+            .foregroundStyle(linearGradient)
             .background(background)
             .frame(height: height)
             .frame(width: width)
