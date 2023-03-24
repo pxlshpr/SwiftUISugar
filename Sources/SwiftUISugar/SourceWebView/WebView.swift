@@ -31,7 +31,6 @@ public struct WebView: View {
             .navigationBarTitle(title ?? "Website")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar { leadingContents }
-            .toolbar { trailingContents }
             .edgesIgnoringSafeArea(.bottom)
     }
     
@@ -52,18 +51,6 @@ public struct WebView: View {
         }
     }
 
-    var trailingContents: some ToolbarContent {
-        ToolbarItemGroup(placement: .navigationBarTrailing) {
-            if vm.isNavigating {
-                ActivityIndicatorView(isVisible: .constant(true), type: .opacityDots())
-                    .foregroundColor(.secondary)
-                    .frame(width: 20, height: 20)
-//                ProgressView()
-//                    .transition(.opacity)
-            }
-        }
-    }
-    
     var leadingContents: some ToolbarContent {
         ToolbarItemGroup(placement: .navigationBarLeading) {
             
@@ -72,15 +59,12 @@ public struct WebView: View {
             }
             ShareLink(item: URL(string: urlString)!) {
                 Image(systemName: "square.and.arrow.up")
-//                Label("Learn Swift here", systemImage: "swift")
             }
-//            Menu {
-//                Button("Copy URL") {
-//                    UIPasteboard.general.string = urlString
-//                }
-//            } label: {
-//                Image(systemName: "square.and.arrow.up")
-//            }
+            if vm.isNavigating {
+                ActivityIndicatorView(isVisible: .constant(true), type: .opacityDots())
+                    .foregroundColor(.secondary)
+                    .frame(width: 20, height: 20)
+            }
         }
     }
 }
