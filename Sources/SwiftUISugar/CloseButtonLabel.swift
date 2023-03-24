@@ -16,8 +16,8 @@ public struct CloseButtonLabel: View {
     @Environment(\.colorScheme) var colorScheme
     
     let fontSize: CGFloat
-    public init(forNavigationBar: Bool = false) {
-        self.fontSize = forNavigationBar ? 24 : 30
+    public init(forUseOutsideOfNavigationBar: Bool = false) {
+        self.fontSize = forUseOutsideOfNavigationBar ? 30 : 24
     }
     
     public var body: some View {

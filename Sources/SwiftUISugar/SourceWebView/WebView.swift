@@ -30,8 +30,8 @@ public struct WebView: View {
             .overlay(loadingOverlay)
             .navigationBarTitle(title ?? "Website")
             .navigationBarTitleDisplayMode(.inline)
-            .toolbar { navigationTrailingContent }
-            .toolbar { navigationLeadingContent }
+            .toolbar { leadingContents }
+            .toolbar { trailingContents }
             .edgesIgnoringSafeArea(.bottom)
     }
     
@@ -52,8 +52,8 @@ public struct WebView: View {
         }
     }
 
-    var navigationLeadingContent: some ToolbarContent {
-        ToolbarItemGroup(placement: .navigationBarLeading) {
+    var trailingContents: some ToolbarContent {
+        ToolbarItemGroup(placement: .navigationBarTrailing) {
             if vm.isNavigating {
                 ActivityIndicatorView(isVisible: .constant(true), type: .opacityDots())
                     .foregroundColor(.secondary)
@@ -64,8 +64,8 @@ public struct WebView: View {
         }
     }
     
-    var navigationTrailingContent: some ToolbarContent {
-        ToolbarItemGroup(placement: .navigationBarTrailing) {
+    var leadingContents: some ToolbarContent {
+        ToolbarItemGroup(placement: .navigationBarLeading) {
             
             Link(destination: URL(string: urlString)!) {
                 Image(systemName: "safari")

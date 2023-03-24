@@ -198,7 +198,7 @@ public struct QuickForm<Content: View>: View {
             Haptics.feedback(style: .soft)
             dismiss()
         } label: {
-            CloseButtonLabel()
+            CloseButtonLabel(forUseOutsideOfNavigationBar: true)
         }
     }
 
