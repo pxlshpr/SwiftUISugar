@@ -19,6 +19,7 @@ public struct CloseButtonLabel: View {
                 Color(.quaternaryLabel).opacity(0.5)
             )
     }
+    
 }
 
 public var navigationLinkArrow: some View {
