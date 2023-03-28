@@ -435,14 +435,32 @@ extension SearchableView {
             }
         }
         
-        return RoundedRectangle(cornerRadius: isExpanded ? 15 : 20, style: .circular)
-//            .foregroundColor(foregroundColor)
-            .foregroundStyle(linearGradient)
-            .background(background)
-            .frame(height: height)
-            .frame(width: width)
-            .offset(x: xOffset)
-            .shadow(color: shadowColor, radius: 3, x: 0, y: 3)
+        var expandedRect: some View {
+            RoundedRectangle(cornerRadius: isExpanded ? 15 : 20, style: .circular)
+                .foregroundStyle(linearGradient)
+                .background(background)
+                .frame(height: height)
+                .frame(width: width)
+                .offset(x: xOffset)
+                .shadow(color: shadowColor, radius: 3, x: 0, y: 3)
+                .opacity(isExpanded ? 1 : 0)
+        }
+        
+        var collapsedRect: some View {
+            RoundedRectangle(cornerRadius: isExpanded ? 15 : 20, style: .circular)
+                .foregroundStyle(foregroundColor.gradient)
+                .background(background)
+                .frame(height: height)
+                .frame(width: width)
+                .offset(x: xOffset)
+                .shadow(color: shadowColor, radius: 3, x: 0, y: 3)
+                .opacity(isExpanded ? 0 : 1)
+        }
+        
+        return ZStack {
+            expandedRect
+            collapsedRect
+        }
     }
 
     var searchIcon: some View {
