@@ -90,5 +90,5 @@ extension SearchableView {
         }
         
         return offset
-    }    
+    }
 }
