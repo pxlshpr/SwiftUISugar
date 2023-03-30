@@ -76,10 +76,6 @@ extension SearchableView {
             content()
                 .frame(width: UIScreen.main.bounds.width)
                 .safeAreaInset(edge: .bottom) { safeAreaBottomInset }
-                .background(
-                    FormBackground()
-                        .edgesIgnoringSafeArea(.all)
-                )
                 .edgesIgnoringSafeArea(.bottom)
             searchLayer
                 .zIndex(12)
