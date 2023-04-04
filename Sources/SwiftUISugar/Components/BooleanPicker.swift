@@ -87,8 +87,14 @@ extension BooleanPicker {
     var background: some View {
         RoundedRectangle(cornerRadius: 15, style: .continuous)
             .fill(
-                .shadow(.inner(color: innerTopLeftShadowColor,radius: r, x: r, y: r))
-                .shadow(.inner(color: innerBottomRightShadowColor, radius: r, x: -r, y: -r))
+                /// Removed since this is computationally expensive and causes a slowdown
+                /// when presenting a view with this on it (even on higher end devices).
+                ///
+                /// [ ] Find a way to delay the presentation of this until this picker has appeared if we can be bothered
+                /// (as it looks fine and might look better without the neumorphic feel depending on who you ask)
+                ///
+//                .shadow(.inner(color: innerTopLeftShadowColor,radius: r, x: r, y: r))
+//                .shadow(.inner(color: innerBottomRightShadowColor, radius: r, x: -r, y: -r))
             )
             .foregroundColor(backgroundColor)
     }
