@@ -22,10 +22,10 @@ extension UIView {
         static var tapGestureRecognizer = "MediaViewerAssociatedObjectKey_mediaViewer"
     }
     
-    fileprivate typealias Action = ((UITapGestureRecognizer) -> Void)?
+    fileprivate typealias TagAction = ((UITapGestureRecognizer) -> Void)?
     
     // Set our computed property type to a closure
-    fileprivate var tapGestureRecognizerAction: Action? {
+    fileprivate var tapGestureRecognizerAction: TagAction? {
         set {
             if let newValue = newValue {
                 // Computed properties get stored as associated objects
@@ -33,7 +33,7 @@ extension UIView {
             }
         }
         get {
-            let tapGestureRecognizerActionInstance = objc_getAssociatedObject(self, &AssociatedObjectKeys.tapGestureRecognizer) as? Action
+            let tapGestureRecognizerActionInstance = objc_getAssociatedObject(self, &AssociatedObjectKeys.tapGestureRecognizer) as? TagAction
             return tapGestureRecognizerActionInstance
         }
     }
