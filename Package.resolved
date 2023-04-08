@@ -10,6 +10,15 @@
       }
     },
     {
+      "identity" : "marqueetext",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/pxlshpr/MarqueeText",
+      "state" : {
+        "revision" : "a73d27acbd88c3cacf660108995db93a99e98c1d",
+        "version" : "0.0.1"
+      }
+    },
+    {
       "identity" : "swifthaptics",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pxlshpr/SwiftHaptics",

@@ -3,17 +3,25 @@ import SwiftHaptics
 
 public struct BooleanPicker: View {
 
-    let ButtonPadding: CGFloat = 40.0
+    let ButtonPadding: CGFloat = 20.0
     
     @StateObject var model: Model
     @Environment(\.colorScheme) var colorScheme
     @State var dragTranslationX: CGFloat?
     @Binding var selectionBinding: Bool
     
-    public init(trueString: String, falseString: String, selectionBinding: Binding<Bool>) {
+    public init(
+        trueString: String,
+        trueEmoji: String? = nil,
+        falseString: String,
+        falseEmoji: String? = nil,
+        selectionBinding: Binding<Bool>
+    ) {
         let model = Model(
             trueString: trueString,
             falseString: falseString,
+            trueEmoji: trueEmoji,
+            falseEmoji: falseEmoji,
             selectedIndex: selectionBinding.wrappedValue ? 1 : 2
         )
         _model = StateObject(wrappedValue: model)
@@ -35,11 +43,21 @@ public struct BooleanPicker: View {
 
         let trueString: String
         let falseString: String
-        
-        init(trueString: String, falseString: String, selectedIndex: Int) {
+        let trueEmoji: String?
+        let falseEmoji: String?
+
+        init(
+            trueString: String,
+            falseString: String,
+            trueEmoji: String?,
+            falseEmoji: String?,
+            selectedIndex: Int
+        ) {
             self.index = selectedIndex
             self.trueString = trueString
             self.falseString = falseString
+            self.trueEmoji = trueEmoji
+            self.falseEmoji = falseEmoji
         }
         
         func selectColumn(_ index: Int) {
@@ -50,7 +68,6 @@ public struct BooleanPicker: View {
         }
     }
 }
-
 
 extension BooleanPicker {
     public var body: some View {
@@ -111,11 +128,20 @@ extension BooleanPicker {
                 selectColumn(1)
             }
         } label: {
-            Text(model.trueString)
-                .font(.system(size: 18, weight: .semibold, design: .default))
-                .foregroundColor(selectedColumn == 1 ? .white : .secondary)
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .contentShape(Rectangle())
+            HStack {
+                Text(model.trueString)
+                    .font(.system(size: 18, weight: .semibold, design: .default))
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.3)
+                if let emoji = model.trueEmoji {
+                    Text(emoji)
+                        .font(.system(size: 18, weight: .semibold, design: .default))
+                }
+            }
+            .padding(.horizontal, 5)
+            .foregroundColor(selectedColumn == 1 ? .white : .secondary)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .contentShape(Rectangle())
         }
     }
     
@@ -126,11 +152,20 @@ extension BooleanPicker {
                 selectColumn(2)
             }
         } label: {
-            Text(model.falseString)
-                .font(.system(size: 18, weight: .semibold, design: .default))
-                .foregroundColor(selectedColumn == 2 ? .white : .secondary)
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .contentShape(Rectangle())
+            HStack {
+                Text(model.falseString)
+                    .font(.system(size: 18, weight: .semibold, design: .default))
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.3)
+                if let emoji = model.falseEmoji {
+                    Text(emoji)
+                        .font(.system(size: 18, weight: .semibold, design: .default))
+                }
+            }
+            .padding(.horizontal, 5)
+            .foregroundColor(selectedColumn == 2 ? .white : .secondary)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .contentShape(Rectangle())
         }
     }
     

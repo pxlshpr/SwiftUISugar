@@ -17,6 +17,7 @@ let package = Package(
     dependencies: [
         .package(url: "https://github.com/pxlshpr/SwiftHaptics", from: "0.1.3"),
         .package(url: "https://github.com/pxlshpr/SwiftSugar", from: "0.0.88"),
+        .package(url: "https://github.com/pxlshpr/MarqueeText", from: "0.0.1"),
         .package(url: "https://github.com/exyte/ActivityIndicatorView", from: "1.1.0"),
         .package(url: "https://github.com/siteline/SwiftUI-Introspect", from: "0.1.4"),
     ],
@@ -28,6 +29,7 @@ let package = Package(
             dependencies: [
                 .product(name: "SwiftHaptics", package: "swifthaptics"),
                 .product(name: "SwiftSugar", package: "swiftsugar"),
+                .product(name: "MarqueeText", package: "marqueetext"),
                 .product(name: "ActivityIndicatorView", package: "activityindicatorview"),
                 .product(name: "Introspect", package: "swiftui-introspect"),
             ]),
