@@ -4,8 +4,11 @@ import SwiftUI
 public class HUDManager: ObservableObject {
 
     let queue = DispatchQueue(label: "com.SwiftUISugar.HUD.dispatch.serial")
-    
     @Published public var info: HUDInfo?
+    
+    public init() {
+        self.info = nil
+    }
     
     public func show(info: HUDInfo) {
         

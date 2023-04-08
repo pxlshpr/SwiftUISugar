@@ -1,9 +1,9 @@
 import Foundation
 import SwiftUI
 
-class AppDelegate: NSObject, UIApplicationDelegate, ObservableObject {
+public class AppDelegate: NSObject, UIApplicationDelegate, ObservableObject {
     
-    func application(
+    public func application(
       _ application: UIApplication,
       configurationForConnecting connectingSceneSession: UISceneSession,
       options: UIScene.ConnectionOptions
