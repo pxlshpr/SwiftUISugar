@@ -72,9 +72,7 @@ public extension UIColor {
         /// Taken from: https://stackoverflow.com/questions/2509443/check-if-uicolor-is-dark-or-bright
         /// which references: http://www.w3.org/WAI/ER/WD-AERT/#color-contrast
         let brightness = (((r*255)*299) + ((g*255)*587) + ((b*255)*114))/1000.0
-        print("☀️ brightness: \(brightness)")
         return brightness > 125
-//        return brightness > 230
     }
     
     /**
