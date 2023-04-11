@@ -61,20 +61,36 @@ public extension UIColor {
         )
     }
 }
+/// Taken from: https://stackoverflow.com/questions/2509443/check-if-uicolor-is-dark-or-bright
+/// which references: http://www.w3.org/WAI/ER/WD-AERT/#color-contrast
+///
 public extension UIColor {
     
-    var isLight: Bool {
+    var brightness: CGFloat? {
         var r: CGFloat = 0, g: CGFloat = 0, b: CGFloat = 0, a: CGFloat = 0
         guard self.getRed(&r, green: &g, blue: &b, alpha: &a) else {
-            return false
+            return nil
         }
         
-        /// Taken from: https://stackoverflow.com/questions/2509443/check-if-uicolor-is-dark-or-bright
-        /// which references: http://www.w3.org/WAI/ER/WD-AERT/#color-contrast
         let brightness = (((r*255)*299) + ((g*255)*587) + ((b*255)*114))/1000.0
+//        print("🎨 Brightness of \(self.cgColor.hexString): \(brightness)")
+        return brightness
+    }
+    
+    var isLight: Bool {
+        guard let brightness else { return false }
         return brightness > 125
     }
     
+    /// My own addition, with an arbitrary value I used in Choons to determine if an artwork is dark
+    var isDark: Bool {
+        guard let brightness else { return false }
+        return brightness < 25
+    }
+}
+
+public extension UIColor {
+
     /**
      Create a ligher color
      */
@@ -107,13 +123,57 @@ public extension UIColor {
     }
 }
 
+extension UIColor {
+    private func makeColor(componentDelta: CGFloat) -> UIColor {
+        var red: CGFloat = 0
+        var blue: CGFloat = 0
+        var green: CGFloat = 0
+        var alpha: CGFloat = 0
+        
+        // Extract r,g,b,a components from the
+        // current UIColor
+        getRed(
+            &red,
+            green: &green,
+            blue: &blue,
+            alpha: &alpha
+        )
+        
+        // Create a new UIColor modifying each component
+        // by componentDelta, making the new UIColor either
+        // lighter or darker.
+        return UIColor(
+            red: add(componentDelta, toComponent: red),
+            green: add(componentDelta, toComponent: green),
+            blue: add(componentDelta, toComponent: blue),
+            alpha: alpha
+        )
+    }
+}
+
+extension UIColor {
+    // Add value to component ensuring the result is
+    // between 0 and 1
+    private func add(_ value: CGFloat, toComponent: CGFloat) -> CGFloat {
+        return max(0, min(1, toComponent + value))
+    }
+}
+
 public extension UIColor {
 
-    func lighter(by percentage: CGFloat = 30.0) -> UIColor? {
-        return self.adjust(by: abs(percentage) )
+    func lighter(componentDelta: CGFloat = 0.1) -> UIColor {
+        return makeColor(componentDelta: componentDelta)
+    }
+    
+    func darker(componentDelta: CGFloat = 0.1) -> UIColor {
+        return makeColor(componentDelta: -1*componentDelta)
     }
 
-    func darker(by percentage: CGFloat = 30.0) -> UIColor? {
+    func lighter_legacy(by percentage: CGFloat = 30.0) -> UIColor? {
+        return self.adjust(by: abs(percentage) )
+    }
+    
+    func darker_legacy(by percentage: CGFloat = 30.0) -> UIColor? {
         return self.adjust(by: -1 * abs(percentage) )
     }
 
@@ -128,4 +188,28 @@ public extension UIColor {
             return nil
         }
     }
+}
+
+import CoreGraphics
+
+extension CGColor {
+    public var hexString: String {
+        let components = components
+        let r: CGFloat = components?[0] ?? 0.0
+        let g: CGFloat = components?[1] ?? 0.0
+        let b: CGFloat = components?[2] ?? 0.0
+
+//        let hexString = String.init(format: "#%02lX%02lX%02lX", lroundf(Float(r * 255)), lroundf(Float(g * 255)), lroundf(Float(b * 255)))
+        let hexString = String.init(format: "%02lX%02lX%02lX", lroundf(Float(r * 255)), lroundf(Float(g * 255)), lroundf(Float(b * 255)))
+        return hexString
+    }
+}
+
+
+public func +(left: UIColor, right: UIColor) -> UIColor {
+    var (r1, g1, b1, a1) = (CGFloat(0), CGFloat(0), CGFloat(0), CGFloat(0))
+    var (r2, g2, b2, a2) = (CGFloat(0), CGFloat(0), CGFloat(0), CGFloat(0))
+    left.getRed(&r1, green: &g1, blue: &b1, alpha: &a1)
+    right.getRed(&r2, green: &g2, blue: &b2, alpha: &a2)
+    return UIColor(red: (r1 + r2)/2, green: (g1 + g2)/2, blue: (b1 + b2)/2, alpha: (a1 + a2)/2)
 }

@@ -350,4 +350,63 @@ extension UIImage {
     }
 }
 
+//MARK: - My Additions
+
+public extension UIImage {
+    func colorHexes(quality: UIImageColorsQuality) -> UIImageColorHexes? {
+        guard let colors = self.getColors(quality: quality) else { return nil }
+        return UIImageColorHexes(
+            background: colors.background.cgColor.hexString,
+            primary: colors.primary.cgColor.hexString,
+            secondary: colors.secondary.cgColor.hexString,
+            detail: colors.detail.cgColor.hexString
+        )
+    }
+}
+
+public struct UIImageColorHexes {
+    public var background: String
+    public var primary: String
+    public var secondary: String
+    public var detail: String
+}
+
+public let DefaultBackgroundColorHex = "808080"
+
+public extension UIImageColors {
+    
+//    var firstAvailableColor: String {
+//
+////        print("🎨 Picking from:")
+////        print("🎨     - Background: \(background.cgColor.hexString)")
+////        print("🎨     - Primary: \(primary.cgColor.hexString)")
+////        print("🎨     - Secondary: \(secondary.cgColor.hexString)")
+////        print("🎨     - Detail: \(detail.cgColor.hexString)")
+//
+//
+//        let color: UIColor
+//        if !background.isLight {
+////            print("🎨     - Picked: background: \(background.cgColor.hexString)")
+//            color = background
+//        } else if !primary.isLight {
+////            print("🎨     - Picked: primary")
+//            color = primary
+//        } else if !secondary.isLight {
+////            print("🎨     - Picked: secondary")
+//            color = secondary
+//        } else {
+////            print("🎨     - Picked: detail")
+//            color = detail
+//        }
+//
+////        guard color.cgColor.hexString != "000000" else {
+////            return DefaultBackgroundColorHex
+////        }
+//
+//        return color.cgColor.hexString
+//    }
+}
+
+
 #endif
+
