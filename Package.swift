@@ -16,7 +16,7 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/pxlshpr/SwiftHaptics", from: "0.1.3"),
-        .package(url: "https://github.com/pxlshpr/SwiftSugar", from: "0.0.90"),
+        .package(url: "https://github.com/pxlshpr/SwiftSugar", from: "0.0.92"),
         .package(url: "https://github.com/pxlshpr/MarqueeText", from: "0.0.1"),
         .package(url: "https://github.com/exyte/ActivityIndicatorView", from: "1.1.0"),
         .package(url: "https://github.com/siteline/SwiftUI-Introspect", from: "0.1.4"),

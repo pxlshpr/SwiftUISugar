@@ -68,6 +68,7 @@ public struct QuickForm<Content: View>: View {
         HStack {
             Text(title)
                 .font(.title2)
+                .foregroundColor(.primary)
                 .fontWeight(.bold)
                 .frame(maxHeight: .infinity, alignment: .center)
                 .padding(.top, 5)
