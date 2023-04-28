@@ -16,6 +16,13 @@ public struct K {
 
 public struct FormStyledSection<Header: View, Footer: View, Content: View>: View {
 
+    public enum BackgroundStyle {
+        case standard
+        case light
+        case material(Material)
+        case clear
+    }
+    
     @Environment(\.colorScheme) var colorScheme
     
     var header: Header?
@@ -26,13 +33,15 @@ public struct FormStyledSection<Header: View, Footer: View, Content: View>: View
     var customVerticalOuterPadding: CGFloat?
     var customHorizontalOuterPadding: CGFloat?
     
-    let usesLightBackground: Bool
+//    let usesLightBackground: Bool
+    let backgroundStyle: BackgroundStyle
     let largeHeading: Bool
     
     public init(
         header: Header,
         footer: Footer,
-        usesLightBackground: Bool = false,
+        backgroundStyle: BackgroundStyle = .standard,
+//        usesLightBackground: Bool = false,
         largeHeading: Bool = false,
         horizontalPadding: CGFloat? = nil,
         verticalPadding: CGFloat? = nil,
@@ -43,7 +52,8 @@ public struct FormStyledSection<Header: View, Footer: View, Content: View>: View
         self.header = header
         self.footer = footer
         self.largeHeading = largeHeading
-        self.usesLightBackground = usesLightBackground
+        self.backgroundStyle = backgroundStyle
+//        self.usesLightBackground = usesLightBackground
         self.customVerticalPadding = verticalPadding
         self.customHorizontalPadding = horizontalPadding
         self.customHorizontalOuterPadding = horizontalOuterPadding
@@ -146,15 +156,31 @@ public struct FormStyledSection<Header: View, Footer: View, Content: View>: View
 //        colorScheme == .light ? Color(.secondarySystemGroupedBackground) : Color(hex: "2C2C2E")
 //    }
     
-    var foregroundColor: Color {
-        if usesLightBackground {
-            if colorScheme == .light {
-                return Color(.secondarySystemGroupedBackground)
-            } else {
-                return Color(hex: "232323")
+    var background: some View {
+        
+        var shape: some Shape {
+            RoundedRectangle(cornerRadius: 10)
+        }
+        
+        return Group {
+            switch backgroundStyle {
+            case .standard:
+                shape
+                    .fill(formCellBackgroundColor(colorScheme: colorScheme))
+            case .light:
+                if colorScheme == .light {
+                    shape
+                        .fill(Color(.secondarySystemGroupedBackground))
+                } else {
+                    shape
+                        .fill(Color(hex: "232323"))
+                }
+            case .material(let material):
+                shape
+                    .fill(material)
+            case .clear:
+                Color.clear
             }
-        } else {
-            return formCellBackgroundColor(colorScheme: colorScheme)
         }
     }
      
@@ -165,8 +191,9 @@ public struct FormStyledSection<Header: View, Footer: View, Content: View>: View
             .padding(.horizontal, customHorizontalPadding ?? K.FormStyledSection.horizontalPadding)
             .padding(.vertical, customVerticalPadding ?? K.FormStyledSection.verticalPadding)
             .background(
-                RoundedRectangle(cornerRadius: 10)
-                    .foregroundColor(foregroundColor)
+                background
+//                RoundedRectangle(cornerRadius: 10)
+//                    .foregroundColor(backgroundColor)
             )
     }
 }
@@ -175,7 +202,8 @@ public struct FormStyledSection<Header: View, Footer: View, Content: View>: View
 extension FormStyledSection where Header == EmptyView {
     public init(
         footer: Footer,
-        usesLightBackground: Bool = false,
+        backgroundStyle: BackgroundStyle = .standard,
+//        usesLightBackground: Bool = false,
         largeHeading: Bool = false,
         horizontalPadding: CGFloat? = nil,
         verticalPadding: CGFloat? = nil,
@@ -186,7 +214,8 @@ extension FormStyledSection where Header == EmptyView {
         self.header = nil
         self.footer = footer
         self.largeHeading = largeHeading
-        self.usesLightBackground = usesLightBackground
+        self.backgroundStyle = backgroundStyle
+//        self.usesLightBackground = usesLightBackground
         self.customVerticalPadding = verticalPadding
         self.customHorizontalPadding = horizontalPadding
         self.customHorizontalOuterPadding = horizontalOuterPadding
@@ -199,7 +228,8 @@ extension FormStyledSection where Header == EmptyView {
 extension FormStyledSection where Footer == EmptyView {
     public init(
         header: Header,
-        usesLightBackground: Bool = false,
+        backgroundStyle: BackgroundStyle = .standard,
+//        usesLightBackground: Bool = false,
         largeHeading: Bool = false,
         horizontalPadding: CGFloat? = nil,
         verticalPadding: CGFloat? = nil,
@@ -210,7 +240,8 @@ extension FormStyledSection where Footer == EmptyView {
         self.header = header
         self.footer = nil
         self.largeHeading = largeHeading
-        self.usesLightBackground = usesLightBackground
+        self.backgroundStyle = backgroundStyle
+//        self.usesLightBackground = usesLightBackground
         self.customVerticalPadding = verticalPadding
         self.customHorizontalPadding = horizontalPadding
         self.customHorizontalOuterPadding = horizontalOuterPadding
@@ -223,7 +254,8 @@ extension FormStyledSection where Footer == EmptyView {
 /// Support optional header and footer
 extension FormStyledSection where Header == EmptyView, Footer == EmptyView {
     public init(
-        usesLightBackground: Bool = false,
+        backgroundStyle: BackgroundStyle = .standard,
+//        usesLightBackground: Bool = false,
         largeHeading: Bool = false,
         horizontalPadding: CGFloat? = nil,
         verticalPadding: CGFloat? = nil,
@@ -233,7 +265,8 @@ extension FormStyledSection where Header == EmptyView, Footer == EmptyView {
     ) {
         self.header = nil
         self.footer = nil
-        self.usesLightBackground = usesLightBackground
+        self.backgroundStyle = backgroundStyle
+//        self.usesLightBackground = usesLightBackground
         self.largeHeading = largeHeading
         self.customVerticalPadding = verticalPadding
         self.customHorizontalPadding = horizontalPadding
