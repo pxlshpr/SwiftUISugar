@@ -9,7 +9,8 @@ public struct QuickForm<Content: View>: View {
 
     let title: String
     let titleFontStyle: Font.TextStyle
-    let lighterBackground: Bool
+//    let lighterBackground: Bool
+    let backgroundStyle: BackgroundStyle
     @Binding var info: FormSaveInfo?
     @Binding var saveAction: FormConfirmableAction?
     @Binding var deleteAction: FormConfirmableAction?
@@ -17,10 +18,16 @@ public struct QuickForm<Content: View>: View {
 
     @State var showingDeleteConfirmation = false
 
+    public enum BackgroundStyle {
+        case standard
+        case light
+        case clear
+    }
+    
     public init(
         title: String,
         titleFontStyle: Font.TextStyle = .title2,
-        lighterBackground: Bool = false,
+        backgroundStyle: BackgroundStyle = .standard,
         info: Binding<FormSaveInfo?> = .constant(nil),
         saveAction: Binding<FormConfirmableAction?> = .constant(nil),
         deleteAction: Binding<FormConfirmableAction?> = .constant(nil),
@@ -28,7 +35,7 @@ public struct QuickForm<Content: View>: View {
     ) {
         self.title = title
         self.titleFontStyle = titleFontStyle
-        self.lighterBackground = lighterBackground
+        self.backgroundStyle = backgroundStyle
         _info = info
         _saveAction = saveAction
         _deleteAction = deleteAction
@@ -57,10 +64,13 @@ public struct QuickForm<Content: View>: View {
     
     @ViewBuilder
     var background: some View {
-        if lighterBackground {
-            FormCellBackground()
-        } else {
+        switch backgroundStyle {
+        case .standard:
             FormBackground()
+        case .light:
+            FormCellBackground()
+        case .clear:
+            Color.clear
         }
     }
 
