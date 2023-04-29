@@ -51,7 +51,7 @@ public struct Popover: View {
                     .frame(maxHeight: .infinity, alignment: .top)
             }
             
-            return VStack {
+            return VStack(spacing: 3) {
                 HStack {
                     icon
                     Text(title)
@@ -63,7 +63,8 @@ public struct Popover: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
             }
             .padding(.horizontal, 10)
-            .padding(.vertical, 7)
+            .padding(.top, 7)
+            .padding(.bottom, 12)
             .background(
                 RoundedRectangle(cornerRadius: 9, style: .continuous)
                     .fill(Color(.tertiarySystemFill))
