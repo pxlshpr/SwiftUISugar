@@ -85,7 +85,7 @@ public extension UIColor {
     /// My own addition, with an arbitrary value I used in Choons to determine if an artwork is dark
     var isDark: Bool {
         guard let brightness else { return false }
-        return brightness < 25
+        return brightness <= 10
     }
 }
 
