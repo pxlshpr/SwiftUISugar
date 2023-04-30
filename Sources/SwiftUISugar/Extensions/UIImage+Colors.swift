@@ -34,6 +34,7 @@ public enum UIImageColorsQuality: CGFloat {
     case lowest = 50 // 50px
     case low = 100 // 100px
     case high = 250 // 250px
+    case mediumHigh = 500 // 500px
     case highest = 0 // No scale
 }
 
