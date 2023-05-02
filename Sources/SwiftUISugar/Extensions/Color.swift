@@ -32,6 +32,10 @@ public extension Color {
     func brighter(by amount: Double) -> Color {
         Color(UIColor(self).adjustBrightness(by: amount))
     }
+    
+    var brightness: CGFloat {
+        UIColor(self).brightness
+    }
 }
 
 import UIKit
@@ -66,10 +70,11 @@ public extension UIColor {
 ///
 public extension UIColor {
     
-    var brightness: CGFloat? {
+    var brightness: CGFloat {
         var r: CGFloat = 0, g: CGFloat = 0, b: CGFloat = 0, a: CGFloat = 0
         guard self.getRed(&r, green: &g, blue: &b, alpha: &a) else {
-            return nil
+            return 0
+//            return nil
         }
         
         let brightness = (((r*255)*299) + ((g*255)*587) + ((b*255)*114))/1000.0
@@ -78,13 +83,13 @@ public extension UIColor {
     }
     
     var isLight: Bool {
-        guard let brightness else { return false }
+//        guard let brightness else { return false }
         return brightness > 125
     }
     
     /// My own addition, with an arbitrary value I used in Choons to determine if an artwork is dark
     var isDark: Bool {
-        guard let brightness else { return false }
+//        guard let brightness else { return false }
         return brightness <= 10
     }
 }
