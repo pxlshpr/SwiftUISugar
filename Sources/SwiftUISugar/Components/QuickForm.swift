@@ -50,7 +50,7 @@ public struct QuickForm<Content: View>: View {
                     .frame(maxWidth: .infinity)
 //                    .frame(maxHeight: .infinity)
                 saveRow
-                Spacer()
+                Spacer(minLength: 0)
             }
             .background(
                 background
