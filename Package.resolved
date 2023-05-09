@@ -12,10 +12,10 @@
     {
       "identity" : "colorkit",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/Boris-Em/ColorKit",
+      "location" : "https://github.com/pxlshpr/ColorKit",
       "state" : {
-        "branch" : "6e4375a",
-        "revision" : "6e4375a6126eac0a29893c607ae318bdbe33310c"
+        "revision" : "9111d423e5ebed1014996253cd7f1856f0d8f558",
+        "version" : "1.2.0"
       }
     },
     {
