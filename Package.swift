@@ -20,6 +20,7 @@ let package = Package(
         .package(url: "https://github.com/pxlshpr/MarqueeText", from: "0.0.1"),
         .package(url: "https://github.com/exyte/ActivityIndicatorView", from: "1.1.0"),
         .package(url: "https://github.com/siteline/SwiftUI-Introspect", from: "0.1.4"),
+        .package(url: "https://github.com/Boris-Em/ColorKit", revision: "6e4375a")
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
@@ -32,6 +33,7 @@ let package = Package(
                 .product(name: "MarqueeText", package: "marqueetext"),
                 .product(name: "ActivityIndicatorView", package: "activityindicatorview"),
                 .product(name: "Introspect", package: "swiftui-introspect"),
+                .product(name: "ColorKit", package: "ColorKit"),
             ]),
         .testTarget(
             name: "SwiftUISugarTests",

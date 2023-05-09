@@ -10,6 +10,15 @@
       }
     },
     {
+      "identity" : "colorkit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Boris-Em/ColorKit",
+      "state" : {
+        "branch" : "6e4375a",
+        "revision" : "6e4375a6126eac0a29893c607ae318bdbe33310c"
+      }
+    },
+    {
       "identity" : "marqueetext",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pxlshpr/MarqueeText",
@@ -32,8 +41,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pxlshpr/SwiftSugar",
       "state" : {
-        "revision" : "06f08db0baa5f0f2dd650dfa35a740c91fae671e",
-        "version" : "0.0.88"
+        "revision" : "68521aef6e6f66e975d6a96580f56a4f1461561e",
+        "version" : "0.0.92"
       }
     },
     {
