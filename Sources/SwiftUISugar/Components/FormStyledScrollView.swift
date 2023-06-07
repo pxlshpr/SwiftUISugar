@@ -47,7 +47,6 @@ public struct FormStyledScrollView<Content: View>: View {
     }
 }
 
-
 public struct DividerLine: View {
     @Environment(\.colorScheme) var colorScheme
     public init() { }
@@ -65,7 +64,6 @@ public struct SeparatorLine: View {
             .frame(height: 0.18)
     }
 }
-
 
 public struct FormBackground: View {
     @Environment(\.colorScheme) var colorScheme
